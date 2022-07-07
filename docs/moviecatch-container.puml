@@ -1,0 +1,31 @@
+@startuml Basic Sample
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons2
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include FONTAWESOME/users.puml
+!include DEVICONS/react_original.puml
+!include DEVICONS/spring.puml
+!include DEVICONS/postgresql.puml
+
+
+Person(user, "User", "A user registered in the system")
+System(site, "Web Application", "User app interface")
+System_Ext(email, "E-mail System", "External Email System Service")
+System_Ext(movie_api_external, "Movie API", "External Movie API Service")
+
+System_Boundary(site, "Web Application") {
+    Container(web_app, "Single Page Application", "React", "Web interface that provides information to the user", $sprite="react_original")
+    Container(api, "Api Application", "Spring", "Manage user data and movies", $sprite="spring")
+    ContainerDb(db, "Database", "Postgres", "It has the user data and movie list", $sprite="postgresql")
+}
+
+Rel(user, web_app, "Manage your movie lists", "HTTPS")
+Rel(api, email, "Sends-email using", "SMTP")
+Rel(email, user, "Sends e-mail to", "SMTP")
+Rel(api, movie_api_external, "Gets movie data and information", "JSON")
+Rel(web_app, api, "Make API call to get movie and user data", "JSON")
+Rel(api, db, "Recover user data and movie list", "Spring Data / JPA")
+
+
+@enduml

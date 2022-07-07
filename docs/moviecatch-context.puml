@@ -1,0 +1,23 @@
+@startuml Basic Sample
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons2
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include FONTAWESOME/users.puml
+!include DEVICONS/react_original.puml
+!include DEVICONS/spring.puml
+!include DEVICONS/postgresql.puml
+
+
+Person(user, "User", "A user registered in the system")
+System(site, "Web Application", "User app interface")
+System_Ext(email, "E-mail System", "External Email System Service")
+System_Ext(movie_api_external, "Movie API", "External Movie API Service")
+
+Rel(user, site, "Manage your movie lists")
+Rel(site, email, "Sends-email using")
+Rel(email, user, "Sends e-mail to")
+Rel(site, movie_api_external, "Gets movie data and information")
+
+@enduml
