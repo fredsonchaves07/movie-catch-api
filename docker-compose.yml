@@ -1,0 +1,29 @@
+version: "3"
+services:
+  movie-catch-api:
+    build: .
+    container_name: movie-catch-api
+    ports:
+      - 8080:8080
+    environment:
+      - PROFILE_ACTIVE=docker
+    links:
+      - movie-catch-database
+    depends_on:
+      - movie-catch-database
+  movie-catch-database:
+    image: postgres
+    container_name: movie-catch-db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=movie-catch
+      - POSTGRES_DB=moviecatchdb
+    volumes:
+      - pgdata:/data/postgres
+
+volumes:
+  pgdata:
+    driver: local
