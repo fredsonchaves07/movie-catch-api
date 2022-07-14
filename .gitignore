@@ -67,3 +67,4 @@ nb-configuration.xml
 .code-workspace
 .DS_Store
 .env
+.mvn/
