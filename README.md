@@ -17,7 +17,7 @@ https://movie-catch-api.herokuapp.com/
 - [Running the Application](#gear-running-the-application)
 - [Issues](#-issues)
 - [Contribution](#-contribution)
-- [License](#balance_scale-license)
+- [License](#%EF%B8%8F-license)
 
 ## 🚀 About
 
