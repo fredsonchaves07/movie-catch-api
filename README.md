@@ -10,14 +10,14 @@ https://movie-catch-api.herokuapp.com/
 
 - [About](#-about)
 - [Technology](#-technology)
-- [Installation and Configuration](#installation-and-configuration)
+- [Installation and Configuration](#%EF%B8%8F-installation-and-configuration)
     - [Running with Docker](#running-with-docker)
     - [Installation of Dependencies](#installation-of-dependencies)
     - [Running application tests](#running-application-tests)
-- [Running the Application](#gear-running-the-application)
+- [Running the Application](#%EF%B8%8F-running-the-application)
 - [Issues](#-issues)
 - [Contribution](#-contribution)
-- [License](#balance_scale-license)
+- [License](#%EF%B8%8F-license)
 
 ## 🚀 About
 
