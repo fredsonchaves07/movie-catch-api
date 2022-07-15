@@ -14,7 +14,7 @@ https://movie-catch-api.herokuapp.com/
     - [Running with Docker](#running-with-docker)
     - [Installation of Dependencies](#installation-of-dependencies)
     - [Running application tests](#running-application-tests)
-- [Running the Application](#gear-running-the-application)
+- [Running the Application](#%EF%B8%8F-running-the-application)
 - [Issues](#-issues)
 - [Contribution](#-contribution)
 - [License](#%EF%B8%8F-license)
