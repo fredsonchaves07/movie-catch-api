@@ -27,6 +27,7 @@ Container_Boundary(api, "API Application") {
     Component(movie_wantwatch, "Management of movies want to watch Use Case", "", "User defines which movies he wants to watch")
     Component(movie_rating, "Movie Rating Use Case", "", "User classifies watched movies by rating")
     Component(user_management, "Management user info Use Case", "", "User will be able to edit their basic information")
+    Component(movie_list_get, "List User movie list Use Case", "", "User will be able to view lists of other users")
 }
 
 Rel(email_service, email, "Sends-email using", "SMTP")
@@ -43,6 +44,8 @@ Rel(web_app, movie_list_delete, "Makes API calls to", "JSON")
 Rel(web_app, movie_wantwatch, "Makes API calls to", "JSON")
 Rel(web_app, movie_rating, "Makes API calls to", "JSON")
 Rel(web_app, user_management, "Makes API calls to", "JSON")
+Rel(web_app, movie_list_get, "Makes API calls to", "JSON")
+
 
 Rel(authentication_usecase, db, "Recover user data", "Spring Data / JPA")
 Rel(register_user_usecase, db, "Register a new user", "Spring Data / JPA")
@@ -52,6 +55,8 @@ Rel(movie_list_delete, db, "Delete a favorite movie list", "Spring Data / JPA")
 Rel(movie_wantwatch, db, "Management of movies want to watch", "Spring Data / JPA")
 Rel(movie_rating, db, "Movie rating", "Spring Data / JPA")
 Rel(user_management, db, "Movie rating", "Spring Data / JPA")
+Rel(movie_list_get, db, "Movie rating", "Spring Data / JPA")
+
 
 LAYOUT_LEFT_RIGHT()
 @enduml
