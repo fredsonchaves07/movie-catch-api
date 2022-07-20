@@ -54,8 +54,8 @@ Rel(movie_list_update, db, "Update a favorite movie list", "Spring Data / JPA")
 Rel(movie_list_delete, db, "Delete a favorite movie list", "Spring Data / JPA")
 Rel(movie_wantwatch, db, "Management of movies want to watch", "Spring Data / JPA")
 Rel(movie_rating, db, "Movie rating", "Spring Data / JPA")
-Rel(user_management, db, "Movie rating", "Spring Data / JPA")
-Rel(movie_list_get, db, "Movie rating", "Spring Data / JPA")
+Rel(user_management, db, "Management user info", "Spring Data / JPA")
+Rel(movie_list_get, db, "List users list movie", "Spring Data / JPA")
 
 
 LAYOUT_LEFT_RIGHT()
