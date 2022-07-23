@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface UserRepository {
 
-    List<User> getByName(String name);
+    List<User> findByName(String name);
 
-    User getByEmail(String email);
+    User findByEmail(String email);
 
     void create(User user);
 
