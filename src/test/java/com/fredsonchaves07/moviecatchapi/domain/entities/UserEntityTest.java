@@ -3,7 +3,7 @@ package com.fredsonchaves07.moviecatchapi.domain.entities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUser;
+import static com.fredsonchaves07.moviecatchapi.domain.entities.factories.UserFactory.createUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

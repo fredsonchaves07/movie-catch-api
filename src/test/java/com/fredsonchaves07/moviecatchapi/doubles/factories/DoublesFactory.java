@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.factories;
+package com.fredsonchaves07.moviecatchapi.doubles.factories;
 
 import com.fredsonchaves07.moviecatchapi.doubles.InMemoryUserRepository;
 
