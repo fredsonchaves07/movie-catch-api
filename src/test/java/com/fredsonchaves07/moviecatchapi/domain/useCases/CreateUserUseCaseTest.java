@@ -3,13 +3,13 @@ package com.fredsonchaves07.moviecatchapi.domain.useCases;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.fredsonchaves07.moviecatchapi.domain.dto.factories.CreateUserDTOFactory.createUserDTO;
 import static com.fredsonchaves07.moviecatchapi.doubles.factories.DoublesFactory.getInMemoryUserRepository;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateUserUseCaseTest {
 

@@ -23,12 +23,13 @@ public class CreateUserUseCase {
     }
 
     private boolean isEmailAndPasswordValid(String email, String password) {
-        if (!emailIsValid(String email)) {
+        if (!emailIsValid()) {
             throw new EmailOrPasswordInvalid("Email or password invalid");
         }
+        return false;
     }
 
-    private boolean emailIsValid(String email) {
+    private boolean emailIsValid() {
         return false;
     }
 }
