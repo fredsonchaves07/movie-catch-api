@@ -4,7 +4,8 @@ import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalid;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
 
 import java.util.regex.Pattern;
 
@@ -27,8 +28,14 @@ public class CreateUserUseCase {
         String name = createUserDTO.getName();
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
-        if (!isEmailAndPasswordValid(email, password)) throw new EmailOrPasswordInvalid("Email or password invalid");
+        if (emailAlreadyExist(email)) throw new EmailAlreadyExistException("Email already exist");
+        if (!isEmailAndPasswordValid(email, password))
+            throw new EmailOrPasswordInvalidException("Email or password invalid");
         return createUser(name, email, password);
+    }
+
+    private boolean emailAlreadyExist(String email) {
+        return userRepository.findByEmail(email) != null;
     }
 
     private boolean isEmailAndPasswordValid(String email, String password) {

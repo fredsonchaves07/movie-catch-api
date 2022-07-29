@@ -3,7 +3,8 @@ package com.fredsonchaves07.moviecatchapi.domain.useCases;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalid;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class CreateUserUseCaseTest {
         String email = "user$%@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                EmailOrPasswordInvalid.class,
+                EmailOrPasswordInvalidException.class,
                 () -> createUserUseCase.execute(createUserDTO),
                 "Expected EmailOrPasswordInvalid"
         );
@@ -57,7 +58,7 @@ public class CreateUserUseCaseTest {
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                EmailOrPasswordInvalid.class,
+                EmailOrPasswordInvalidException.class,
                 () -> createUserUseCase.execute(createUserDTO),
                 "Expected EmailOrPasswordInvalid"
         );
@@ -70,9 +71,24 @@ public class CreateUserUseCaseTest {
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                EmailOrPasswordInvalid.class,
+                EmailOrPasswordInvalidException.class,
                 () -> createUserUseCase.execute(createUserDTO),
                 "Expected EmailOrPasswordInvalid"
+        );
+    }
+
+    @Test
+    public void notShouldCreateUserIfEmailAlreadyExist() {
+        CreateUserDTO firstUser = createUserDTO();
+        createUserUseCase.execute(firstUser);
+        String name = "User Test";
+        String password = "use@123";
+        String email = "usertest@email.com";
+        CreateUserDTO secondUser = createUserDTO(name, email, password);
+        assertThrows(
+                EmailAlreadyExistException.class,
+                () -> createUserUseCase.execute(secondUser),
+                "Expected EmailAlreadyExist"
         );
     }
 
