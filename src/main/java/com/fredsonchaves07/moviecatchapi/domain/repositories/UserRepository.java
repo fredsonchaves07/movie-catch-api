@@ -1,18 +1,10 @@
 package com.fredsonchaves07.moviecatchapi.domain.repositories;
 
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
-public interface UserRepository {
-
-    List<User> findByName(String name);
-
-    User findByEmail(String email);
-
-    void create(User user);
-
-    void delete(User user);
-
-    void update(User user, String name, String password);
 }

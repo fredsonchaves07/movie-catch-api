@@ -21,7 +21,10 @@ public class UserEntityTest {
         String name = "User test";
         String email = "user@email.com";
         String password = "user@123";
-        User user = new User(name, email, password);
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(password);
         assertNotNull(user);
         assertEquals(user.getName(), name);
         assertEquals(user.getEmail(), email);

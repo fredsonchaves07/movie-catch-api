@@ -4,11 +4,9 @@ import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalid;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.fredsonchaves07.moviecatchapi.domain.dto.factories.CreateUserDTOFactory.createUserDTO;
-import static com.fredsonchaves07.moviecatchapi.doubles.factories.DoublesFactory.getInMemoryUserRepository;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateUserUseCaseTest {
@@ -16,11 +14,11 @@ public class CreateUserUseCaseTest {
     UserRepository userRepository;
     CreateUserUseCase createUserUseCase;
 
-    @BeforeEach
-    public void setUp() {
-        userRepository = getInMemoryUserRepository();
-        createUserUseCase = new CreateUserUseCase(userRepository);
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        userRepository = getInMemoryUserRepository();
+//        createUserUseCase = new CreateUserUseCase(userRepository);
+//    }
 
     @Test
     public void shouldCreateUserByUseCase() {

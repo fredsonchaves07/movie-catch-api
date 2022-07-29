@@ -15,10 +15,10 @@ public class CreateUserUseCase {
     }
 
     public UserDTO execute(CreateUserDTO createUserDTO) {
-        String name = createUserDTO.getName();
-        String email = createUserDTO.getEmail();
-        String password = createUserDTO.getPassword();
-        User user = new User(name, email, password);
+        User user = new User();
+        user.setName(createUserDTO.getName());
+        user.setPassword(createUserDTO.getPassword());
+        user.setEmail(createUserDTO.getEmail());
         return new UserDTO(user);
     }
 
