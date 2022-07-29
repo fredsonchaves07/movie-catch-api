@@ -19,5 +19,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Run tests and build with Maven
+      - name: Run tests Maven
+        run: mvn clean test
+      - name: Build project
         run: mvn package
