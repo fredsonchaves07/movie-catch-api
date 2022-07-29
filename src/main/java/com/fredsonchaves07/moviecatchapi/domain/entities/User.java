@@ -20,14 +20,17 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private boolean isConfirm = false;
+
     public User() {
     }
 
-    public User(Long id, String name, String email, String password) {
+    public User(Long id, String name, String email, String password, boolean isConfirm) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.isConfirm = isConfirm;
     }
 
     public String getName() {
@@ -42,6 +45,10 @@ public class User {
         return password;
     }
 
+    public boolean isConfirm() {
+        return isConfirm;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -52,6 +59,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void confirmUser() {
+        this.isConfirm = true;
     }
 
     @Override

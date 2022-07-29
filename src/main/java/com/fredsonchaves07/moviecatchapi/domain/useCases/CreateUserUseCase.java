@@ -4,6 +4,7 @@ import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
+import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
 
@@ -20,18 +21,24 @@ public class CreateUserUseCase {
 
     private UserRepository userRepository;
 
-    public CreateUserUseCase(UserRepository userRepository) {
+    private SendEmailService sendEmailService;
+
+    public CreateUserUseCase(UserRepository userRepository, SendEmailService sendEmailService) {
         this.userRepository = userRepository;
+        this.sendEmailService = sendEmailService;
     }
 
     public UserDTO execute(CreateUserDTO createUserDTO) {
         String name = createUserDTO.getName();
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
-        if (emailAlreadyExist(email)) throw new EmailAlreadyExistException("Email already exist");
+        if (emailAlreadyExist(email))
+            throw new EmailAlreadyExistException("Email already exist");
         if (!isEmailAndPasswordValid(email, password))
             throw new EmailOrPasswordInvalidException("Email or password invalid");
-        return createUser(name, email, password);
+        UserDTO user = createUser(name, email, password);
+        sendMail(user.getEmail());
+        return user;
     }
 
     private boolean emailAlreadyExist(String email) {
@@ -57,5 +64,11 @@ public class CreateUserUseCase {
         user.setPassword(password);
         userRepository.save(user);
         return new UserDTO(user);
+    }
+
+    private void sendMail(String email) {
+        String content = "Olá! Tudo bem?\nPara confirmar seu cadastro por favor clique no link abaixo\n";
+        String subject = "Bem vindo ao moviecatch";
+        sendEmailService.send(subject, email, content);
     }
 }

@@ -1,8 +1,10 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases;
 
+import com.fredsonchaves07.moviecatchapi.application.doubles.FakeSendMail;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
+import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,13 +19,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CreateUserUseCaseTest {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    CreateUserUseCase createUserUseCase;
+    private SendEmailService sendEmailService;
+
+    private CreateUserUseCase createUserUseCase;
 
     @BeforeEach
     public void setUp() {
-        createUserUseCase = new CreateUserUseCase(userRepository);
+        sendEmailService = new FakeSendMail();
+        createUserUseCase = new CreateUserUseCase(userRepository, sendEmailService);
     }
 
     @Test
@@ -65,7 +70,7 @@ public class CreateUserUseCaseTest {
     }
 
     @Test
-    public void notShouldCreateUserIfPasswordCntainLessThan8Characters() {
+    public void notShouldCreateUserIfPasswordContainLessThan8Characters() {
         String name = "User Test";
         String password = "use@123";
         String email = "user@email.com";
