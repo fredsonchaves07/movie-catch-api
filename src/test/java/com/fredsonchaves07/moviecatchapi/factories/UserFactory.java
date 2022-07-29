@@ -1,8 +1,17 @@
-package com.fredsonchaves07.moviecatchapi.domain.entities.factories;
+package com.fredsonchaves07.moviecatchapi.factories;
 
+import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 
 public class UserFactory {
+
+    public static CreateUserDTO createUserDTO() {
+        return new CreateUserDTO("User Test", "usertest@email.com", "user@123");
+    }
+
+    public static CreateUserDTO createUserDTO(String name, String email, String password) {
+        return new CreateUserDTO(name, email, password);
+    }
 
     public static User createUser() {
         User user = new User();

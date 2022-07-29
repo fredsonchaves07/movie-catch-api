@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static com.fredsonchaves07.moviecatchapi.domain.dto.factories.CreateUserDTOFactory.createUserDTO;
+import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
