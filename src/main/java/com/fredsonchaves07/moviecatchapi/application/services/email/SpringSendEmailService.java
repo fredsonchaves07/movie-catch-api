@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.application.services;
+package com.fredsonchaves07.moviecatchapi.application.services.email;
 
 import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.service.exception.SendEmailException;
