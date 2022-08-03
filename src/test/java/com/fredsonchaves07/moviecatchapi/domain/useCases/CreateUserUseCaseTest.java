@@ -72,7 +72,7 @@ public class CreateUserUseCaseTest {
     @Test
     public void notShouldCreateUserIfPasswordContainLessThan8Characters() {
         String name = "User Test";
-        String password = "use@123";
+        String password = "user@123";
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
@@ -87,7 +87,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO firstUser = createUserDTO();
         createUserUseCase.execute(firstUser);
         String name = "User Test";
-        String password = "use@123";
+        String password = "user@123";
         String email = "usertest@email.com";
         CreateUserDTO secondUser = createUserDTO(name, email, password);
         assertThrows(
