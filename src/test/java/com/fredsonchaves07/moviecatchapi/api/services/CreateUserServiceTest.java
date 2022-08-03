@@ -1,6 +1,6 @@
-package com.fredsonchaves07.moviecatchapi.application.services;
+package com.fredsonchaves07.moviecatchapi.api.services;
 
-import com.fredsonchaves07.moviecatchapi.application.services.user.CreateUserAPIService;
+import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
@@ -30,7 +30,7 @@ public class CreateUserServiceTest {
     @Test
     public void shouldCreateUser() {
         CreateUserDTO createUserDTO = createUserDTO();
-        UserDTO userDTO = userService.createUser(createUserDTO);
+        UserDTO userDTO = userService.execute(createUserDTO);
         assertNotNull(userDTO);
         assertEquals(userDTO.getName(), createUserDTO.getName());
         assertEquals(userDTO.getEmail(), createUserDTO.getEmail());

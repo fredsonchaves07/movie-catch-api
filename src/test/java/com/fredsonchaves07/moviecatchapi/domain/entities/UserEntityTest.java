@@ -17,7 +17,7 @@ public class UserEntityTest {
     }
 
     @Test
-    public void shouldCreateANewUser() {
+    public void shouldCreateUser() {
         String name = "User test";
         String email = "user@email.com";
         String password = "user@123";

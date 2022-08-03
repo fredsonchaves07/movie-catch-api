@@ -1,6 +1,6 @@
-package com.fredsonchaves07.moviecatchapi.application.services;
+package com.fredsonchaves07.moviecatchapi.api.services;
 
-import com.fredsonchaves07.moviecatchapi.application.doubles.FakeSendMail;
+import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMail;
 import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
 import org.junit.jupiter.api.Test;
 
