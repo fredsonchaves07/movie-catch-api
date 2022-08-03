@@ -8,11 +8,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -30,10 +30,11 @@ public class CreateUserResourceTest {
     public void shouldCreateUser() throws Exception {
         CreateUserDTO createUserDTO = createUserDTO();
         String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
-        ResultActions response = mockMvc
-                .perform(post("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value("User Test"))
+                .andExpect(jsonPath("$.email").value("usertest@email.com"));
     }
 }
