@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("test")
+@Profile({"test", "dev"})
 public class FakeSendMail implements SendEmailService {
 
     private String supportMail = "admin@moviecatch.com";

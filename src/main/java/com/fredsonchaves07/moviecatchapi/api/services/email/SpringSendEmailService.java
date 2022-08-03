@@ -13,7 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
-@Profile("dev")
+@Profile("prod")
 public class SpringSendEmailService implements SendEmailService {
 
     @Autowired
