@@ -1,13 +1,12 @@
 package com.fredsonchaves07.moviecatchapi.api.services;
 
+import com.fredsonchaves07.moviecatchapi.api.resources.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMail;
 import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +47,9 @@ public class CreateUserServiceTest {
         String email = "user$%@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                EmailOrPasswordInvalidException.class,
+                BadRequestException.class,
                 () -> userService.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                "Expected BadRequestException"
         );
     }
 
@@ -61,9 +60,9 @@ public class CreateUserServiceTest {
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                EmailOrPasswordInvalidException.class,
+                BadRequestException.class,
                 () -> userService.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                "Expected BadRequestException"
         );
     }
 
@@ -74,9 +73,9 @@ public class CreateUserServiceTest {
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                EmailOrPasswordInvalidException.class,
+                BadRequestException.class,
                 () -> userService.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                "Expected BadRequestException"
         );
     }
 
@@ -89,9 +88,9 @@ public class CreateUserServiceTest {
         String email = "usertest@email.com";
         CreateUserDTO secondUser = createUserDTO(name, email, password);
         assertThrows(
-                EmailAlreadyExistException.class,
+                BadRequestException.class,
                 () -> userService.execute(secondUser),
-                "Expected EmailAlreadyExist"
+                "Expected BadRequestException"
         );
     }
 }
