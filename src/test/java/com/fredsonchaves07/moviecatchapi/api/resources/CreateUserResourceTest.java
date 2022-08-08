@@ -37,4 +37,68 @@ public class CreateUserResourceTest {
                 .andExpect(jsonPath("$.name").value("User Test"))
                 .andExpect(jsonPath("$.email").value("usertest@email.com"));
     }
+
+    @Test
+    public void notShouldCreateUserIfInvalidEmail() throws Exception {
+        String name = "User Test";
+        String password = "user@123";
+        String email = "user$%@email.com";
+        CreateUserDTO createUserDTO = createUserDTO(name, email, password);
+        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.message").value("Email or password invalid"));
+    }
+
+    @Test
+    public void notShouldCreateUserIfPasswordContainSpaceBlank() throws Exception {
+        String name = "User Test";
+        String password = "user @123";
+        String email = "user@email.com";
+        CreateUserDTO createUserDTO = createUserDTO(name, email, password);
+        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.message").value("Email or password invalid"));
+    }
+
+    @Test
+    public void notShouldCreateUserIfPasswordContainLessThan8Characters() throws Exception {
+        String name = "User Test";
+        String password = "use@123";
+        String email = "user@email.com";
+        CreateUserDTO createUserDTO = createUserDTO(name, email, password);
+        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.message").value("Email or password invalid"));
+    }
+
+    @Test
+    public void notShouldCreateUserIfEmailAlreadyExist() throws Exception {
+        CreateUserDTO firstUser = createUserDTO();
+        String userBodyJson = objectMapper.writeValueAsString(firstUser);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value("User Test"))
+                .andExpect(jsonPath("$.email").value("usertest@email.com"));
+        String name = "User Test";
+        String password = "user@123";
+        String email = "usertest@email.com";
+        CreateUserDTO secondUser = createUserDTO(name, email, password);
+        userBodyJson = objectMapper.writeValueAsString(secondUser);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.message").value("Email already exist"));
+    }
 }
