@@ -49,7 +49,7 @@ public class CreateUserResourceTest {
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid"));
+                .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class CreateUserResourceTest {
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid"));
+                .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class CreateUserResourceTest {
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid"));
+                .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
 
     @Test
