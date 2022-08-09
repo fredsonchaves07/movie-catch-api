@@ -8,13 +8,16 @@ import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.CreateUserUseCase;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreateUserAPIService {
 
+    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private SendEmailService sendEmailService;
 
     private CreateUserUseCase createUserUseCase;
