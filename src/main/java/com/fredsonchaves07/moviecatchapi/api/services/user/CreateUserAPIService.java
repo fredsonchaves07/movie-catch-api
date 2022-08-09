@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services.user;
 
-import com.fredsonchaves07.moviecatchapi.api.resources.exception.BadRequestException;
+import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCaseException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
@@ -29,7 +29,7 @@ public class CreateUserAPIService {
         try {
             return createUserUseCase.execute(createUserDTO);
         } catch (EmailAlreadyExistException | EmailOrPasswordInvalidException exception) {
-            throw new BadRequestException(exception.getMessage());
+            throw new CreateUserUseCaseException(exception.getMessage());
         }
     }
 }

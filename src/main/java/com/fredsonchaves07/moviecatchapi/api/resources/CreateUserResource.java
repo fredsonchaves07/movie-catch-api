@@ -1,5 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.api.resources;
 
+import com.fredsonchaves07.moviecatchapi.api.resources.exception.BadRequestException;
+import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCaseException;
 import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
@@ -20,7 +22,11 @@ public class CreateUserResource {
 
     @PostMapping
     public ResponseEntity<UserDTO> create(@RequestBody CreateUserDTO createUserDTO) {
-        UserDTO userDTO = createUserAPIService.execute(createUserDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
+        try {
+            UserDTO userDTO = createUserAPIService.execute(createUserDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
+        } catch (CreateUserUseCaseException exception) {
+            throw new BadRequestException(exception.getMessage());
+        }
     }
 }

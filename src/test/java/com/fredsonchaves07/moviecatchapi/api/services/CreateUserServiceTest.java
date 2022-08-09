@@ -1,7 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.api.services;
 
-import com.fredsonchaves07.moviecatchapi.api.resources.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMail;
+import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCaseException;
 import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
@@ -47,9 +47,9 @@ public class CreateUserServiceTest {
         String email = "user$%@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                BadRequestException.class,
+                CreateUserUseCaseException.class,
                 () -> userService.execute(createUserDTO),
-                "Expected BadRequestException"
+                "Expected CreateUserUseCaseException"
         );
     }
 
@@ -60,9 +60,9 @@ public class CreateUserServiceTest {
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                BadRequestException.class,
+                CreateUserUseCaseException.class,
                 () -> userService.execute(createUserDTO),
-                "Expected BadRequestException"
+                "Expected CreateUserUseCaseException"
         );
     }
 
@@ -73,9 +73,9 @@ public class CreateUserServiceTest {
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                BadRequestException.class,
+                CreateUserUseCaseException.class,
                 () -> userService.execute(createUserDTO),
-                "Expected BadRequestException"
+                "Expected CreateUserUseCaseException"
         );
     }
 
@@ -88,9 +88,9 @@ public class CreateUserServiceTest {
         String email = "usertest@email.com";
         CreateUserDTO secondUser = createUserDTO(name, email, password);
         assertThrows(
-                BadRequestException.class,
+                CreateUserUseCaseException.class,
                 () -> userService.execute(secondUser),
-                "Expected BadRequestException"
+                "Expected CreateUserUseCaseException"
         );
     }
 }
