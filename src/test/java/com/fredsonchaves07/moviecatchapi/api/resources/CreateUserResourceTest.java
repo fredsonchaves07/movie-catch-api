@@ -99,6 +99,6 @@ public class CreateUserResourceTest {
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email already exist"));
+                .andExpect(jsonPath("$.message").value("Email already exist."));
     }
 }
