@@ -9,12 +9,12 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @Configuration
 public class ApplicationConfig {
 
-    @Bean
+    @Bean()
     public JavaMailSender javaMailSender() {
         return new JavaMailSenderImpl();
     }
 
-    @Bean
+    @Bean()
     public FakeSendMail fakeSendMail() {
         return new FakeSendMail();
     }
