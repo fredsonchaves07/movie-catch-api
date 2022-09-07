@@ -3,11 +3,12 @@ package com.fredsonchaves07.moviecatchapi.api.services.email;
 import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.service.exception.SendEmailException;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-@Profile({"test", "dev"})
-public class FakeSendMail implements SendEmailService {
+
+@Component
+@Profile({"dev, test"})
+public class FakeSendMailService implements SendEmailService {
 
     private String supportMail = "admin@moviecatch.com";
 
