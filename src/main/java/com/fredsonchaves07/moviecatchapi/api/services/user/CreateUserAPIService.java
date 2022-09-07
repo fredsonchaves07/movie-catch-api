@@ -1,10 +1,10 @@
 package com.fredsonchaves07.moviecatchapi.api.services.user;
 
 import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCaseException;
-import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
-import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
-import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
+import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.CreateUserUseCase;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
