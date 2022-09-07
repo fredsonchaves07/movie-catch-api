@@ -20,4 +20,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Run tests and build project
+        env:
+          PROFILE_ACTIVE: 'test'
         run: mvn package

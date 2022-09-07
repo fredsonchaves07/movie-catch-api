@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services;
 
-import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMail;
+import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMailService;
 import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class SendEmailTest {
 
-    private SendEmailService sendEmailService = new FakeSendMail();
+    private SendEmailService sendEmailService = new FakeSendMailService();
 
     @Test
     public void shouldSendEmail() {
