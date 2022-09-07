@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.factories;
 
-import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 
 public class UserFactory {

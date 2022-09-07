@@ -1,10 +1,10 @@
-package com.fredsonchaves07.moviecatchapi.api.resources;
+package com.fredsonchaves07.moviecatchapi.api.resources.user;
 
 import com.fredsonchaves07.moviecatchapi.api.resources.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCaseException;
 import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
-import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
-import com.fredsonchaves07.moviecatchapi.domain.dto.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
