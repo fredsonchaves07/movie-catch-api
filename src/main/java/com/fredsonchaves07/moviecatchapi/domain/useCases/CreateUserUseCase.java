@@ -32,7 +32,6 @@ public class CreateUserUseCase {
         String name = createUserDTO.getName();
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
-        //TODO -> Refatorar mensagens dos exceptions
         if (emailAlreadyExist(email))
             throw new EmailAlreadyExistException();
         if (!isEmailAndPasswordValid(email, password))
