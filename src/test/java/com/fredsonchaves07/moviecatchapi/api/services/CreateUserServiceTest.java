@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services;
 
-import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMail;
+import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMailService;
 import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCaseException;
 import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.CreateUserDTO;
@@ -27,7 +27,7 @@ public class CreateUserServiceTest {
 
     @BeforeEach
     public void setUp() {
-        sendEmailService = new FakeSendMail();
+        sendEmailService = new FakeSendMailService();
         userService = new CreateUserAPIService(userRepository, sendEmailService);
     }
 
