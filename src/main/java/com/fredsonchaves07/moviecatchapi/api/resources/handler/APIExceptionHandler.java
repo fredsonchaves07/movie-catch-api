@@ -3,6 +3,8 @@ package com.fredsonchaves07.moviecatchapi.api.resources.handler;
 import com.fredsonchaves07.moviecatchapi.api.resources.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.api.resources.exception.MethodNotAllowedException;
 import com.fredsonchaves07.moviecatchapi.api.resources.exception.ResourceNotFoundException;
+import com.fredsonchaves07.moviecatchapi.api.resources.exception.ServerErrorException;
+import com.fredsonchaves07.moviecatchapi.api.resources.logger.ApiErrorLogger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,6 +31,14 @@ public class APIExceptionHandler {
     public ResponseEntity<StandardError> methodNotAllowed() {
         MethodNotAllowedException notAllowedException = new MethodNotAllowedException();
         StandardError standardError = getStandardError(notAllowedException.getCodStatus(), notAllowedException.getMessage());
+        return ResponseEntity.status(standardError.getCodStatus()).body(standardError);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<StandardError> serverError(Exception error) {
+        ServerErrorException serverErrorException = new ServerErrorException();
+        StandardError standardError = getStandardError(serverErrorException.getCodStatus(), serverErrorException.getMessage());
+        ApiErrorLogger.generateLog(error);
         return ResponseEntity.status(standardError.getCodStatus()).body(standardError);
     }
 
