@@ -2,20 +2,14 @@ package com.fredsonchaves07.moviecatchapi.api.resources.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class ServerErrorException extends RuntimeException {
+public class ServerErrorException extends ApiException {
 
-    private final int codStatus = HttpStatus.INTERNAL_SERVER_ERROR.value();
-    private static final String message = "Server error. Consult the administrator.";
+    private static final int status = HttpStatus.INTERNAL_SERVER_ERROR.value();
+    private static final String type = "ServerError";
+    private static final String title = "Server Error";
+    private static final String detail = "Server error. Consult the administrator.";
 
     public ServerErrorException() {
-        super(message);
-    }
-
-    public int getCodStatus() {
-        return codStatus;
-    }
-
-    public String getMessage() {
-        return message;
+        super(status, type, title, detail);
     }
 }

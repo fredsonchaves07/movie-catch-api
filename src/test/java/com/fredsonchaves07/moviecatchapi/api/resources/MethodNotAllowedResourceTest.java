@@ -30,7 +30,7 @@ public class MethodNotAllowedResourceTest {
         mockMvc.perform(delete("/")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isMethodNotAllowed())
-                .andExpect(jsonPath("$.codStatus").value(405))
+                .andExpect(jsonPath("$.status").value(405))
                 .andExpect(jsonPath("$.message").value("Method not allowed."));
     }
 

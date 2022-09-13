@@ -29,7 +29,7 @@ public class URLNotFoundResourceTest {
         mockMvc.perform(get("/url_not_exist")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.codStatus").value(404))
+                .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.message").value("URL Not Found."));
     }
 

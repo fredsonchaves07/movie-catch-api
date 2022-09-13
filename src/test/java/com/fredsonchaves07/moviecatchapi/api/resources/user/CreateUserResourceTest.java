@@ -48,7 +48,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
 
@@ -62,7 +62,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
 
@@ -76,7 +76,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
 
@@ -98,7 +98,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").value("Email already exist."));
     }
 }
