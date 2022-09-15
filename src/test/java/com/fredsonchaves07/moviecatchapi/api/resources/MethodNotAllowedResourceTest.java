@@ -31,7 +31,13 @@ public class MethodNotAllowedResourceTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isMethodNotAllowed())
                 .andExpect(jsonPath("$.status").value(405))
-                .andExpect(jsonPath("$.message").value("Method not allowed."));
+                .andExpect(jsonPath("$.type").value("MethodNotAllowedError"))
+                .andExpect(jsonPath("$.title").value("Method not allowed"))
+                .andExpect(jsonPath("$.instance").value("/"))
+                .andExpect(jsonPath("$.detail").value(
+                        "The resource you are trying to access does " +
+                                "not allow requests of this type. See available feature documentation."
+                ));
     }
 
     @Test
