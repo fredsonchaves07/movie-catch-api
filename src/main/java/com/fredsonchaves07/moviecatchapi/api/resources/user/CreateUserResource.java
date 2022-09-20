@@ -26,7 +26,7 @@ public class CreateUserResource {
             UserDTO userDTO = createUserAPIService.execute(createUserDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
         } catch (CreateUserUseCaseException exception) {
-            throw new BadRequestException(exception.getMessage());
+            throw new BadRequestException(exception.getType(), exception.getTitle(), exception.getMessage());
         }
     }
 }

@@ -49,7 +49,10 @@ public class CreateUserResourceTest {
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid."));
+                .andExpect(jsonPath("$.type").value("EmailOrPasswordInvalidError"))
+                .andExpect(jsonPath("$.title").value("Email or password invalid"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users"))
+                .andExpect(jsonPath("$.message").value("Invalid email or password. The password and email must contain mandatory criteria"));
     }
 
     @Test
