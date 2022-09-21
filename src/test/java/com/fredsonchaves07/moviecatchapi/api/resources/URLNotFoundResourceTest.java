@@ -30,8 +30,10 @@ public class URLNotFoundResourceTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.type").value("ResourceNotFoundError"))
                 .andExpect(jsonPath("$.title").value("Resource not found"))
-                .andExpect(jsonPath("$.type").value("ResourceNotFoundError"));
+                .andExpect(jsonPath("$.instance").value("/url_not_exist"))
+                .andExpect(jsonPath("$.detail").value("Resource /url_not_exist not found. Verify the resource documentation"));
     }
 
     @Test

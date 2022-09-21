@@ -31,7 +31,7 @@ public class CreateUserAPIService {
         try {
             return createUserUseCase.execute(createUserDTO);
         } catch (DomainUseCaseException exception) {
-            throw new CreateUserUseCaseException(exception.getType(), exception.getMessage(), exception.getMessage());
+            throw new CreateUserUseCaseException(exception.getType(), exception.getTitle(), exception.getMessage());
         }
     }
 }

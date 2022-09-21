@@ -21,9 +21,9 @@ public class APIExceptionHandler {
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<StandardError> notFoundException(BadRequestException error, WebRequest request) {
-        String detail = "Resource id" + request.getContextPath() + " not found";
+    public ResponseEntity<StandardError> notFoundException(NoHandlerFoundException error, WebRequest request) {
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
+        String detail = "Resource " + instance + " not found. Verify the resource documentation";
         ResourceNotFoundException notFoundException = new ResourceNotFoundException(detail);
         StandardError standardError = getStandardError(notFoundException, instance);
         return ResponseEntity.status(standardError.getStatus()).body(standardError);
