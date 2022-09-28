@@ -48,6 +48,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.codStatus").value(400))
                 .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
@@ -62,6 +63,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.codStatus").value(400))
                 .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
@@ -76,6 +78,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.codStatus").value(400))
                 .andExpect(jsonPath("$.message").value("Email or password invalid."));
     }
@@ -84,12 +87,7 @@ public class CreateUserResourceTest {
     public void notShouldCreateUserIfEmailAlreadyExist() throws Exception {
         CreateUserDTO firstUser = createUserDTO();
         String userBodyJson = objectMapper.writeValueAsString(firstUser);
-        mockMvc.perform(post("/api/v1/users")
-                        .content(userBodyJson)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("User Test"))
-                .andExpect(jsonPath("$.email").value("usertest@email.com"));
+        mockMvc.perform(post("/api/v1/users").content(userBodyJson).contentType(MediaType.APPLICATION_JSON));
         String name = "User Test";
         String password = "user@123";
         String email = "usertest@email.com";
@@ -98,6 +96,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.codStatus").value(400))
                 .andExpect(jsonPath("$.message").value("Email already exist."));
     }
