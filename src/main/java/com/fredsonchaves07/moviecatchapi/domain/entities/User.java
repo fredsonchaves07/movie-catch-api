@@ -1,15 +1,20 @@
 package com.fredsonchaves07.moviecatchapi.domain.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid4")
+    @GenericGenerator(name = "uuid4", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "VARCHAR(255)")
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -25,7 +30,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, boolean isConfirm) {
+    public User(UUID id, String name, String email, String password, boolean isConfirm) {
         this.id = id;
         this.name = name;
         this.email = email;
