@@ -100,4 +100,33 @@ public class CreateUserResourceTest {
                 .andExpect(jsonPath("$.codStatus").value(400))
                 .andExpect(jsonPath("$.message").value("Email already exist."));
     }
+
+    @Test
+    public void notShouldCreateUserIfMissingNamePropertiesOnRequest() throws Exception {
+        String password = "user@123";
+        String email = "user@email.com";
+        CreateUserDTO createUserDTO = createUserDTO(null, email, password);
+        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.message").value("Email or password invalid."));
+    }
+
+    @Test
+    public void notShouldCreateUserIfMissingEmailPropertiesOnRequest() throws Exception {
+        String name = "User Test";
+        String password = "user@123";
+        String email = null;
+        CreateUserDTO createUserDTO = createUserDTO(name, email, password);
+        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.codStatus").value(400))
+                .andExpect(jsonPath("$.message").value("Email or password invalid."));
+    }
 }
