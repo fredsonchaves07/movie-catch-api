@@ -29,8 +29,11 @@ public class URLNotFoundResourceTest {
         mockMvc.perform(get("/url_not_exist")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.codStatus").value(404))
-                .andExpect(jsonPath("$.message").value("URL Not Found."));
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.type").value("ResourceNotFoundError"))
+                .andExpect(jsonPath("$.title").value("Resource not found"))
+                .andExpect(jsonPath("$.instance").value("/url_not_exist"))
+                .andExpect(jsonPath("$.detail").value("Resource /url_not_exist not found. Verify the resource documentation"));
     }
 
     @Test

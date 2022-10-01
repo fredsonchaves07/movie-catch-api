@@ -48,9 +48,11 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid."));
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.type").value("EmailOrPasswordInvalidError"))
+                .andExpect(jsonPath("$.title").value("Email or password invalid"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users"))
+                .andExpect(jsonPath("$.detail").value("Invalid email or password. The password and email must contain mandatory criteria"));
     }
 
     @Test
@@ -63,9 +65,11 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid."));
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.type").value("EmailOrPasswordInvalidError"))
+                .andExpect(jsonPath("$.title").value("Email or password invalid"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users"))
+                .andExpect(jsonPath("$.detail").value("Invalid email or password. The password and email must contain mandatory criteria"));
     }
 
     @Test
@@ -78,16 +82,23 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid."));
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.type").value("EmailOrPasswordInvalidError"))
+                .andExpect(jsonPath("$.title").value("Email or password invalid"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users"))
+                .andExpect(jsonPath("$.detail").value("Invalid email or password. The password and email must contain mandatory criteria"));
     }
 
     @Test
     public void notShouldCreateUserIfEmailAlreadyExist() throws Exception {
         CreateUserDTO firstUser = createUserDTO();
         String userBodyJson = objectMapper.writeValueAsString(firstUser);
-        mockMvc.perform(post("/api/v1/users").content(userBodyJson).contentType(MediaType.APPLICATION_JSON));
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value("User Test"))
+                .andExpect(jsonPath("$.email").value("usertest@email.com"));
         String name = "User Test";
         String password = "user@123";
         String email = "usertest@email.com";
@@ -96,37 +107,10 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email already exist."));
-    }
-
-    @Test
-    public void notShouldCreateUserIfMissingNamePropertiesOnRequest() throws Exception {
-        String password = "user@123";
-        String email = "user@email.com";
-        CreateUserDTO createUserDTO = createUserDTO(null, email, password);
-        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
-        mockMvc.perform(post("/api/v1/users")
-                        .content(userBodyJson)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid."));
-    }
-
-    @Test
-    public void notShouldCreateUserIfMissingEmailPropertiesOnRequest() throws Exception {
-        String name = "User Test";
-        String password = "user@123";
-        String email = null;
-        CreateUserDTO createUserDTO = createUserDTO(name, email, password);
-        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
-        mockMvc.perform(post("/api/v1/users")
-                        .content(userBodyJson)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.codStatus").value(400))
-                .andExpect(jsonPath("$.message").value("Email or password invalid."));
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.type").value("EmailAlreadyExistError"))
+                .andExpect(jsonPath("$.title").value("Email already exist"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users"))
+                .andExpect(jsonPath("$.detail").value("It is not possible to register a user with email already registered in the system. Try again with another email"));
     }
 }
