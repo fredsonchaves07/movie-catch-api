@@ -38,9 +38,10 @@ public class APIExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<StandardError> serverError(ServerErrorException error, WebRequest request) {
+    public ResponseEntity<StandardError> serverError(Exception error, WebRequest request) {
+        ServerErrorException exception = new ServerErrorException();
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
-        StandardError standardError = getStandardError(error, instance);
+        StandardError standardError = getStandardError(exception, instance);
         ApiErrorLogger.generateLog(error);
         return ResponseEntity.status(standardError.getStatus()).body(standardError);
     }
