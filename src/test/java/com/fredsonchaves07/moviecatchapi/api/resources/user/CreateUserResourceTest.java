@@ -116,4 +116,24 @@ public class CreateUserResourceTest {
                 .andExpect(jsonPath("$.instance").value("/api/v1/users"))
                 .andExpect(jsonPath("$.detail").value("It is not possible to register a user with email already registered in the system. Try again with another email"));
     }
+
+
+    @Test
+    public void notShouldCreateUserIfMissingNameProperty() throws Exception{
+        String password = "user@123";
+        String email = "user@email.com";
+        CreateUserDTO createUserDTO = createUserDTO(null, email, password);
+        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.type").value("MissingPropertyError"))
+                .andExpect(jsonPath("$.title").value("Mandatory properties not informed"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users"))
+                .andExpect(jsonPath("$.detail").value("\n" +
+                        "One or more required properties were not reported. " +
+                        "Please check the mandatory parameters documentation of the request"));
+    }
 }
