@@ -2,20 +2,13 @@ package com.fredsonchaves07.moviecatchapi.api.resources.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends ApiException {
 
-    private final int codStatus = HttpStatus.NOT_FOUND.value();
-    private static final String message = "URL Not Found.";
+    private static final int codStatus = HttpStatus.NOT_FOUND.value();
+    private static final String type = "ResourceNotFoundError";
+    private static final String title = "Resource not found";
 
-    public ResourceNotFoundException() {
-        super(message);
-    }
-
-    public int getCodStatus() {
-        return codStatus;
-    }
-
-    public String getMessage() {
-        return message;
+    public ResourceNotFoundException(String detail) {
+        super(codStatus, type, title, detail);
     }
 }
