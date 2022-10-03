@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.domain.dto;
+package com.fredsonchaves07.moviecatchapi.domain.dto.user;
 
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 

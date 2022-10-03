@@ -1,7 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.api.services.email;
 
-import com.fredsonchaves07.moviecatchapi.domain.service.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.service.exception.SendEmailException;
+import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;

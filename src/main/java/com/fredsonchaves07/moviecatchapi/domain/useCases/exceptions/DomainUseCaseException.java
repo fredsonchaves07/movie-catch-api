@@ -1,11 +1,11 @@
-package com.fredsonchaves07.moviecatchapi.api.services.exception;
+package com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions;
 
-public class CreateUserUseCaseException extends RuntimeException {
+public abstract class DomainUseCaseException extends RuntimeException {
 
     private String type;
     private String title;
 
-    public CreateUserUseCaseException(String type, String title, String detail) {
+    public DomainUseCaseException(String type, String title, String detail) {
         super(detail);
         this.type = type;
         this.title = title;
