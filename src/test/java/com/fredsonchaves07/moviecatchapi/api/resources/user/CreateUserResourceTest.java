@@ -132,8 +132,8 @@ public class CreateUserResourceTest {
                 .andExpect(jsonPath("$.type").value("MissingPropertyError"))
                 .andExpect(jsonPath("$.title").value("Mandatory properties not informed"))
                 .andExpect(jsonPath("$.instance").value("/api/v1/users"))
-                .andExpect(jsonPath("$.detail").value("\n" +
+                .andExpect(jsonPath("$.detail").value(
                         "One or more required properties were not reported. " +
-                        "Please check the mandatory parameters documentation of the request"));
+                                "Please check the mandatory parameters documentation of the request"));
     }
 }
