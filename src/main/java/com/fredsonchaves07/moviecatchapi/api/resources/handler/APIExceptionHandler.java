@@ -40,7 +40,7 @@ public class APIExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<StandardError> propertyValueException(HttpMessageNotReadableException error, WebRequest request) {
-        MissingRequiredPropertyException exception = new MissingRequiredPropertyException();
+        UnknownPropertyInvalidException exception = new UnknownPropertyInvalidException();
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
         StandardError standardError = getStandardError(exception, instance);
         return ResponseEntity.status(standardError.getStatus()).body(standardError);
