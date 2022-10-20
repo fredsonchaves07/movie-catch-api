@@ -155,4 +155,22 @@ public class CreateUserResourceTest {
                 .andExpect(jsonPath("$.detail").value("Invalid email or password. " +
                         "The password and email must contain mandatory criteria"));
     }
+
+    @Test
+    public void notShouldCreateUserIfEmailNotProvided() throws Exception {
+        String name = "User Test";
+        String password = "user@123";
+        CreateUserDTO createUserDTO = createUserDTO(name, null, password);
+        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.type").value("EmailOrPasswordInvalidError"))
+                .andExpect(jsonPath("$.title").value("Email or password invalid"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users"))
+                .andExpect(jsonPath("$.detail").value("Invalid email or password. " +
+                        "The password and email must contain mandatory criteria"));
+    }
 }
