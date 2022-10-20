@@ -5,7 +5,9 @@ import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.*;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.NameInvalidException;
 
 import java.util.regex.Pattern;
 
@@ -31,11 +33,9 @@ public class CreateUserUseCase {
         String name = createUserDTO.getName();
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
-        if (nameIsValid(name)) throw new NameValidException();
-        if (emailIsValid(email)) throw new EmailValidException();
-        if (passwordIsValid(password)) throw new PasswordValidException();
-        if (emailAlreadyExist(email)) throw new EmailAlreadyExistException();
+        if (nameIsValid(name)) throw new NameInvalidException();
         if (!isEmailAndPasswordValid(email, password)) throw new EmailOrPasswordInvalidException();
+        if (emailAlreadyExist(email)) throw new EmailAlreadyExistException();
         UserDTO user = createUser(name, email, password);
         sendMail(user.getEmail());
         return user;
@@ -45,22 +45,20 @@ public class CreateUserUseCase {
         return name == null;
     }
 
-    private boolean emailIsValid(String email) {
-        if (email == null) return false;
-        return PATTERN.matcher(email).matches();
-    }
-
-    private boolean passwordIsValid(String password) {
-        if (password == null) return false;
-        return password.length() >= 8 && (!password.contains(" "));
-    }
-
     private boolean emailAlreadyExist(String email) {
         return userRepository.findByEmail(email) != null;
     }
 
     private boolean isEmailAndPasswordValid(String email, String password) {
         return emailIsValid(email) && passwordIsValid(password);
+    }
+
+    private boolean emailIsValid(String email) {
+        return email != null && PATTERN.matcher(email).matches();
+    }
+
+    private boolean passwordIsValid(String password) {
+        return password != null && password.length() >= 8 && (!password.contains(" "));
     }
 
     private UserDTO createUser(String name, String email, String password) {

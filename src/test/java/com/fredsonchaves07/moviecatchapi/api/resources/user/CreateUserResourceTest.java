@@ -119,7 +119,7 @@ public class CreateUserResourceTest {
 
 
     @Test
-    public void notShouldCreateUserIfMissingNameProperty() throws Exception{
+    public void notShouldCreateUserIfNamesNotProvided() throws Exception {
         String password = "user@123";
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(null, email, password);
@@ -129,11 +129,12 @@ public class CreateUserResourceTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.type").value("MissingPropertyError"))
-                .andExpect(jsonPath("$.title").value("Mandatory properties not informed"))
+                .andExpect(jsonPath("$.type").value("NameValidError"))
+                .andExpect(jsonPath("$.title").value("Name not provided or invalid"))
                 .andExpect(jsonPath("$.instance").value("/api/v1/users"))
                 .andExpect(jsonPath("$.detail").value(
-                        "One or more required properties were not reported. " +
-                                "Please check the mandatory parameters documentation of the request"));
+                        "The name field is required. " +
+                                "It was not informed in the request or it is invalid. " +
+                                "Consult the resource documentation to verify request details"));
     }
 }
