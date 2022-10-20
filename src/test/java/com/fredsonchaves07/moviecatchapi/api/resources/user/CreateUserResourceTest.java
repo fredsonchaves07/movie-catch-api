@@ -137,4 +137,22 @@ public class CreateUserResourceTest {
                                 "It was not informed in the request or it is invalid. " +
                                 "Consult the resource documentation to verify request details"));
     }
+
+    @Test
+    public void notShouldCreateUserIfPasswordNotProvided() throws Exception {
+        String name = "User Test";
+        String email = "usertest@email.com";
+        CreateUserDTO createUserDTO = createUserDTO(name, email, null);
+        String userBodyJson = objectMapper.writeValueAsString(createUserDTO);
+        mockMvc.perform(post("/api/v1/users")
+                        .content(userBodyJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.type").value("EmailOrPasswordInvalidError"))
+                .andExpect(jsonPath("$.title").value("Email or password invalid"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users"))
+                .andExpect(jsonPath("$.detail").value("Invalid email or password. " +
+                        "The password and email must contain mandatory criteria"));
+    }
 }
