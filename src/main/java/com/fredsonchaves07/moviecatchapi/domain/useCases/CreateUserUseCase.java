@@ -58,10 +58,7 @@ public class CreateUserUseCase {
     }
 
     private UserDTO createUser(String name, String email, String password) {
-        User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(password);
+        User user = new User(name, email, password);
         userRepository.save(user);
         return new UserDTO(user);
     }
