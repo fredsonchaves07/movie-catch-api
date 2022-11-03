@@ -44,4 +44,11 @@ public class UserEntityTest {
         existingUser.setPassword(password);
         assertEquals(existingUser.getPassword(), password);
     }
+
+    @Test
+    public void shouldUpdateEmailUser() {
+        String email = "newEmail@email.com";
+        existingUser.setEmail(email);
+        assertEquals(existingUser.getEmail(), email);
+    }
 }
