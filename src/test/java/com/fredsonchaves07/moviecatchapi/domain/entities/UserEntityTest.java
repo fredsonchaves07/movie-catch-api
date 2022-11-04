@@ -4,8 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUser;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserEntityTest {
 
@@ -29,6 +28,7 @@ public class UserEntityTest {
         assertEquals(user.getName(), name);
         assertEquals(user.getEmail(), email);
         assertEquals(user.getPassword(), password);
+        assertFalse(user.isConfirm());
     }
 
     @Test
@@ -43,5 +43,11 @@ public class UserEntityTest {
         String password = "newPassword@123";
         existingUser.setPassword(password);
         assertEquals(existingUser.getPassword(), password);
+    }
+
+    @Test
+    public void shouldConfirmUser() {
+        existingUser.confirmUser();
+        assertTrue(existingUser.isConfirm());
     }
 }
