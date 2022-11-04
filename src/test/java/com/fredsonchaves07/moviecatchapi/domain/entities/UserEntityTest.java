@@ -50,7 +50,8 @@ public class UserEntityTest {
         String email = "newEmail@email.com";
         existingUser.setEmail(email);
         assertEquals(existingUser.getEmail(), email);
-        
+    }
+
     @Test
     public void shouldConfirmUser() {
         existingUser.confirmUser();
