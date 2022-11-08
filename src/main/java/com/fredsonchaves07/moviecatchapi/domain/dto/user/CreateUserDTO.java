@@ -2,12 +2,9 @@ package com.fredsonchaves07.moviecatchapi.domain.dto.user;
 
 public class CreateUserDTO {
 
-    private String name;
-    private String email;
-    private String password;
-
-    public CreateUserDTO() {
-    }
+    private final String name;
+    private final String email;
+    private final String password;
 
     public CreateUserDTO(String name, String email, String password) {
         this.name = name;
