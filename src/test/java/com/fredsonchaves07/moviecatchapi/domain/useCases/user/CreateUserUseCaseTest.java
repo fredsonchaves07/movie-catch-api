@@ -53,8 +53,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 
@@ -66,8 +65,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 
@@ -79,8 +77,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 
@@ -94,8 +91,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO secondUser = createUserDTO(name, email, password);
         assertThrows(
                 EmailAlreadyExistException.class,
-                () -> createUserUseCase.execute(secondUser),
-                "Expected EmailAlreadyExist"
+                () -> createUserUseCase.execute(secondUser)
         );
     }
 
@@ -106,8 +102,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(null, email, password);
         assertThrows(
                 NameInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected NameValid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 
@@ -118,8 +113,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(name, null, password);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected EmailValid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 
@@ -130,8 +124,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, null);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected PasswordValid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 }
