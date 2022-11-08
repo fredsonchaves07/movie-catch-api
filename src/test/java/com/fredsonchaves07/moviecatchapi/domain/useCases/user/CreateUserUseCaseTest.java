@@ -23,13 +23,11 @@ public class CreateUserUseCaseTest {
     @Autowired
     private UserRepository userRepository;
 
-    private SendEmailService sendEmailService;
-
     private CreateUserUseCase createUserUseCase;
 
     @BeforeEach
     public void setUp() {
-        sendEmailService = new FakeSendMailService();
+        SendEmailService sendEmailService = new FakeSendMailService();
         createUserUseCase = new CreateUserUseCase(userRepository, sendEmailService);
     }
 
