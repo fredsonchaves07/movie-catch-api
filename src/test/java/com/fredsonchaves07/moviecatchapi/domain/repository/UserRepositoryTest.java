@@ -75,7 +75,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void noShouldCreateUserIfNameIsNull() {
+    public void notShouldCreateUserIfNameIsNull() {
         String email = "user@email.com";
         String password = "user@123";
         User newUser = new User();
@@ -89,7 +89,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void noShouldCreateUserIfPasswordIsNull() {
+    public void notShouldCreateUserIfPasswordIsNull() {
         String name = "User test";
         String email = "user@email.com";
         User newUser = new User();
@@ -103,7 +103,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void noShouldCreateUserIfEmailAlreadyExist() {
+    public void notShouldCreateUserIfEmailAlreadyExist() {
         String name = "User test";
         String email = "user@email.com";
         String password = "user@123";
