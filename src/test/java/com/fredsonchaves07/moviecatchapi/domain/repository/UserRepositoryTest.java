@@ -23,6 +23,7 @@ public class UserRepositoryTest {
 
     @BeforeEach
     public void setUp() {
+        userRepository.deleteAll();
         existingUser = createUser();
         persitUser = userRepository.save(existingUser);
     }
@@ -96,6 +97,20 @@ public class UserRepositoryTest {
         newUser.setName(name);
         newUser.setEmail(email);
         newUser.setPassword(null);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> userRepository.save(newUser)
+        );
+    }
+
+    @Test
+    public void notShouldCreateUserIfEmailIsNull() {
+        String name = "User test";
+        String password = "user@123";
+        User newUser = new User();
+        newUser.setName(name);
+        newUser.setEmail(null);
+        newUser.setPassword(password);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.save(newUser)
