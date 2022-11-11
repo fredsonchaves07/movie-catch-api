@@ -3,6 +3,7 @@ package com.fredsonchaves07.moviecatchapi.api.resources.handler;
 import com.fredsonchaves07.moviecatchapi.api.resources.exception.*;
 import com.fredsonchaves07.moviecatchapi.api.resources.logger.ApiErrorLogger;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +33,14 @@ public class APIExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<StandardError> methodNotAllowed(HttpRequestMethodNotSupportedException error, WebRequest request) {
         MethodNotAllowedException exception = new MethodNotAllowedException();
+        String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
+        StandardError standardError = getStandardError(exception, instance);
+        return ResponseEntity.status(standardError.getStatus()).body(standardError);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<StandardError> propertyValueException(HttpMessageNotReadableException error, WebRequest request) {
+        UnknownPropertyInvalidException exception = new UnknownPropertyInvalidException();
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
         StandardError standardError = getStandardError(exception, instance);
         return ResponseEntity.status(standardError.getStatus()).body(standardError);

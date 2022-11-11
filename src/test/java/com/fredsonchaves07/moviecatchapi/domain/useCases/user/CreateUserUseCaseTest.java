@@ -8,6 +8,7 @@ import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.CreateUserUseCase;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.NameInvalidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 
@@ -63,8 +63,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 
@@ -76,8 +75,7 @@ public class CreateUserUseCaseTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> createUserUseCase.execute(createUserDTO),
-                "Expected EmailOrPasswordInvalid"
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 
@@ -91,8 +89,40 @@ public class CreateUserUseCaseTest {
         CreateUserDTO secondUser = createUserDTO(name, email, password);
         assertThrows(
                 EmailAlreadyExistException.class,
-                () -> createUserUseCase.execute(secondUser),
-                "Expected EmailAlreadyExist"
+                () -> createUserUseCase.execute(secondUser)
+        );
+    }
+
+    @Test
+    public void notShouldCreateUserIfNameIsNotValid() {
+        String email = "user@email.com";
+        String password = "user@123";
+        CreateUserDTO createUserDTO = createUserDTO(null, email, password);
+        assertThrows(
+                NameInvalidException.class,
+                () -> createUserUseCase.execute(createUserDTO)
+        );
+    }
+
+    @Test
+    public void notShouldCreateUserIfEmailNotValid() {
+        String name = "User test";
+        String password = "user@123";
+        CreateUserDTO createUserDTO = createUserDTO(name, null, password);
+        assertThrows(
+                EmailOrPasswordInvalidException.class,
+                () -> createUserUseCase.execute(createUserDTO)
+        );
+    }
+
+    @Test
+    public void notShouldCreateUserIfPasswordNotInformed() {
+        String name = "User test";
+        String email = "user@email.com";
+        CreateUserDTO createUserDTO = createUserDTO(name, email, null);
+        assertThrows(
+                EmailOrPasswordInvalidException.class,
+                () -> createUserUseCase.execute(createUserDTO)
         );
     }
 }

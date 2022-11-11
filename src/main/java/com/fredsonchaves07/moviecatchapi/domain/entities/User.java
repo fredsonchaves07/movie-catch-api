@@ -22,7 +22,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -69,6 +69,14 @@ public class User {
 
     public boolean isConfirm() {
         return isConfirm;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public void setName(String name) {

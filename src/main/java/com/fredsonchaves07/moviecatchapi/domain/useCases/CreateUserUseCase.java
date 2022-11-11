@@ -7,6 +7,7 @@ import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.NameInvalidException;
 
 import java.util.regex.Pattern;
 
@@ -32,13 +33,16 @@ public class CreateUserUseCase {
         String name = createUserDTO.getName();
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
-        if (emailAlreadyExist(email))
-            throw new EmailAlreadyExistException();
-        if (!isEmailAndPasswordValid(email, password))
-            throw new EmailOrPasswordInvalidException();
+        if (nameIsValid(name)) throw new NameInvalidException();
+        if (!isEmailAndPasswordValid(email, password)) throw new EmailOrPasswordInvalidException();
+        if (emailAlreadyExist(email)) throw new EmailAlreadyExistException();
         UserDTO user = createUser(name, email, password);
         sendMail(user.getEmail());
         return user;
+    }
+
+    private boolean nameIsValid(String name) {
+        return name == null;
     }
 
     private boolean emailAlreadyExist(String email) {
@@ -50,11 +54,11 @@ public class CreateUserUseCase {
     }
 
     private boolean emailIsValid(String email) {
-        return PATTERN.matcher(email).matches();
+        return email != null && PATTERN.matcher(email).matches();
     }
 
     private boolean passwordIsValid(String password) {
-        return password.length() >= 8 && (!password.contains(" "));
+        return password != null && password.length() >= 8 && (!password.contains(" "));
     }
 
     private UserDTO createUser(String name, String email, String password) {
