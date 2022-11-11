@@ -71,6 +71,14 @@ public class User {
         return isConfirm;
     }
 
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
