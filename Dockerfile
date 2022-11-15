@@ -1,17 +1,17 @@
-FROM openjdk:17
+FROM maven:latest
 
 ARG PROFILE_ACTIVE
-
-ARG ADDITIONAL_OPTS
 
 ENV PROFILE_ACTIVE=${PROFILE_ACTIVE}
 
 WORKDIR /app
 
-COPY /target/movie-catch-api*.jar movie-catch-api.jar
+COPY . /app
 
 EXPOSE 8080
 
 EXPOSE 43049
 
-ENTRYPOINT ["java", "-jar", "movie-catch-api.jar", "--spring.profiles.active=${PROFILE_ACTIVE}"]
+RUN mvn clean package -DskipTests
+
+ENTRYPOINT ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=${PROFILE_ACTIVE}"]

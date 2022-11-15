@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-@Profile({"dev, test"})
+@Profile({"dev, test", "docker"})
 public class FakeSendMailService implements SendEmailService {
 
     private String supportMail = "admin@moviecatch.com";
