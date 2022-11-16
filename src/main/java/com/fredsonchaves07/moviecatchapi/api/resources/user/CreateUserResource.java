@@ -5,6 +5,7 @@ import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCas
 import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class CreateUserResource {
     private CreateUserAPIService createUserAPIService;
 
     @PostMapping
+    @ApiOperation(value = "Create a user")
     public ResponseEntity<UserDTO> create(@RequestBody CreateUserDTO createUserDTO) {
         try {
             UserDTO userDTO = createUserAPIService.execute(createUserDTO);
