@@ -6,6 +6,8 @@ import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,16 @@ public class CreateUserResource {
     @Autowired
     private CreateUserAPIService createUserAPIService;
 
-    @PostMapping
+    @PostMapping()
     @ApiOperation(value = "Create a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid property"),
+            @ApiResponse(code = 400, message = "Email already exist"),
+            @ApiResponse(code = 400, message = "Email or password invalid"),
+            @ApiResponse(code = 400, message = "Email or password invalid"),
+            @ApiResponse(code = 400, message = "Name not provided or invalid"),
+            @ApiResponse(code = 201, message = "User created", response = UserDTO.class)
+    })
     public ResponseEntity<UserDTO> create(@RequestBody CreateUserDTO createUserDTO) {
         try {
             UserDTO userDTO = createUserAPIService.execute(createUserDTO);
