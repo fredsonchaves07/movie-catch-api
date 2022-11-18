@@ -9,20 +9,13 @@ import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlready
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.NameInvalidException;
 
-import java.util.regex.Pattern;
-
 public class CreateUserUseCase {
-
-    private static final String EMAIL_PATTERN = "" +
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)" +
-            "*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\." +
-            "[A-Za-z]{2,})$";
-
-    private static final Pattern PATTERN = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
 
     private UserRepository userRepository;
 
     private SendEmailService sendEmailService;
+
+    private User user;
 
     public CreateUserUseCase(UserRepository userRepository, SendEmailService sendEmailService) {
         this.userRepository = userRepository;
@@ -30,39 +23,26 @@ public class CreateUserUseCase {
     }
 
     public UserDTO execute(CreateUserDTO createUserDTO) {
+        createUser(createUserDTO);
+        if (!user.isNameValid()) throw new NameInvalidException();
+        if (!user.isEmailAndPasswordValid()) throw new EmailOrPasswordInvalidException();
+        if (emailAlreadyExist()) throw new EmailAlreadyExistException();
+        sendMail(user.getEmail());
+        return saveUser();
+    }
+
+    private void createUser(CreateUserDTO createUserDTO) {
         String name = createUserDTO.getName();
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
-        if (nameIsValid(name)) throw new NameInvalidException();
-        if (!isEmailAndPasswordValid(email, password)) throw new EmailOrPasswordInvalidException();
-        if (emailAlreadyExist(email)) throw new EmailAlreadyExistException();
-        UserDTO user = createUser(name, email, password);
-        sendMail(user.getEmail());
-        return user;
+        user = new User(name, email, password);
     }
 
-    private boolean nameIsValid(String name) {
-        return name == null;
+    private boolean emailAlreadyExist() {
+        return userRepository.findByEmail(user.getEmail()) != null;
     }
 
-    private boolean emailAlreadyExist(String email) {
-        return userRepository.findByEmail(email) != null;
-    }
-
-    private boolean isEmailAndPasswordValid(String email, String password) {
-        return emailIsValid(email) && passwordIsValid(password);
-    }
-
-    private boolean emailIsValid(String email) {
-        return email != null && PATTERN.matcher(email).matches();
-    }
-
-    private boolean passwordIsValid(String password) {
-        return password != null && password.length() >= 8 && (!password.contains(" "));
-    }
-
-    private UserDTO createUser(String name, String email, String password) {
-        User user = new User(name, email, password);
+    private UserDTO saveUser() {
         userRepository.save(user);
         return new UserDTO(user);
     }

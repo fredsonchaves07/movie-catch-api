@@ -8,10 +8,18 @@ import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "users")
 public class User {
+
+    private static final String EMAIL_PATTERN = "" +
+            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)" +
+            "*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\." +
+            "[A-Za-z]{2,})$";
+
+    private static final Pattern PATTERN = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
 
     @Id
     @GeneratedValue(generator = "uuid4")
@@ -93,6 +101,22 @@ public class User {
 
     public void confirmUser() {
         this.isConfirm = true;
+    }
+
+    public boolean isNameValid() {
+        return name != null;
+    }
+
+    public boolean isEmailAndPasswordValid() {
+        return isEmailValid() && isPasswordValid();
+    }
+
+    private boolean isEmailValid() {
+        return email != null && PATTERN.matcher(email).matches();
+    }
+
+    private boolean isPasswordValid() {
+        return password != null && password.length() >= 8 && (!password.contains(" "));
     }
 
     @Override
