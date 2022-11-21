@@ -24,9 +24,7 @@ public class CreateUserUseCase {
 
     public UserDTO execute(CreateUserDTO createUserDTO) {
         createUser(createUserDTO);
-        if (!user.isNameValid()) throw new NameInvalidException();
-        if (!user.isEmailAndPasswordValid()) throw new EmailOrPasswordInvalidException();
-        if (emailAlreadyExist()) throw new EmailAlreadyExistException();
+        validateUser();
         sendMail(user.getEmail());
         return saveUser();
     }
@@ -36,6 +34,12 @@ public class CreateUserUseCase {
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
         user = new User(name, email, password);
+    }
+
+    private void validateUser() {
+        if (!user.isNameValid()) throw new NameInvalidException();
+        if (!user.isEmailAndPasswordValid()) throw new EmailOrPasswordInvalidException();
+        if (emailAlreadyExist()) throw new EmailAlreadyExistException();
     }
 
     private boolean emailAlreadyExist() {
