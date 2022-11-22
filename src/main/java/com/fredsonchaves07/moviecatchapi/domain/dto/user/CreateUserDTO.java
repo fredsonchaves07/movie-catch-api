@@ -1,9 +1,18 @@
 package com.fredsonchaves07.moviecatchapi.domain.dto.user;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "User request body")
 public class CreateUserDTO {
 
+    @ApiModelProperty(required = true)
     private final String name;
+
+    @ApiModelProperty(required = true)
     private final String email;
+
+    @ApiModelProperty(required = true)
     private final String password;
 
     public CreateUserDTO(String name, String email, String password) {
