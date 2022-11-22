@@ -47,8 +47,7 @@ public class CreateUserServiceTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 CreateUserUseCaseException.class,
-                () -> userService.execute(createUserDTO),
-                "Expected CreateUserUseCaseException"
+                () -> userService.execute(createUserDTO)
         );
     }
 
@@ -60,8 +59,7 @@ public class CreateUserServiceTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 CreateUserUseCaseException.class,
-                () -> userService.execute(createUserDTO),
-                "Expected CreateUserUseCaseException"
+                () -> userService.execute(createUserDTO)
         );
     }
 
@@ -73,8 +71,7 @@ public class CreateUserServiceTest {
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
                 CreateUserUseCaseException.class,
-                () -> userService.execute(createUserDTO),
-                "Expected CreateUserUseCaseException"
+                () -> userService.execute(createUserDTO)
         );
     }
 
@@ -88,8 +85,7 @@ public class CreateUserServiceTest {
         CreateUserDTO secondUser = createUserDTO(name, email, password);
         assertThrows(
                 CreateUserUseCaseException.class,
-                () -> userService.execute(secondUser),
-                "Expected CreateUserUseCaseException"
+                () -> userService.execute(secondUser)
         );
     }
 }

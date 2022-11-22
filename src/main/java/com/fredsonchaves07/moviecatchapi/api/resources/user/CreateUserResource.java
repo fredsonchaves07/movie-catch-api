@@ -5,23 +5,32 @@ import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCas
 import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@Api(tags = {"User"})
+@Tag(name = "User", description = "User Resource")
 public class CreateUserResource {
 
     @Autowired
     private CreateUserAPIService createUserAPIService;
 
-    @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody CreateUserDTO createUserDTO) {
+    @PostMapping()
+    @ApiOperation(value = "Create a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad request")
+    })
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ResponseEntity<UserDTO> create(
+            @ApiParam(name = "User", value = "User body parameter")
+            @RequestBody CreateUserDTO createUserDTO
+    ) {
         try {
             UserDTO userDTO = createUserAPIService.execute(createUserDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);

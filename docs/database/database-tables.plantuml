@@ -1,0 +1,17 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+entity users {
+   id: bigint <<PK>>
+   email: varchar(255)
+   is_confirm: boolean() not null default false
+   name: varchar(255) not null
+   password: varchar(255) not null
+   created_at: timestamp() default now
+   updated_at: timestamp() default now
+}
+
+@enduml
