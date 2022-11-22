@@ -37,6 +37,7 @@ consulted [here](https://github.com/fredsonchaves07/movie-catch-api/projects/1)
 - [Junit5](https://junit.org/junit5/)
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
+- [Springfox](https://springfox.github.io/springfox/docs/current/)
 
 ## 🛠️ Installation and Configuration
 
@@ -73,13 +74,25 @@ DB_USERNAME=postgres
 DB_PASSWORD=1234
 ```
 
-run the command
+Run the command
 
 ```bash
 mvn test
 ```
 
 ## ⚙️ Running the Application
+
+Create the database `moviecatchdb` and then change the environment variable database credentials. Check
+example [.env-example](https://github.com/fredsonchaves07/movie-catch-api/blob/main/.env-example)
+
+```properties
+PROFILE_ACTIVE=dev
+DB_USERNAME=postgres
+DB_PASSWORD=1234
+```
+
+Run all available SQL scripts in the
+directory [scripts](https://github.com/fredsonchaves07/movie-catch-api/tree/main/scripts)
 
 Run Application in development mode after installation and configuration
 
