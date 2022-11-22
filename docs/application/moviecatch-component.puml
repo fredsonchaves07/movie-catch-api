@@ -28,10 +28,13 @@ Container_Boundary(api, "API Application") {
     Component(movie_rating, "Movie Rating Use Case", "", "User classifies watched movies by rating")
     Component(user_management, "Management user info Use Case", "", "User will be able to edit their basic information")
     Component(movie_list_get, "List User movie list Use Case", "", "User will be able to view lists of other users")
+    Component(confirm_user, "Confirm User Use case", "", "The user must confirm the registration in his email")
+    Component(recover_user, "Password recovery Use case", "", "User recovers his access data")
 }
 
 Rel(email_service, email, "Sends-email using", "SMTP")
 Rel(register_user_usecase, email_service, "Uses")
+Rel(recover_user, email_service, "Uses")
 Rel(list_movies, list_movies_service, "Uses")
 Rel(list_movies_service, movie_api_external, "Gets movie data and information", "JSON")
 
@@ -45,7 +48,8 @@ Rel(web_app, movie_wantwatch, "Makes API calls to", "JSON")
 Rel(web_app, movie_rating, "Makes API calls to", "JSON")
 Rel(web_app, user_management, "Makes API calls to", "JSON")
 Rel(web_app, movie_list_get, "Makes API calls to", "JSON")
-
+Rel(web_app, confirm_user, "Makes API calls to", "JSON")
+Rel(web_app, recover_user, "Makes API calls to", "JSON")
 
 Rel(authentication_usecase, db, "Recover user data", "Spring Data / JPA")
 Rel(register_user_usecase, db, "Register a new user", "Spring Data / JPA")
@@ -56,6 +60,8 @@ Rel(movie_wantwatch, db, "Management of movies want to watch", "Spring Data / JP
 Rel(movie_rating, db, "Movie rating", "Spring Data / JPA")
 Rel(user_management, db, "Management user info", "Spring Data / JPA")
 Rel(movie_list_get, db, "List users list movie", "Spring Data / JPA")
+Rel(confirm_user, db, "Confirm user", "Spring Data / JPA")
+Rel(recover_user, db, "Recover user data", "Spring Data / JPA")
 
 
 LAYOUT_LEFT_RIGHT()

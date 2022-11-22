@@ -21,6 +21,9 @@ System_Boundary(site, "Web Application") {
 }
 
 Rel(user, web_app, "Manage your movie lists", "HTTPS")
+Rel(user, web_app, "Create an account on the platform", "HTTPS")
+Rel(user, web_app, "Confirm user by email", "HTTPS")
+Rel(user, web_app, "Retrieve your account data", "HTTPS")
 Rel(api, email, "Sends-email using", "SMTP")
 Rel(email, user, "Sends e-mail to", "SMTP")
 Rel(api, movie_api_external, "Gets movie data and information", "JSON")

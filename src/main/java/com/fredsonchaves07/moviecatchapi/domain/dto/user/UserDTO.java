@@ -1,19 +1,13 @@
 package com.fredsonchaves07.moviecatchapi.domain.dto.user;
 
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
+import io.swagger.annotations.ApiModel;
 
+@ApiModel(value = "User response body")
 public class UserDTO {
 
     private String name;
     private String email;
-
-    public UserDTO() {
-    }
-
-    public UserDTO(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
 
     public UserDTO(User user) {
         this.name = user.getName();
