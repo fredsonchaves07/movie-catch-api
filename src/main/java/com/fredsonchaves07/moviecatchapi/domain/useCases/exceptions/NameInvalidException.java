@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions;
 
-public class NameInvalidException extends DomainUseCaseException {
+public final class NameInvalidException extends DomainUseCaseException {
 
     private static final String type = "NameValidError";
     private static final String title = "Name not provided or invalid";

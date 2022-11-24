@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions;
 
-public class EmailOrPasswordInvalidException extends DomainUseCaseException {
+public final class EmailOrPasswordInvalidException extends DomainUseCaseException {
 
     private static final String type = "EmailOrPasswordInvalidError";
     private static final String title = "Email or password invalid";

@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions;
 
-public class EmailAlreadyExistException extends DomainUseCaseException {
+public final class EmailAlreadyExistException extends DomainUseCaseException {
 
     private static final String type = "EmailAlreadyExistError";
     private static final String title = "Email already exist";
