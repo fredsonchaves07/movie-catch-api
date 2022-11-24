@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.domain.useCases;
+package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
@@ -8,6 +8,7 @@ import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.NameInvalidException;
+import org.springframework.transaction.annotation.Transactional;
 
 public class CreateUserUseCase {
 
@@ -22,6 +23,7 @@ public class CreateUserUseCase {
         this.sendEmailService = sendEmailService;
     }
 
+    @Transactional
     public UserDTO execute(CreateUserDTO createUserDTO) {
         createUser(createUserDTO);
         validateUser();
