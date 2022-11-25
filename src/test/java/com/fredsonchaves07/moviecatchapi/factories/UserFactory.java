@@ -1,6 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.factories;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 
 public class UserFactory {
@@ -11,6 +12,10 @@ public class UserFactory {
 
     public static CreateUserDTO createUserDTO(String name, String email, String password) {
         return new CreateUserDTO(name, email, password);
+    }
+
+    public static UserDTO userDTO() {
+        return new UserDTO(createUser());
     }
 
     public static User createUser() {
