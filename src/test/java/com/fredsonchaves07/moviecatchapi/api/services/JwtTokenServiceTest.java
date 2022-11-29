@@ -75,4 +75,12 @@ public class JwtTokenServiceTest {
                 () -> tokenService.decrypt(expiredToken)
         );
     }
+
+    @Test
+    public void notShouldValidTokenIfUserIsNull() {
+        assertThrows(
+                TokenException.class,
+                () -> tokenService.encrypt(null)
+        );
+    }
 }

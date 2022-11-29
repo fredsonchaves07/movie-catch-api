@@ -23,18 +23,23 @@ public class JwtTokenService implements TokenService {
 
     @Override
     public TokenDTO encrypt(UserDTO userDTO) {
-        String token = JWT.create()
-                .withSubject(userDTO.getEmail())
-                .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + tokenExpiration))
-                .sign(Algorithm.HMAC512(tokenSecret));
-        return new TokenDTO(token);
+        try {
+            if (userDTO == null) throw new TokenException("User not found");
+            String token = JWT.create()
+                    .withSubject(userDTO.getEmail())
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(new Date(System.currentTimeMillis() + tokenExpiration))
+                    .sign(Algorithm.HMAC512(tokenSecret));
+            return new TokenDTO(token);
+        } catch (JWTVerificationException exception) {
+            throw new TokenException(exception.getMessage());
+        }
     }
 
     @Override
     public String decrypt(TokenDTO token) {
         try {
-            if (token == null) throw new TokenException("Token is null");
+            if (token == null) throw new TokenException("Token not found");
             return JWT
                     .require(Algorithm.HMAC512(tokenSecret))
                     .build()
