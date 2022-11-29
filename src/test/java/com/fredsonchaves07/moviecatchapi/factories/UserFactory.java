@@ -18,6 +18,10 @@ public class UserFactory {
         return new UserDTO(createUser());
     }
 
+    public static UserDTO userDTO(String name, String email) {
+        return new UserDTO(name, email);
+    }
+
     public static User createUser() {
         User user = new User();
         user.setName("User test");
