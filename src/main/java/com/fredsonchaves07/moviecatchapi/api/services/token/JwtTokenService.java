@@ -2,9 +2,12 @@ package com.fredsonchaves07.moviecatchapi.api.services.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.service.exception.TokenException;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -12,31 +15,33 @@ import java.util.Date;
 @Component
 public class JwtTokenService implements TokenService {
 
-    private final static int TOKEN_EXPIRATION = 7200000;
+    @Value("${jwt.token.expiration}")
+    private int tokenExpiration;
 
-    private final static String TOKEN_SECRET = "6728e122-6479-4834-8211-6e1a66838870";
+    @Value("${jwt.token.secret}")
+    private String tokenSecret;
 
     @Override
-    public String encrypt(UserDTO userDTO) {
-        return JWT.create()
+    public TokenDTO encrypt(UserDTO userDTO) {
+        String token = JWT.create()
                 .withSubject(userDTO.getEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION))
-                .sign(Algorithm.HMAC512(TOKEN_SECRET));
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis() + tokenExpiration))
+                .sign(Algorithm.HMAC512(tokenSecret));
+        return new TokenDTO(token);
     }
 
     @Override
-    public String decrypt(String token) {
-        if (isValid(token)) return null;
-
-    }
-
-    private boolean isValid(String token) {
+    public String decrypt(TokenDTO token) {
         try {
-            JWT.decode(token).getSubject();
-            return true;
-        } catch (JWTDecodeException exception) {
-            return false;
+            if (token == null) throw new TokenException("Token is null");
+            return JWT
+                    .require(Algorithm.HMAC512(tokenSecret))
+                    .build()
+                    .verify(token.getToken())
+                    .getSubject();
+        } catch (JWTVerificationException exception) {
+            throw new TokenException(exception.getMessage());
         }
     }
-
 }
