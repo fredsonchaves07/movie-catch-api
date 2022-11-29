@@ -8,26 +8,26 @@ import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.NameInvalidException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Component
 public class CreateUserUseCase {
 
+    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private SendEmailService sendEmailService;
 
     private User user;
-
-    public CreateUserUseCase(UserRepository userRepository, SendEmailService sendEmailService) {
-        this.userRepository = userRepository;
-        this.sendEmailService = sendEmailService;
-    }
 
     @Transactional
     public UserDTO execute(CreateUserDTO createUserDTO) {
         createUser(createUserDTO);
         validateUser();
-        sendMail(user.getEmail());
+        sendMail();
         return saveUser();
     }
 
@@ -53,9 +53,9 @@ public class CreateUserUseCase {
         return new UserDTO(user);
     }
 
-    private void sendMail(String email) {
+    private void sendMail() {
         String content = "Olá! Tudo bem?\nPara confirmar seu cadastro por favor clique no link abaixo\n";
         String subject = "Bem vindo ao moviecatch";
-        sendEmailService.send(subject, email, content);
+        sendEmailService.send(subject, user.getEmail(), content);
     }
 }
