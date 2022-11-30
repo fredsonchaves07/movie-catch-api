@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @Api(tags = {"User"})
 @Tag(name = "User", description = "User Resource")
-public class CreateUserResource {
+public class CreateUserApiResource {
 
     @Autowired
     private CreateUserAPIService createUserAPIService;
