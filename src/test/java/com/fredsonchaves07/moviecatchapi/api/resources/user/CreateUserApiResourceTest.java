@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CreateUserResourceTest {
+public class CreateUserApiResourceTest {
 
     @Autowired
     private MockMvc mockMvc;
