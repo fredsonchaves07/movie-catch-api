@@ -13,7 +13,7 @@ import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUser
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class CreateUserServiceTest {
+public class CreateUserApiServiceTest {
 
     @Autowired
     private UserRepository userRepository;

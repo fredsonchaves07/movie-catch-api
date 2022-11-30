@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.api.services;
+package com.fredsonchaves07.moviecatchapi.api.services.token;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
