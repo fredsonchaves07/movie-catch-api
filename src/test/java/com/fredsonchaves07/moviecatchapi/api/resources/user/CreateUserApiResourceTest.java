@@ -110,6 +110,7 @@ public class CreateUserApiResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.type").value("EmailAlreadyExistError"))
                 .andExpect(jsonPath("$.title").value("Email already exist"))

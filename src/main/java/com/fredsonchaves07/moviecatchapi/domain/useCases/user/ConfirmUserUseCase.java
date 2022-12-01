@@ -1,6 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.exception.TokenException;
@@ -24,13 +25,14 @@ public class ConfirmUserUseCase {
     private User user;
 
     @Transactional
-    public void execute(TokenDTO token) {
+    public UserDTO execute(TokenDTO token) {
         try {
             user = getUserDecriptedByToken(token);
             if (userIsNotFound()) throw new UserNotFoundException();
             if (isConfirmed()) throw new UserAlreadyConfirmedException();
             user.confirmUser();
             userRepository.save(user);
+            return new UserDTO(user);
         } catch (TokenException tokenException) {
             throw new TokenExpiredOrInvalidException();
         }

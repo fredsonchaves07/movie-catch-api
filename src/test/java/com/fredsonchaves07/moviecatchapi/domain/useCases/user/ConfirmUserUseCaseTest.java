@@ -14,8 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.userDTO;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ConfirmUserUseCaseTest {
@@ -34,17 +33,21 @@ public class ConfirmUserUseCaseTest {
 
     private TokenDTO tokenDTO;
 
+    private UserDTO userDTO;
+
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
-        UserDTO userDTO = createUserUseCase.execute(createUserDTO());
+        userDTO = createUserUseCase.execute(createUserDTO());
         tokenDTO = tokenService.encrypt(userDTO);
     }
 
     @Test
     public void shouldConfirmUser() {
-        confirmUserUseCase.execute(tokenDTO);
-        assertTrue(true);
+        UserDTO confirmedUser = confirmUserUseCase.execute(tokenDTO);
+        assertNotNull(confirmedUser);
+        assertEquals(userDTO.getName(), confirmedUser.getName());
+        assertEquals(userDTO.getEmail(), confirmedUser.getEmail());
     }
 
     @Test
