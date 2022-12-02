@@ -11,4 +11,8 @@ public class ResourceNotFoundException extends ApiException {
     public ResourceNotFoundException(String detail) {
         super(codStatus, type, title, detail);
     }
+
+    public ResourceNotFoundException(String type, String title, String detail) {
+        super(codStatus, type, title, detail);
+    }
 }

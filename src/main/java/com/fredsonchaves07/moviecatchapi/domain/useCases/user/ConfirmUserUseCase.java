@@ -24,17 +24,21 @@ public class ConfirmUserUseCase {
 
     @Transactional
     public UserDTO execute(TokenDTO token) {
-        user = getUserDecriptedByToken(token);
+        decryptedUserByToken(token);
         if (userIsNotFound()) throw new UserNotFoundException();
         if (isConfirmed()) throw new UserAlreadyConfirmedException();
-        user.confirmUser();
-        userRepository.save(user);
+        confirmUser();
         return new UserDTO(user);
     }
 
-    private User getUserDecriptedByToken(TokenDTO token) {
+    private void decryptedUserByToken(TokenDTO token) {
         String email = tokenService.decrypt(token);
-        return userRepository.findByEmail(email);
+        user = userRepository.findByEmail(email);
+    }
+
+    private void confirmUser() {
+        user.confirmUser();
+        userRepository.save(user);
     }
 
     private boolean isConfirmed() {

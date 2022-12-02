@@ -17,11 +17,11 @@ public class CreateUserAPIService {
     private CreateUserUseCase createUserUseCase;
 
     public UserDTO execute(CreateUserDTO createUserDTO) {
+
         try {
             return createUserUseCase.execute(createUserDTO);
         } catch (NameInvalidException | EmailOrPasswordInvalidException | EmailAlreadyExistException exception) {
             throw new BadRequestException(exception.getType(), exception.getTitle(), exception.getMessage());
         }
-
     }
 }
