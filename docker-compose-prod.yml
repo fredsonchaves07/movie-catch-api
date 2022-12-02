@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - PROFILE_ACTIVE=docker
+      - PROFILE_ACTIVE=prod
     links:
       - movie-catch-database
     depends_on:
