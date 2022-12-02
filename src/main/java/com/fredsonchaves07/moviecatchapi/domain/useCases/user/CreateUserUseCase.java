@@ -23,12 +23,15 @@ public class CreateUserUseCase {
 
     private User user;
 
+    private UserDTO userDTO;
+
     @Transactional
     public UserDTO execute(CreateUserDTO createUserDTO) {
         createUser(createUserDTO);
         validateUser();
         sendMail();
-        return saveUser();
+        saveUser();
+        return userDTO;
     }
 
     private void createUser(CreateUserDTO createUserDTO) {
@@ -48,13 +51,16 @@ public class CreateUserUseCase {
         return userRepository.findByEmail(user.getEmail()) != null;
     }
 
-    private UserDTO saveUser() {
+    private void saveUser() {
         userRepository.save(user);
-        return new UserDTO(user);
+        userDTO = new UserDTO(user);
     }
 
     private void sendMail() {
-        String content = "Olá! Tudo bem?\nPara confirmar seu cadastro por favor clique no link abaixo\n";
+        String content = """
+                Olá! Tudo bem?
+                Para confirmar seu cadastro por favor clique no link abaixo\n
+                """;
         String subject = "Bem vindo ao moviecatch";
         sendEmailService.send(subject, user.getEmail(), content);
     }
