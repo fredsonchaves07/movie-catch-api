@@ -8,6 +8,7 @@ import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordInvali
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.NameInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
+import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ public class CreateUserUseCase {
 
     @Autowired
     private SendEmailService sendEmailService;
+
+    @Autowired
+    private TokenService tokenService;
 
     private User user;
 
@@ -57,9 +61,10 @@ public class CreateUserUseCase {
     }
 
     private void sendMail() {
+        String token = tokenService.encrypt(userDTO).getToken();
         String content = """
                 Olá! Tudo bem?
-                Para confirmar seu cadastro por favor clique no link abaixo\n
+                Para confirmar seu cadastro por favor clique no link abaixo
                 """;
         String subject = "Bem vindo ao moviecatch";
         sendEmailService.send(subject, user.getEmail(), content);
