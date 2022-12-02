@@ -1,11 +1,11 @@
-package com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions;
+package com.fredsonchaves07.moviecatchapi.domain.exceptions;
 
-public abstract class DomainUseCaseException extends RuntimeException {
+public abstract class DomainException extends RuntimeException {
 
     private final String type;
     private final String title;
 
-    public DomainUseCaseException(String type, String title, String detail) {
+    public DomainException(String type, String title, String detail) {
         super(detail);
         this.type = type;
         this.title = title;

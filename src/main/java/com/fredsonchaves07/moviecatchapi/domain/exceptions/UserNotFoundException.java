@@ -1,6 +1,6 @@
-package com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions;
+package com.fredsonchaves07.moviecatchapi.domain.exceptions;
 
-public final class UserNotFoundException extends DomainUseCaseException {
+public final class UserNotFoundException extends DomainException {
 
     private static final String type = "UserNotFoundError";
     private static final String title = "User not found";

@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.domain.service.mail;
 
-import com.fredsonchaves07.moviecatchapi.domain.service.exception.SendEmailException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.SendEmailException;
 
 public interface SendEmailService {
 

@@ -3,12 +3,10 @@ package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserAlreadyConfirmedException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
-import com.fredsonchaves07.moviecatchapi.domain.service.exception.TokenException;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.TokenExpiredOrInvalidException;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.UserAlreadyConfirmedException;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,16 +24,12 @@ public class ConfirmUserUseCase {
 
     @Transactional
     public UserDTO execute(TokenDTO token) {
-        try {
-            user = getUserDecriptedByToken(token);
-            if (userIsNotFound()) throw new UserNotFoundException();
-            if (isConfirmed()) throw new UserAlreadyConfirmedException();
-            user.confirmUser();
-            userRepository.save(user);
-            return new UserDTO(user);
-        } catch (TokenException tokenException) {
-            throw new TokenExpiredOrInvalidException();
-        }
+        user = getUserDecriptedByToken(token);
+        if (userIsNotFound()) throw new UserNotFoundException();
+        if (isConfirmed()) throw new UserAlreadyConfirmedException();
+        user.confirmUser();
+        userRepository.save(user);
+        return new UserDTO(user);
     }
 
     private User getUserDecriptedByToken(TokenDTO token) {

@@ -2,7 +2,9 @@ package com.fredsonchaves07.moviecatchapi.api.services.token;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
-import com.fredsonchaves07.moviecatchapi.domain.service.exception.TokenException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.ExpiredTokenException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.InvalidTokenException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,7 +51,7 @@ public class JwtTokenServiceTest {
     @Test
     public void notShouldValidTokenIfTokenIsNull() {
         assertThrows(
-                TokenException.class,
+                InvalidTokenException.class,
                 () -> tokenService.decrypt(null)
         );
     }
@@ -60,7 +62,7 @@ public class JwtTokenServiceTest {
                 "eyJzdWIiOiJ1c2VyQGVtYWlsLmNvbSIsImV4cCI6eTY2OTQ3MzMyM30." +
                 "Bb-HcCS0EYGvczEmZgxjnz-_jo9hVDfecmAMLBuSQzgHefBv-EZCKXkb8F8GEmcgvTw6By0fwiwPz8ooz5mwwg");
         assertThrows(
-                TokenException.class,
+                InvalidTokenException.class,
                 () -> tokenService.decrypt(invalidToken)
         );
     }
@@ -68,10 +70,10 @@ public class JwtTokenServiceTest {
     @Test
     public void notShouldValidTokenExpired() {
         TokenDTO expiredToken = new TokenDTO("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9." +
-                "eyJzdWIiOiJ1c2VyQGVtYWlsLmNvbSIsImV4cCI6MTY2OTQ3NDkwOSwiaWF0IjoxNjY5NDc0OTA5fQ." +
-                "bNd5hND3oUbUHLrrBtXZ7w-m6reqyRVyT-TlS92_yoi4zNHH6FdsXppJtQtGhm06LgihSt9PbGjZG4SydpA4mg");
+                "eyJzdWIiOiJ1c2VyQGVtYWlsLmNvbSIsImV4cCI6MTY2OTk0MjY5NiwiaWF0IjoxNjY5OTQyNjk2fQ." +
+                "oC3X-neXhHqxbc1hN09ctA0P2cLG5eMVDdugg50xpjBZg6Fp2oQJdjKc08WYvDjCJzA-1k6XdlqNMx1Vq3rrVw");
         assertThrows(
-                TokenException.class,
+                ExpiredTokenException.class,
                 () -> tokenService.decrypt(expiredToken)
         );
     }
@@ -79,7 +81,7 @@ public class JwtTokenServiceTest {
     @Test
     public void notShouldValidTokenIfUserIsNull() {
         assertThrows(
-                TokenException.class,
+                UserNotFoundException.class,
                 () -> tokenService.encrypt(null)
         );
     }

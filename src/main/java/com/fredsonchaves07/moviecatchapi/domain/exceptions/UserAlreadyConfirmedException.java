@@ -1,6 +1,6 @@
-package com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions;
+package com.fredsonchaves07.moviecatchapi.domain.exceptions;
 
-public final class UserAlreadyConfirmedException extends DomainUseCaseException {
+public final class UserAlreadyConfirmedException extends DomainException {
 
     private static final String type = "UserAlreadyConfirmedError";
     private static final String title = "User has already been confirmed";

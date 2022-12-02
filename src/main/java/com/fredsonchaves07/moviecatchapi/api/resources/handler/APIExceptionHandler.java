@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.resources.handler;
 
-import com.fredsonchaves07.moviecatchapi.api.resources.exception.*;
+import com.fredsonchaves07.moviecatchapi.api.exception.*;
 import com.fredsonchaves07.moviecatchapi.api.resources.logger.ApiErrorLogger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -54,6 +54,13 @@ public class APIExceptionHandler {
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
         StandardError standardError = getStandardError(exception, instance);
         ApiErrorLogger.generateLog(error);
+        return ResponseEntity.status(standardError.getStatus()).body(standardError);
+    }
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<StandardError> apiException(ApiException error, WebRequest request) {
+        String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
+        StandardError standardError = getStandardError(error, instance);
         return ResponseEntity.status(standardError.getStatus()).body(standardError);
     }
 

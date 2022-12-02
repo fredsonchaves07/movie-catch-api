@@ -1,6 +1,9 @@
 package com.fredsonchaves07.moviecatchapi.api.services.user;
 
-import com.fredsonchaves07.moviecatchapi.api.services.exception.ConfirmUserUseCaseException;
+import com.fredsonchaves07.moviecatchapi.api.exception.ApiExpiredTokenException;
+import com.fredsonchaves07.moviecatchapi.api.exception.ApiInvalidTokenException;
+import com.fredsonchaves07.moviecatchapi.api.exception.ApiUserNotFoundException;
+import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
@@ -52,7 +55,7 @@ public class ConfirmUserApiServiceTest {
     public void notShouldConfirmUserIfUserIsConfirmed() {
         confirmUserApiService.execute(token);
         assertThrows(
-                ConfirmUserUseCaseException.class,
+                BadRequestException.class,
                 () -> confirmUserApiService.execute(token)
         );
     }
@@ -61,7 +64,7 @@ public class ConfirmUserApiServiceTest {
     public void notShoulConfirmUserIfUserIsNotFound() {
         token = tokenService.encrypt(userDTO("usertest2", "usertest2@email.com")).getToken();
         assertThrows(
-                ConfirmUserUseCaseException.class,
+                ApiUserNotFoundException.class,
                 () -> confirmUserApiService.execute(token)
         );
     }
@@ -69,7 +72,7 @@ public class ConfirmUserApiServiceTest {
     @Test
     public void notShouldConfirmUserIfTokenIsNull() {
         assertThrows(
-                ConfirmUserUseCaseException.class,
+                ApiInvalidTokenException.class,
                 () -> confirmUserApiService.execute(null)
         );
     }
@@ -77,10 +80,10 @@ public class ConfirmUserApiServiceTest {
     @Test
     public void notShouldConfirmUserWithExpiredToken() {
         String expiredToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9." +
-                "eyJzdWIiOiJ1c2VyQGVtYWlsLmNvbSIsImV4cCI6MTY2OTQ3NDkwOSwiaWF0IjoxNjY5NDc0OTA5fQ." +
-                "bNd5hND3oUbUHLrrBtXZ7w-m6reqyRVyT-TlS92_yoi4zNHH6FdsXppJtQtGhm06LgihSt9PbGjZG4SydpA4mg";
+                "eyJzdWIiOiJ1c2VyQGVtYWlsLmNvbSIsImV4cCI6MTY2OTk0MjY5NiwiaWF0IjoxNjY5OTQyNjk2fQ." +
+                "oC3X-neXhHqxbc1hN09ctA0P2cLG5eMVDdugg50xpjBZg6Fp2oQJdjKc08WYvDjCJzA-1k6XdlqNMx1Vq3rrVw";
         assertThrows(
-                ConfirmUserUseCaseException.class,
+                ApiExpiredTokenException.class,
                 () -> confirmUserApiService.execute(expiredToken)
         );
     }
@@ -91,7 +94,7 @@ public class ConfirmUserApiServiceTest {
                 "eyJzdWIiOiJ1c2VyQGVtYWlsLmNvbSIsImV4cCI6eTY2OTQ3MzMyM30." +
                 "Bb-HcCS0EYGvczEmZgxjnz-_jo9hVDfecmAMLBuSQzgHefBv-EZCKXkb8F8GEmcgvTw6By0fwiwPz8ooz5mwwg";
         assertThrows(
-                ConfirmUserUseCaseException.class,
+                ApiInvalidTokenException.class,
                 () -> confirmUserApiService.execute(invalidToken)
         );
     }

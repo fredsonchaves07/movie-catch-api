@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.domain.service.exception;
+package com.fredsonchaves07.moviecatchapi.domain.exceptions;
 
 public class SendEmailException extends RuntimeException {
 
