@@ -27,7 +27,6 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-          ARGS: "-rltgodzv0 --delete"
           SOURCE: "./"
           REMOTE_HOST: ${{secrets.REMOTE_HOST}}
           REMOTE_USER: ${{secrets.REMOTE_USER}}
