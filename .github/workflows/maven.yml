@@ -9,7 +9,6 @@ on:
 jobs:
   java:
     name: build java
-
     runs-on: ubuntu-latest
 
     steps:
@@ -26,20 +25,9 @@ jobs:
           PROFILE_ACTIVE: 'test'
         run: mvn clean install
 
-  #      - name: Build & push Docker image
-  #        uses: mr-smithers-excellent/docker-build-push@v5
-  #        with:
-  #          image: fredsonchaves07/movie-catch-api
-  #          tags: latest
-  #          registry: docker.io
-  #          dockerfile: Dockerfile
-  #          username: ${{ secrets.DOCKER_USERNAME }}
-  #          password: ${{ secrets.DOCKER_PASSWORD }}
-
   docker:
 
     runs-on: ubuntu-latest
-
     name: build docker image
     needs: java
 
