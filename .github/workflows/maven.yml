@@ -39,7 +39,6 @@ jobs:
   docker:
     name: build docker image
     needs: java
-    depends: java
 
     steps:
       - name: Build & push Docker image
