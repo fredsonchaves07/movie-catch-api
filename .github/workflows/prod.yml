@@ -69,6 +69,6 @@ jobs:
             cd ~
             cd movie-catch-api
             git pull
-            docker image rm fredsonchaves07/movie-catch-api:latest
             docker-compose stop
+            docker image rm fredsonchaves07/movie-catch-api:latest
             docker-compose -f docker-compose-prod.yml up -d

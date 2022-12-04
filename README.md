@@ -1,6 +1,6 @@
 # movie-catch-api
 
-[![CI/CD for Prod Heroku](https://github.com/fredsonchaves07/movie-catch-api/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/fredsonchaves07/movie-catch-api/actions/workflows/prod.yml)
+[![CI/CD for Prod Heroku](https://github.com/fredsonchaves07/movie-catch-api/actions/workflows/prod.yml/badge.svg?branch=main)](https://github.com/fredsonchaves07/movie-catch-api/actions/workflows/prod.yml)
 
 🍿 create, manage and rate movies and series api
 
