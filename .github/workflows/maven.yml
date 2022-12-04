@@ -17,17 +17,17 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'
+          distribution: 'oracle'
           cache: maven
       - name: Run tests and build project
         env:
           PROFILE_ACTIVE: 'test'
         run: mvn package
-      - name: Application deploy
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-          SOURCE: "./"
-          REMOTE_HOST: ${{secrets.REMOTE_HOST}}
-          REMOTE_USER: ${{secrets.REMOTE_USER}}
-          TARGET: ${{secrets.TARGET_DIR}}
+#      - name: Application deploy
+#        uses: easingthemes/ssh-deploy@main
+#        env:
+#          SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
+#          SOURCE: "./"
+#          REMOTE_HOST: ${{secrets.REMOTE_HOST}}
+#          REMOTE_USER: ${{secrets.REMOTE_USER}}
+#          TARGET: ${{secrets.TARGET_DIR}}
