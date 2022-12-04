@@ -1,11 +1,12 @@
 version: "3"
 services:
   movie-catch-api:
-    image: fredsonchaves07/movie-catch-api
+    build: .
+    #    image: fredsonchaves07/movie-catch-api
     container_name: movie-catch-api
     restart: always
     ports:
-      - "8080:8080"
+      - "80:443"
     environment:
       - PROFILE_ACTIVE=prod
     links:
@@ -20,9 +21,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: '${DB_USERNAME}'
-      POSTGRES_PASSWORD: '${DB_PASSWORD}'
-      POSTGRES_DB: '${DB_DATABASE}'
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=movie-catch
     volumes:
       - pgdata:/data/postgres
       - ./scripts:/docker-entrypoint-initdb.d/
