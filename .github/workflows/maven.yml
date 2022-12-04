@@ -8,6 +8,7 @@ on:
 
 jobs:
   build java:
+    name: build java
 
     runs-on: ubuntu-latest
 
@@ -25,6 +26,8 @@ jobs:
         run: mvn clean install
 
   build docker image:
+    name: build docker image
+    needs: build java
 
     runs-on: ubuntu-latest
 
