@@ -1,7 +1,7 @@
 version: "3"
 services:
   movie-catch-api:
-    build: fredsonchaves07/movie-catch-api
+    image: fredsonchaves07/movie-catch-api
     container_name: movie-catch-api
     restart: always
     ports:
