@@ -27,7 +27,7 @@ jobs:
 
   docker:
     name: build docker image
-    needs: build java
+    needs: java
 
     runs-on: ubuntu-latest
 
