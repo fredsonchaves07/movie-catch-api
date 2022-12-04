@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build java:
 
     runs-on: ubuntu-latest
 
@@ -22,12 +22,17 @@ jobs:
       - name: Run tests and build project
         env:
           PROFILE_ACTIVE: 'test'
-        run: mvn package
-#      - name: Application deploy
-#        uses: easingthemes/ssh-deploy@main
-#        env:
-#          SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-#          SOURCE: "./"
-#          REMOTE_HOST: ${{secrets.REMOTE_HOST}}
-#          REMOTE_USER: ${{secrets.REMOTE_USER}}
-#          TARGET: ${{secrets.TARGET_DIR}}
+        run: mvn clean install
+
+  build docker image:
+
+    steps:
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Docker image
+        with:
+          image: fredsonchaves07/movie-catch-api
+          tags: latest
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
