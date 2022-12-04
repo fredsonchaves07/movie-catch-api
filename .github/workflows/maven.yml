@@ -26,6 +26,22 @@ jobs:
           PROFILE_ACTIVE: 'test'
         run: mvn clean install
 
+  #      - name: Build & push Docker image
+  #        uses: mr-smithers-excellent/docker-build-push@v5
+  #        with:
+  #          image: fredsonchaves07/movie-catch-api
+  #          tags: latest
+  #          registry: docker.io
+  #          dockerfile: Dockerfile
+  #          username: ${{ secrets.DOCKER_USERNAME }}
+  #          password: ${{ secrets.DOCKER_PASSWORD }}
+
+  docker:
+    name: build docker image
+    needs: java
+    depends: java
+
+    steps:
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
@@ -35,20 +51,3 @@ jobs:
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-#  docker:
-#    name: build docker image
-#    needs: java
-#
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: mr-smithers-excellent/docker-build-push@v5
-#        name: Build & push Docker image
-#        with:
-#          image: fredsonchaves07/movie-catch-api
-#          tags: latest
-#          registry: docker.io
-#          dockerfile: Dockerfile
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
