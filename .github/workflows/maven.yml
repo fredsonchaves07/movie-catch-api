@@ -37,6 +37,9 @@ jobs:
   #          password: ${{ secrets.DOCKER_PASSWORD }}
 
   docker:
+
+    runs-on: ubuntu-latest
+
     name: build docker image
     needs: java
 
