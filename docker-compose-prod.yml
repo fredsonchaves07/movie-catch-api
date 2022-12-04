@@ -20,9 +20,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=movie-catch
-      - POSTGRES_DB=moviecatchdb
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DATABASE_URL_JPA}
     volumes:
       - pgdata:/data/postgres
       - ./scripts:/docker-entrypoint-initdb.d/
