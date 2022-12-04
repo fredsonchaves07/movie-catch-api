@@ -22,7 +22,7 @@ services:
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DATABASE_URL_JPA}
+      - POSTGRES_DB=${DB_DATABASE}
     volumes:
       - pgdata:/data/postgres
       - ./scripts:/docker-entrypoint-initdb.d/
