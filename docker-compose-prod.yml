@@ -22,7 +22,7 @@ services:
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=1234
-      - POSTGRES_DB=movie-catch
+      - POSTGRES_DB=moviecatchdb
     volumes:
       - pgdata:/data/postgres
       - ./scripts:/docker-entrypoint-initdb.d/
