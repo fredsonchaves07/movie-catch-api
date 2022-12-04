@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     name: deploy application
     needs: docker
-    steeps:
+    steps:
       - name: SSH deploy
         uses: appleboy/ssh-action@master
         with:
