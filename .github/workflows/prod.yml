@@ -53,21 +53,21 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-#  deploy:
-#    runs-on: ubuntu-latest
-#    name: deploy application
-#    needs: docker
-#    steeps:
-#      - name: SSH deploy
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.DEPLOY_HOST }}
-#          username:  ${{ secrets.DEPLOY_USER }}
-#          key:  ${{ secrets.DEPLOY_KEY }}
-#          port:  ${{ secrets.DEPLOY_PORT }}
-#          script: |
-#             cd ~
-#             cd movie-catch-api
-#             git pull
-#             docker-compose stop
-#             docker-compose -f docker-compose-prod.yml up -d
+  deploy:
+    runs-on: ubuntu-latest
+    name: deploy application
+    needs: docker
+    steeps:
+      - name: SSH deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          script: |
+            cd ~
+            cd movie-catch-api
+            git pull
+            docker-compose stop
+            docker-compose -f docker-compose-prod.yml up -d
