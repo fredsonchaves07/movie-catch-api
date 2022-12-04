@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build java:
+  java:
     name: build java
 
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
           PROFILE_ACTIVE: 'test'
         run: mvn clean install
 
-  build docker image:
+  docker:
     name: build docker image
     needs: build java
 
