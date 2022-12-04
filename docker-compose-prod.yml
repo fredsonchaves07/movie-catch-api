@@ -1,13 +1,13 @@
 version: "3"
 services:
   movie-catch-api:
-    image: fredsonchaves07/movie-catch-api
+    build: fredsonchaves07/movie-catch-api
     container_name: movie-catch-api
     restart: always
     ports:
       - "8080:8080"
     environment:
-      - PROFILE_ACTIVE=docker
+      - PROFILE_ACTIVE=prod
     links:
       - movie-catch-database
     depends_on:
