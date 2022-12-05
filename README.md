@@ -1,10 +1,10 @@
 # movie-catch-api
 
-[![CI/CD for Prod Heroku](https://github.com/fredsonchaves07/movie-catch-api/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/fredsonchaves07/movie-catch-api/actions/workflows/maven.yml)
+[![CI/CD for Prod Heroku](https://github.com/fredsonchaves07/movie-catch-api/actions/workflows/prod.yml/badge.svg?branch=main)](https://github.com/fredsonchaves07/movie-catch-api/actions/workflows/prod.yml)
 
 🍿 create, manage and rate movies and series api
 
-https://movie-catch-api.herokuapp.com/
+http://ec2-18-209-167-114.compute-1.amazonaws.com/
 
 ## 📌 Content
 

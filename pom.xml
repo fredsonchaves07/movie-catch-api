@@ -75,6 +75,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>movie-catch-api</finalName>
     </build>
-
 </project>
