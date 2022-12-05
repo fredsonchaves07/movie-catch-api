@@ -10,6 +10,7 @@ import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,9 @@ public class CreateUserUseCase {
     @Autowired
     private TokenService tokenService;
 
+    @Value("${api.url.confirm.user}")
+    private String apiURL;
+
     private User user;
 
     private UserDTO userDTO;
@@ -33,8 +37,8 @@ public class CreateUserUseCase {
     public UserDTO execute(CreateUserDTO createUserDTO) {
         createUser(createUserDTO);
         validateUser();
-        sendMail();
         saveUser();
+        sendMail();
         return userDTO;
     }
 
@@ -61,12 +65,23 @@ public class CreateUserUseCase {
     }
 
     private void sendMail() {
-        String token = tokenService.encrypt(userDTO).getToken();
+        String token = getToken();
+        String urlConfirmation = getUrlTokenConfirmation(token);
         String content = """
                 Olá! Tudo bem?
                 Para confirmar seu cadastro por favor clique no link abaixo
-                """;
+                                
+                """ + urlConfirmation;
         String subject = "Bem vindo ao moviecatch";
         sendEmailService.send(subject, user.getEmail(), content);
+    }
+
+    private String getToken() {
+        return tokenService.encrypt(userDTO).getToken();
+    }
+
+
+    private String getUrlTokenConfirmation(String token) {
+        return apiURL + "/" + token;
     }
 }
