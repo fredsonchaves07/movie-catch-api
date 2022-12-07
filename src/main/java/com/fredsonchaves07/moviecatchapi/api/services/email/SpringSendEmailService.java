@@ -34,7 +34,12 @@ public class SpringSendEmailService implements SendEmailService {
             message.setTo(email);
             mailSender.send(mail);
         } catch (MessagingException exception) {
-            throw new SendEmailException(exception.getMessage());
+            throw new SendEmailException();
         }
+    }
+
+    @Override
+    public boolean isEmailValid(String subject, String email, String content) {
+        return false;
     }
 }
