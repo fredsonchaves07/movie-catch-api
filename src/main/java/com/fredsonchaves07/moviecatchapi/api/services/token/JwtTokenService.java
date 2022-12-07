@@ -19,7 +19,7 @@ import java.util.Date;
 public class JwtTokenService implements TokenService {
 
     @Value("${jwt.token.expiration}")
-    private int tokenExpiration;
+    private String tokenExpiration;
 
     @Value("${jwt.token.secret}")
     private String tokenSecret;
@@ -31,7 +31,7 @@ public class JwtTokenService implements TokenService {
             String token = JWT.create()
                     .withSubject(userDTO.getEmail())
                     .withIssuedAt(new Date())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + tokenExpiration))
+                    .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(tokenExpiration)))
                     .sign(Algorithm.HMAC512(tokenSecret));
             return new TokenDTO(token);
         } catch (TokenExpiredException exception) {
