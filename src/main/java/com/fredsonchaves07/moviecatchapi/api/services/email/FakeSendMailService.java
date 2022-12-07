@@ -14,10 +14,16 @@ public class FakeSendMailService implements SendEmailService {
 
     @Override
     public void send(String subject, String email, String content) throws SendEmailException {
+        if (!isEmailValid(subject, email, content)) throw new SendEmailException();
         System.out.println("Send fake mail");
         System.out.println("From: " + supportMail);
         System.out.println("Subject: " + subject);
         System.out.println("To: " + email);
         System.out.println("Content: " + content);
+    }
+
+    @Override
+    public boolean isEmailValid(String subject, String email, String content) {
+        return subject != null && email != null && content != null;
     }
 }
