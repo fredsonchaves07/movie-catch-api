@@ -7,8 +7,8 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  build:
-
+  java:
+    name: build java
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,8 @@ jobs:
           java-version: '17'
           distribution: 'oracle'
           cache: maven
+
       - name: Run tests and build project
         env:
           PROFILE_ACTIVE: 'test'
-        run: mvn package
+        run: mvn clean install
