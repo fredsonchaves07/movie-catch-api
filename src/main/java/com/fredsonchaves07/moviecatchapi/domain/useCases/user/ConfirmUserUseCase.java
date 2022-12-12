@@ -36,16 +36,16 @@ public class ConfirmUserUseCase {
         user = userRepository.findByEmail(email);
     }
 
-    private void confirmUser() {
-        user.confirmUser();
-        userRepository.save(user);
+    private boolean userIsNotFound() {
+        return user == null;
     }
 
     private boolean isConfirmed() {
         return user.isConfirm();
     }
 
-    private boolean userIsNotFound() {
-        return user == null;
+    private void confirmUser() {
+        user.confirmUser();
+        userRepository.save(user);
     }
 }

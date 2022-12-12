@@ -36,7 +36,7 @@ public class ConfirmUserApiResourceTest {
     public void shouldConfirmUser() throws Exception {
         UserDTO userDTO = userService.execute(createUserDTO());
         TokenDTO tokenDTO = tokenService.encrypt(userDTO);
-        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
+        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.token())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("User Test"))
@@ -47,30 +47,30 @@ public class ConfirmUserApiResourceTest {
     public void notShouldConfirmUserIfUserIsConfirmed() throws Exception {
         UserDTO userDTO = userService.execute(createUserDTO());
         TokenDTO tokenDTO = tokenService.encrypt(userDTO);
-        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
+        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.token())
                 .contentType(MediaType.APPLICATION_JSON));
 
-        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
+        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.token())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.type").value("UserAlreadyConfirmedError"))
                 .andExpect(jsonPath("$.title").value("User has already been confirmed"))
-                .andExpect(jsonPath("$.instance").value("/api/v1/users/confirm/" + tokenDTO.getToken()))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users/confirm/" + tokenDTO.token()))
                 .andExpect(jsonPath("$.detail").value("User has already been confirmed. " +
-                        "Login with your credentials. Click recover password if you forgot it"));
+                        "Login with your credentials"));
     }
 
     @Test
     public void notShoulConfirmUserIfUserIsNotFound() throws Exception {
         TokenDTO tokenDTO = tokenService.encrypt(userDTO("usertest2", "usertest2@email.com"));
-        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
+        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.token())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.type").value("UserNotFoundError"))
                 .andExpect(jsonPath("$.title").value("User not found"))
-                .andExpect(jsonPath("$.instance").value("/api/v1/users/confirm/" + tokenDTO.getToken()))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users/confirm/" + tokenDTO.token()))
                 .andExpect(jsonPath("$.detail").value("User not found check registered email"));
     }
 

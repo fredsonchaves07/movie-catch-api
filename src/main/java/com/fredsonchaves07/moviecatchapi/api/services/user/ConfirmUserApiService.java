@@ -2,8 +2,8 @@ package com.fredsonchaves07.moviecatchapi.api.services.user;
 
 import com.fredsonchaves07.moviecatchapi.api.exception.ApiExpiredTokenException;
 import com.fredsonchaves07.moviecatchapi.api.exception.ApiInvalidTokenException;
-import com.fredsonchaves07.moviecatchapi.api.exception.ApiUserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
+import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.ExpiredTokenException;
@@ -30,7 +30,7 @@ public class ConfirmUserApiService {
         } catch (ExpiredTokenException exception) {
             throw new ApiExpiredTokenException(exception.getType(), exception.getTitle(), exception.getMessage());
         } catch (UserNotFoundException exception) {
-            throw new ApiUserNotFoundException(exception.getType(), exception.getTitle(), exception.getMessage());
+            throw new ResourceNotFoundException(exception.getType(), exception.getTitle(), exception.getMessage());
         }
     }
 }

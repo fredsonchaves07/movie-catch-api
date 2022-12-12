@@ -1,5 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services.email;
 
+import com.fredsonchaves07.moviecatchapi.domain.dto.email.MessageEmailDTO;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.SendEmailException;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import org.springframework.context.annotation.Profile;
@@ -13,11 +14,11 @@ public class FakeSendMailService implements SendEmailService {
     private String supportMail = "admin@moviecatch.com";
 
     @Override
-    public void send(String subject, String email, String content) throws SendEmailException {
+    public void send(MessageEmailDTO messageEmailDTO) throws SendEmailException {
         System.out.println("Send fake mail");
         System.out.println("From: " + supportMail);
-        System.out.println("Subject: " + subject);
-        System.out.println("To: " + email);
-        System.out.println("Content: " + content);
+        System.out.println("Subject: " + messageEmailDTO.subject());
+        System.out.println("To: " + messageEmailDTO.email());
+        System.out.println("Content: " + messageEmailDTO.content());
     }
 }

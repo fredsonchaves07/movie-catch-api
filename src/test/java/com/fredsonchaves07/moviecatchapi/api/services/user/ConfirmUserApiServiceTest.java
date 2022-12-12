@@ -2,8 +2,8 @@ package com.fredsonchaves07.moviecatchapi.api.services.user;
 
 import com.fredsonchaves07.moviecatchapi.api.exception.ApiExpiredTokenException;
 import com.fredsonchaves07.moviecatchapi.api.exception.ApiInvalidTokenException;
-import com.fredsonchaves07.moviecatchapi.api.exception.ApiUserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
+import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
@@ -40,7 +40,7 @@ public class ConfirmUserApiServiceTest {
     public void setUp() {
         userRepository.deleteAll();
         userDTO = createUserUseCase.execute(createUserDTO());
-        token = tokenService.encrypt(userDTO).getToken();
+        token = tokenService.encrypt(userDTO).token();
     }
 
     @Test
@@ -62,9 +62,9 @@ public class ConfirmUserApiServiceTest {
 
     @Test
     public void notShoulConfirmUserIfUserIsNotFound() {
-        token = tokenService.encrypt(userDTO("usertest2", "usertest2@email.com")).getToken();
+        token = tokenService.encrypt(userDTO("usertest2", "usertest2@email.com")).token();
         assertThrows(
-                ApiUserNotFoundException.class,
+                ResourceNotFoundException.class,
                 () -> confirmUserApiService.execute(token)
         );
     }

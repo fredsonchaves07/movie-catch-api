@@ -48,7 +48,7 @@ public class JwtTokenService implements TokenService {
             return JWT
                     .require(Algorithm.HMAC512(tokenSecret))
                     .build()
-                    .verify(token.getToken())
+                    .verify(token.token())
                     .getSubject();
         } catch (TokenExpiredException exception) {
             throw new ExpiredTokenException();

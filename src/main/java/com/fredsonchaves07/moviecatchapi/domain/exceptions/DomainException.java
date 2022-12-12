@@ -3,6 +3,7 @@ package com.fredsonchaves07.moviecatchapi.domain.exceptions;
 public abstract class DomainException extends RuntimeException {
 
     private final String type;
+
     private final String title;
 
     public DomainException(String type, String title, String detail) {

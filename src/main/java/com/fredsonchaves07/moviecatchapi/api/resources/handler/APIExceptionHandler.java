@@ -20,7 +20,7 @@ public class APIExceptionHandler {
     public ResponseEntity<StandardError> badRequestException(BadRequestException error, WebRequest request) {
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
         StandardError standardError = getStandardError(error, instance);
-        return ResponseEntity.status(standardError.getStatus()).body(standardError);
+        return ResponseEntity.status(standardError.status()).body(standardError);
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -29,7 +29,7 @@ public class APIExceptionHandler {
         String detail = "Resource " + instance + " not found. Verify the resource documentation";
         ResourceNotFoundException notFoundException = new ResourceNotFoundException(detail);
         StandardError standardError = getStandardError(notFoundException, instance);
-        return ResponseEntity.status(standardError.getStatus()).body(standardError);
+        return ResponseEntity.status(standardError.status()).body(standardError);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -37,7 +37,7 @@ public class APIExceptionHandler {
         MethodNotAllowedException exception = new MethodNotAllowedException();
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
         StandardError standardError = getStandardError(exception, instance);
-        return ResponseEntity.status(standardError.getStatus()).body(standardError);
+        return ResponseEntity.status(standardError.status()).body(standardError);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -45,7 +45,7 @@ public class APIExceptionHandler {
         UnknownPropertyInvalidException exception = new UnknownPropertyInvalidException();
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
         StandardError standardError = getStandardError(exception, instance);
-        return ResponseEntity.status(standardError.getStatus()).body(standardError);
+        return ResponseEntity.status(standardError.status()).body(standardError);
     }
 
     @ExceptionHandler(Exception.class)
@@ -54,23 +54,17 @@ public class APIExceptionHandler {
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
         StandardError standardError = getStandardError(exception, instance);
         ApiErrorLogger.generateLog(error);
-        return ResponseEntity.status(standardError.getStatus()).body(standardError);
+        return ResponseEntity.status(standardError.status()).body(standardError);
     }
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<StandardError> apiException(ApiException error, WebRequest request) {
         String instance = ((ServletWebRequest) request).getRequest().getRequestURI();
         StandardError standardError = getStandardError(error, instance);
-        return ResponseEntity.status(standardError.getStatus()).body(standardError);
+        return ResponseEntity.status(standardError.status()).body(standardError);
     }
 
     private StandardError getStandardError(ApiException error, String instance) {
-        StandardError standardError = new StandardError();
-        standardError.setStatus(error.getStatus());
-        standardError.setType(error.getType());
-        standardError.setTitle(error.getTitle());
-        standardError.setDetail(error.getDetail());
-        standardError.setInstance(instance);
-        return standardError;
+        return new StandardError(error.getStatus(), error.getType(), error.getTitle(), error.getDetail(), instance);
     }
 }

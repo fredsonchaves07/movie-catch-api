@@ -1,5 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 
+import com.fredsonchaves07.moviecatchapi.domain.dto.email.MessageEmailDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
@@ -73,11 +74,11 @@ public class CreateUserUseCase {
                                 
                 """ + urlConfirmation;
         String subject = "Bem vindo ao moviecatch";
-        sendEmailService.send(subject, user.getEmail(), content);
+        sendEmailService.send(new MessageEmailDTO(subject, user.getEmail(), content));
     }
 
     private String getToken() {
-        return tokenService.encrypt(userDTO).getToken();
+        return tokenService.encrypt(userDTO).token();
     }
 
 
