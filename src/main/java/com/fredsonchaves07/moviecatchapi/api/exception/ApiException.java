@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.api.resources.exception;
+package com.fredsonchaves07.moviecatchapi.api.exception;
 
 public abstract class ApiException extends RuntimeException {
 

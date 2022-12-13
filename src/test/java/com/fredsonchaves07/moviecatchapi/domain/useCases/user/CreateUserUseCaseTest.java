@@ -1,34 +1,31 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 
-import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMailService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailAlreadyExistException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordInvalidException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.NameInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
-import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.CreateUserUseCase;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailAlreadyExistException;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.EmailOrPasswordInvalidException;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.exceptions.NameInvalidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 public class CreateUserUseCaseTest {
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private CreateUserUseCase createUserUseCase;
 
     @BeforeEach
     public void setUp() {
-        SendEmailService sendEmailService = new FakeSendMailService();
-        createUserUseCase = new CreateUserUseCase(userRepository, sendEmailService);
+        userRepository.deleteAll();
     }
 
     @Test

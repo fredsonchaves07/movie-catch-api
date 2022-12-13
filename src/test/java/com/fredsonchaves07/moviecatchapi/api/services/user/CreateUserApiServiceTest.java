@@ -1,33 +1,29 @@
 package com.fredsonchaves07.moviecatchapi.api.services.user;
 
-import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMailService;
-import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCaseException;
+import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
-import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
-public class CreateUserServiceTest {
+@SpringBootTest
+public class CreateUserApiServiceTest {
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private CreateUserAPIService userService;
-
-    private SendEmailService sendEmailService;
 
     @BeforeEach
     public void setUp() {
-        sendEmailService = new FakeSendMailService();
-        userService = new CreateUserAPIService(userRepository, sendEmailService);
+        userRepository.deleteAll();
     }
 
     @Test
@@ -46,7 +42,7 @@ public class CreateUserServiceTest {
         String email = "user$%@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                CreateUserUseCaseException.class,
+                BadRequestException.class,
                 () -> userService.execute(createUserDTO)
         );
     }
@@ -58,7 +54,7 @@ public class CreateUserServiceTest {
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                CreateUserUseCaseException.class,
+                BadRequestException.class,
                 () -> userService.execute(createUserDTO)
         );
     }
@@ -70,7 +66,7 @@ public class CreateUserServiceTest {
         String email = "user@email.com";
         CreateUserDTO createUserDTO = createUserDTO(name, email, password);
         assertThrows(
-                CreateUserUseCaseException.class,
+                BadRequestException.class,
                 () -> userService.execute(createUserDTO)
         );
     }
@@ -84,8 +80,19 @@ public class CreateUserServiceTest {
         String email = "usertest@email.com";
         CreateUserDTO secondUser = createUserDTO(name, email, password);
         assertThrows(
-                CreateUserUseCaseException.class,
+                BadRequestException.class,
                 () -> userService.execute(secondUser)
+        );
+    }
+
+    @Test
+    public void notShouldCreateUserIfNameIsNull() {
+        String password = "user@123";
+        String email = "user@email.com";
+        CreateUserDTO createUserDTO = createUserDTO(null, email, password);
+        assertThrows(
+                BadRequestException.class,
+                () -> userService.execute(createUserDTO)
         );
     }
 }
