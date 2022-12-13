@@ -26,9 +26,4 @@ public class FakeSendMailService implements SendEmailService {
         logger.info("To: " + messageEmailDTO.email());
         logger.info("Content: " + messageEmailDTO.content());
     }
-
-    @Override
-    public boolean isEmailValid(MessageEmailDTO messageEmailDTO) {
-        return messageEmailDTO.subject() != null && messageEmailDTO.email() != null && messageEmailDTO.content() != null;
-    }
 }

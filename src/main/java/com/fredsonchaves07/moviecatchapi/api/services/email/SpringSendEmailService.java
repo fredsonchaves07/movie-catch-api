@@ -39,9 +39,4 @@ public class SpringSendEmailService implements SendEmailService {
             throw new SendEmailException();
         }
     }
-
-    @Override
-    public boolean isEmailValid(MessageEmailDTO messageEmailDTO) {
-        return messageEmailDTO.subject() != null && messageEmailDTO.email() != null && messageEmailDTO.content() != null;
-    }
 }
