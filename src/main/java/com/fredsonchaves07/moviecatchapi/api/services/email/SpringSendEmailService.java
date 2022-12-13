@@ -1,6 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.api.services.email;
 
-import com.fredsonchaves07.moviecatchapi.domain.service.exception.SendEmailException;
+import com.fredsonchaves07.moviecatchapi.domain.dto.email.MessageEmailDTO;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.SendEmailException;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,14 +25,15 @@ public class SpringSendEmailService implements SendEmailService {
     private String supportMail;
 
     @Override
-    public void send(String subject, String email, String content) throws SendEmailException {
+    public void send(MessageEmailDTO messageEmailDTO) throws SendEmailException {
         try {
+            if (!isEmailValid(messageEmailDTO)) throw new SendEmailException();
             MimeMessage mail = mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mail);
-            message.setSubject(subject);
-            message.setText(content, false);
+            message.setSubject(messageEmailDTO.subject());
+            message.setText(messageEmailDTO.content(), false);
             message.setFrom(supportMail);
-            message.setTo(email);
+            message.setTo(messageEmailDTO.email());
             mailSender.send(mail);
         } catch (MessagingException exception) {
             throw new SendEmailException();
@@ -39,7 +41,7 @@ public class SpringSendEmailService implements SendEmailService {
     }
 
     @Override
-    public boolean isEmailValid(String subject, String email, String content) {
-        return false;
+    public boolean isEmailValid(MessageEmailDTO messageEmailDTO) {
+        return messageEmailDTO.subject() != null && messageEmailDTO.email() != null && messageEmailDTO.content() != null;
     }
 }

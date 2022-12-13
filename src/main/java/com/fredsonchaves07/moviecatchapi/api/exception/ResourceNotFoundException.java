@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.api.resources.exception;
+package com.fredsonchaves07.moviecatchapi.api.exception;
 
 import org.springframework.http.HttpStatus;
 
@@ -9,6 +9,10 @@ public class ResourceNotFoundException extends ApiException {
     private static final String title = "Resource not found";
 
     public ResourceNotFoundException(String detail) {
+        super(codStatus, type, title, detail);
+    }
+
+    public ResourceNotFoundException(String type, String title, String detail) {
         super(codStatus, type, title, detail);
     }
 }

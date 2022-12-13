@@ -1,6 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.api.services.email;
 
-import com.fredsonchaves07.moviecatchapi.domain.service.exception.SendEmailException;
+import com.fredsonchaves07.moviecatchapi.domain.dto.email.MessageEmailDTO;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.SendEmailException;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,17 +18,17 @@ public class FakeSendMailService implements SendEmailService {
     final Logger logger = LoggerFactory.getLogger(FakeSendMailService.class);
 
     @Override
-    public void send(String subject, String email, String content) throws SendEmailException {
-        if (!isEmailValid(subject, email, content)) throw new SendEmailException();
+    public void send(MessageEmailDTO messageEmailDTO) throws SendEmailException {
+        if (!isEmailValid(messageEmailDTO)) throw new SendEmailException();
         logger.info("Send fake mail");
         logger.info("From: " + supportMail);
-        logger.info("Subject: " + subject);
-        logger.info("To: " + email);
-        logger.info("Content: " + content);
+        logger.info("Subject: " + messageEmailDTO.subject());
+        logger.info("To: " + messageEmailDTO.email());
+        logger.info("Content: " + messageEmailDTO.content());
     }
 
     @Override
-    public boolean isEmailValid(String subject, String email, String content) {
-        return subject != null && email != null && content != null;
+    public boolean isEmailValid(MessageEmailDTO messageEmailDTO) {
+        return messageEmailDTO.subject() != null && messageEmailDTO.email() != null && messageEmailDTO.content() != null;
     }
 }

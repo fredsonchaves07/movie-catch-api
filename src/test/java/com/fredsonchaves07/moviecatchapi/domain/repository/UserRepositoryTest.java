@@ -126,10 +126,9 @@ public class UserRepositoryTest {
         newUser.setName(name);
         newUser.setEmail(email);
         newUser.setPassword(password);
-        userRepository.save(newUser);
         assertThrows(
                 DataIntegrityViolationException.class,
-                () -> userRepository.findByEmail(email)
+                () -> userRepository.saveAndFlush(newUser)
         );
     }
 
@@ -138,6 +137,7 @@ public class UserRepositoryTest {
         User user = userRepository.findByEmail(persitUser.getEmail());
         user.confirmUser();
         userRepository.save(user);
+        user = userRepository.findByEmail(persitUser.getEmail());
         assertTrue(user.isConfirm());
     }
 }

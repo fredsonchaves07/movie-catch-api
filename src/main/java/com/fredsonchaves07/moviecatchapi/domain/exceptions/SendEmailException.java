@@ -1,6 +1,6 @@
-package com.fredsonchaves07.moviecatchapi.domain.service.exception;
+package com.fredsonchaves07.moviecatchapi.domain.exceptions;
 
-public class SendEmailException extends RuntimeException {
+public final class SendEmailException extends RuntimeException {
 
     private static final String type = "SendMailError";
     private static final String title = "Error sending email";
