@@ -6,4 +6,11 @@ import com.fredsonchaves07.moviecatchapi.domain.exceptions.SendEmailException;
 public interface SendEmailService {
 
     void send(MessageEmailDTO message) throws SendEmailException;
+
+    default boolean isEmailValid(MessageEmailDTO messageEmailDTO) {
+        return messageEmailDTO != null &&
+                messageEmailDTO.subject() != null &&
+                messageEmailDTO.email() != null &&
+                messageEmailDTO.content() != null;
+    }
 }

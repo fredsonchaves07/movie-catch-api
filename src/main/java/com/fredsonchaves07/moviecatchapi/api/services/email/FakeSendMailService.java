@@ -19,10 +19,11 @@ public class FakeSendMailService implements SendEmailService {
 
     @Override
     public void send(MessageEmailDTO messageEmailDTO) throws SendEmailException {
-        System.out.println("Send fake mail");
-        System.out.println("From: " + supportMail);
-        System.out.println("Subject: " + messageEmailDTO.subject());
-        System.out.println("To: " + messageEmailDTO.email());
-        System.out.println("Content: " + messageEmailDTO.content());
+        if (!isEmailValid(messageEmailDTO)) throw new SendEmailException();
+        logger.info("Send fake mail");
+        logger.info("From: " + supportMail);
+        logger.info("Subject: " + messageEmailDTO.subject());
+        logger.info("To: " + messageEmailDTO.email());
+        logger.info("Content: " + messageEmailDTO.content());
     }
 }

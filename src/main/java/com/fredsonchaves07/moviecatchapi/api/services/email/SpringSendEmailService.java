@@ -27,6 +27,7 @@ public class SpringSendEmailService implements SendEmailService {
     @Override
     public void send(MessageEmailDTO messageEmailDTO) throws SendEmailException {
         try {
+            if (!isEmailValid(messageEmailDTO)) throw new SendEmailException();
             MimeMessage mail = mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mail);
             message.setSubject(messageEmailDTO.subject());
@@ -35,7 +36,7 @@ public class SpringSendEmailService implements SendEmailService {
             message.setTo(messageEmailDTO.email());
             mailSender.send(mail);
         } catch (MessagingException exception) {
-            throw new SendEmailException(exception.getMessage());
+            throw new SendEmailException();
         }
     }
 }
