@@ -1,7 +1,5 @@
 package com.fredsonchaves07.moviecatchapi.api.resources.user;
 
-import com.fredsonchaves07.moviecatchapi.api.resources.exception.BadRequestException;
-import com.fredsonchaves07.moviecatchapi.api.services.exception.CreateUserUseCaseException;
 import com.fredsonchaves07.moviecatchapi.api.services.user.CreateUserAPIService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @Api(tags = {"User"})
 @Tag(name = "User", description = "User Resource")
-public class CreateUserResource {
+public class CreateUserApiResource {
 
     @Autowired
     private CreateUserAPIService createUserAPIService;
@@ -31,11 +29,8 @@ public class CreateUserResource {
             @ApiParam(name = "User", value = "User body parameter")
             @RequestBody CreateUserDTO createUserDTO
     ) {
-        try {
-            UserDTO userDTO = createUserAPIService.execute(createUserDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
-        } catch (CreateUserUseCaseException exception) {
-            throw new BadRequestException(exception.getType(), exception.getTitle(), exception.getMessage());
-        }
+
+        UserDTO userDTO = createUserAPIService.execute(createUserDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 }

@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CreateUserResourceTest {
+public class CreateUserApiResourceTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -110,6 +110,7 @@ public class CreateUserResourceTest {
         mockMvc.perform(post("/api/v1/users")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.type").value("EmailAlreadyExistError"))
                 .andExpect(jsonPath("$.title").value("Email already exist"))

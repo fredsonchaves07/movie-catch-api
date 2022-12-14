@@ -4,7 +4,6 @@
 
 🍿 create, manage and rate movies and series api
 
-http://ec2-18-209-167-114.compute-1.amazonaws.com/
 
 ## 📌 Content
 
@@ -38,6 +37,7 @@ consulted [here](https://github.com/fredsonchaves07/movie-catch-api/projects/1)
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 - [Springfox](https://springfox.github.io/springfox/docs/current/)
+- [Flyway](https://flywaydb.org/)
 
 ## 🛠️ Installation and Configuration
 
@@ -91,8 +91,8 @@ DB_USERNAME=postgres
 DB_PASSWORD=1234
 ```
 
-Run all available SQL scripts in the
-directory [scripts](https://github.com/fredsonchaves07/movie-catch-api/tree/main/scripts)
+This application uses flyway as a database migration tool.
+Scripts are located [here](https://github.com/fredsonchaves07/movie-catch-api/tree/main/src/main/resources/db/migration)
 
 Run Application in development mode after installation and configuration
 
