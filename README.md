@@ -4,7 +4,6 @@
 
 🍿 create, manage and rate movies and series api
 
-http://ec2-18-209-167-114.compute-1.amazonaws.com/
 
 ## 📌 Content
 
