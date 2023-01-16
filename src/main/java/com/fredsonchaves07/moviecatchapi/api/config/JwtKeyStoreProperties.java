@@ -13,4 +13,16 @@ public class JwtKeyStoreProperties {
     private String password;
 
     private String keypairAlias;
+
+    public Resource getJksLocation() {
+        return jksLocation;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getKeypairAlias() {
+        return keypairAlias;
+    }
 }
