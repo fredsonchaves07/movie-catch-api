@@ -21,4 +21,14 @@ public class ResourceServerConfig {
                 .and().oauth2ResourceServer().jwt();
         return http.build();
     }
+
+//    private JwtAuthenticationConverter jwtAuthenticationConverter() {
+//        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+//        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+//            JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
+//            Collection<GrantedAuthority> grantedAuthorities = authoritiesConverter.convert(jwt);
+//            grantedAuthorities.addAll(authori)
+//        });
+//        return converter
+//    }
 }
