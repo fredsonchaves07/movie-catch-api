@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.api.config;
+package com.fredsonchaves07.moviecatchapi.api.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
