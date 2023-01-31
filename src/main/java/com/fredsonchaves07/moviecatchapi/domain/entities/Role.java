@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +21,9 @@ public class Role {
 
     @Column(nullable = false)
     private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
     @Deprecated
     public Role() {

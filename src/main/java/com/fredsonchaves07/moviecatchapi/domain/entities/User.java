@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -39,6 +40,14 @@ public class User {
 
     @Column(nullable = false)
     private boolean isConfirm = false;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
