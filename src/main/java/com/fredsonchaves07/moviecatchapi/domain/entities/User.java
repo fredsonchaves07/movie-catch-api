@@ -48,6 +48,7 @@ public class User {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime updatedAt;
 
+    @Deprecated
     public User() {
     }
 
