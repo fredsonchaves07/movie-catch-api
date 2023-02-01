@@ -3,6 +3,7 @@ package com.fredsonchaves07.moviecatchapi.domain.entities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.fredsonchaves07.moviecatchapi.factories.RoleFactory.createRole;
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUser;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,9 +11,12 @@ public class UserEntityTest {
 
     private User existingUser;
 
+    private Role existingRole;
+
     @BeforeEach
     public void setUp() {
         existingUser = createUser();
+        existingRole = createRole();
     }
 
     @Test
@@ -26,6 +30,7 @@ public class UserEntityTest {
         assertEquals(user.getEmail(), email);
         assertEquals(user.getPassword(), password);
         assertFalse(user.isConfirm());
+        assertNull(user.getRoles());
     }
 
     @Test
@@ -122,5 +127,18 @@ public class UserEntityTest {
         String email = "user@email.com";
         User user = new User(name, password, email);
         assertFalse(user.isEmailAndPasswordValid());
+    }
+
+    @Test
+    public void shouldAddRoleUser() {
+        existingUser.addRole(existingRole);
+        assertTrue(existingUser.containRole(existingRole));
+    }
+
+    @Test
+    public void shouldGetRolesUser() {
+        existingUser.addRole(existingRole);
+        assertNotNull(existingUser.getRoles());
+        assertEquals(1, existingUser.getRoles().size());
     }
 }

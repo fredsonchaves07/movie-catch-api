@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -47,7 +48,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
@@ -90,6 +91,15 @@ public class User {
         return isConfirm;
     }
 
+    public Set<Role> getRoles() {
+        if (roles.size() >= 1) return roles;
+        return null;
+    }
+
+    public boolean containRole(Role role) {
+        return this.roles.contains(role);
+    }
+
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
@@ -112,6 +122,10 @@ public class User {
 
     public void confirmUser() {
         this.isConfirm = true;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
     public boolean isNameValid() {
