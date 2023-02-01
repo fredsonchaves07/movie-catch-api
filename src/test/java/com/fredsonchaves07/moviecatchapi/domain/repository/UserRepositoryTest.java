@@ -33,10 +33,7 @@ public class UserRepositoryTest {
         String name = "User test";
         String email = "user1@email.com";
         String password = "user@123";
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        User newUser = new User(name, email, password);
         userRepository.save(newUser);
         User user = userRepository.findByEmail(email);
         assertNotNull(user);
@@ -79,10 +76,7 @@ public class UserRepositoryTest {
     public void notShouldCreateUserIfNameIsNull() {
         String email = "user@email.com";
         String password = "user@123";
-        User newUser = new User();
-        newUser.setName(null);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        User newUser = new User(null, email, password);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.save(newUser)
@@ -93,10 +87,7 @@ public class UserRepositoryTest {
     public void notShouldCreateUserIfPasswordIsNull() {
         String name = "User test";
         String email = "user@email.com";
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setPassword(null);
+        User newUser = new User(name, email, null);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.save(newUser)
@@ -107,10 +98,7 @@ public class UserRepositoryTest {
     public void notShouldCreateUserIfEmailIsNull() {
         String name = "User test";
         String password = "user@123";
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(null);
-        newUser.setPassword(password);
+        User newUser = new User(name, null, password);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.save(newUser)
@@ -122,10 +110,7 @@ public class UserRepositoryTest {
         String name = "User test";
         String email = "user@email.com";
         String password = "user@123";
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        User newUser = new User(name, email, password);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.saveAndFlush(newUser)
