@@ -1,5 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.domain.repository;
 
+import com.fredsonchaves07.moviecatchapi.domain.entities.Role;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import static com.fredsonchaves07.moviecatchapi.factories.RoleFactory.createRole;
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUser;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,10 +23,13 @@ public class UserRepositoryTest {
 
     private User persitUser;
 
+    private Role existingRole;
+
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
         existingUser = createUser();
+        existingRole = createRole();
         persitUser = userRepository.save(existingUser);
     }
 
@@ -40,6 +45,7 @@ public class UserRepositoryTest {
         assertEquals(user.getName(), newUser.getName());
         assertEquals(user.getEmail(), newUser.getEmail());
         assertEquals(user.getPassword(), newUser.getPassword());
+        assertNull(user.getRoles());
         assertNotNull(user.getCreatedAt());
         assertNotNull(user.getUpdatedAt());
         assertFalse(user.isConfirm());
@@ -124,5 +130,13 @@ public class UserRepositoryTest {
         userRepository.save(user);
         user = userRepository.findByEmail(persitUser.getEmail());
         assertTrue(user.isConfirm());
+    }
+
+    @Test
+    public void shouldAddRoleUser() {
+        persitUser.addRole(existingRole);
+        User user = userRepository.save(persitUser);
+        assertNotNull(user.getRoles());
+        assertTrue(user.containRole(existingRole));
     }
 }
