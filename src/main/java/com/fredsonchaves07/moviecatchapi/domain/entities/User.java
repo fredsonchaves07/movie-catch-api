@@ -62,17 +62,19 @@ public class User {
     public User() {
     }
 
-    public User(UUID id, String name, String email, String password) {
+    public User(UUID id, String name, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.roles.add(role);
     }
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, Role role) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.roles.add(role);
     }
 
     public String getName() {

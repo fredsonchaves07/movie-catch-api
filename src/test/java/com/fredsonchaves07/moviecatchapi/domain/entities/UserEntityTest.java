@@ -24,13 +24,14 @@ public class UserEntityTest {
         String name = "User test";
         String email = "user@email.com";
         String password = "user@123";
-        User user = new User(name, email, password);
+        User user = new User(name, email, password, existingRole);
         assertNotNull(user);
         assertEquals(user.getName(), name);
         assertEquals(user.getEmail(), email);
         assertEquals(user.getPassword(), password);
         assertFalse(user.isConfirm());
-        assertNull(user.getRoles());
+        assertNotNull(user.getRoles());
+        assertTrue(user.containRole(existingRole));
     }
 
     @Test
@@ -65,7 +66,7 @@ public class UserEntityTest {
         String name = "User test";
         String email = "user@email.com";
         String password = "user@123";
-        User user = new User(name, email, password);
+        User user = new User(name, email, password, existingRole);
         assertTrue(user.isNameValid());
     }
 
@@ -73,7 +74,7 @@ public class UserEntityTest {
     public void notShouldValidateNameIfNameIsNull() {
         String email = "user@email.com";
         String password = "user@123";
-        User user = new User(null, email, password);
+        User user = new User(null, email, password, existingRole);
         assertFalse(user.isNameValid());
     }
 
@@ -82,7 +83,7 @@ public class UserEntityTest {
         String name = "User test";
         String email = "user@email.com";
         String password = "user@123";
-        User user = new User(name, email, password);
+        User user = new User(name, email, password, existingRole);
         assertTrue(user.isEmailAndPasswordValid());
     }
 
@@ -90,7 +91,7 @@ public class UserEntityTest {
     public void notShouldValidateEmailIfEmailIsNull() {
         String name = "User test";
         String password = "user@123";
-        User user = new User(name, null, password);
+        User user = new User(name, null, password, existingRole);
         assertFalse(user.isEmailAndPasswordValid());
     }
 
@@ -99,7 +100,7 @@ public class UserEntityTest {
         String name = "User test";
         String email = "user$%@email.com";
         String password = "user@123";
-        User user = new User(name, email, password);
+        User user = new User(name, email, password, existingRole);
         assertFalse(user.isEmailAndPasswordValid());
     }
 
@@ -107,7 +108,7 @@ public class UserEntityTest {
     public void notShouldValidatePasswordIfPasswordIsNull() {
         String name = "User test";
         String email = "user@email.com";
-        User user = new User(name, email, null);
+        User user = new User(name, email, null, existingRole);
         assertFalse(user.isEmailAndPasswordValid());
     }
 
@@ -116,7 +117,7 @@ public class UserEntityTest {
         String name = "User Test";
         String password = "user @123";
         String email = "user@email.com";
-        User user = new User(name, email, password);
+        User user = new User(name, email, password, existingRole);
         assertFalse(user.isEmailAndPasswordValid());
     }
 
@@ -125,7 +126,7 @@ public class UserEntityTest {
         String name = "User Test";
         String password = "use@123";
         String email = "user@email.com";
-        User user = new User(name, password, email);
+        User user = new User(name, password, email, existingRole);
         assertFalse(user.isEmailAndPasswordValid());
     }
 
