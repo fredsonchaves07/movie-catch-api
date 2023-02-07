@@ -2,10 +2,7 @@ package com.fredsonchaves07.moviecatchapi.factories;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
-import com.fredsonchaves07.moviecatchapi.domain.entities.Role;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
-
-import static com.fredsonchaves07.moviecatchapi.factories.RoleFactory.createRole;
 
 public class UserFactory {
 
@@ -26,14 +23,11 @@ public class UserFactory {
     }
 
     public static User createUser() {
-        Role role = createRole();
-        User user = new User("User test", "user@email.com", "user@123", role);
-        return user;
+        return new User("User test", "user@email.com", "user@123");
     }
 
     public static User createUser(String name, String email, String password) {
-        Role role = createRole();
-        User user = new User(name, email, password, role);
+        User user = new User(name, email, password);
         return user;
     }
 }

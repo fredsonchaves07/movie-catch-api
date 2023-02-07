@@ -29,11 +29,15 @@ public class UserRepositoryTest {
 
     private Role existingRole;
 
+    private Role persitRole;
+
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
         existingUser = createUser();
-        existingRole = roleRepository.save(createRole());
+        existingRole = createRole();
+        persitRole = roleRepository.save(existingRole);
+        existingUser.addRole(persitRole);
         persitUser = userRepository.save(existingUser);
     }
 
@@ -42,7 +46,7 @@ public class UserRepositoryTest {
         String name = "User test";
         String email = "user1@email.com";
         String password = "user@123";
-        User newUser = new User(name, email, password, existingRole);
+        User newUser = new User(name, email, password, persitRole);
         userRepository.save(newUser);
         User user = userRepository.findByEmail(email);
         assertNotNull(user);
