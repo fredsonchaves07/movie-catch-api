@@ -83,6 +83,10 @@ public class User {
         this.password = password;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

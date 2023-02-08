@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.api.config;
+package com.fredsonchaves07.moviecatchapi.api.config.application;
 
 import com.fredsonchaves07.moviecatchapi.api.services.email.FakeSendMailService;
 import org.springframework.context.annotation.Bean;
