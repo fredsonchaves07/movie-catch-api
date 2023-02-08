@@ -53,8 +53,7 @@ public class CreateUserUseCase {
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
         Role role = roleRepository.findUserRole();
-        user = new User(name, email, password);
-        user.addRole(role);
+        user = new User(name, email, password, role);
     }
 
     private void validateUser() {

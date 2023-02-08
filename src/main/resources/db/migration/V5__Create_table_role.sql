@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS roles
     name       varchar not null,
     created_at TIMESTAMP DEFAULT now(),
     updated_at TIMESTAMP DEFAULT now()
-)
+);

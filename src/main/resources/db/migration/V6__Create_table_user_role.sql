@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS users_roles
     created_at TIMESTAMP DEFAULT now(),
     updated_at TIMESTAMP DEFAULT now(),
     CONSTRAINT users_roles_pkey PRIMARY KEY (user_id, role_id)
-)
+);
