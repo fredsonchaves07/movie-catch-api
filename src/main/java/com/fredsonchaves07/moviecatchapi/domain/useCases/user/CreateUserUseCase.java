@@ -42,7 +42,6 @@ public class CreateUserUseCase {
     public UserDTO execute(CreateUserDTO createUserDTO) {
         createUser(createUserDTO);
         validateUser();
-        encryptPassword();
         saveUser();
         sendMail();
         return userDTO;
@@ -61,17 +60,19 @@ public class CreateUserUseCase {
         if (emailAlreadyExist()) throw new EmailAlreadyExistException();
     }
 
-    private void encryptPassword() {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-    }
 
     private boolean emailAlreadyExist() {
         return userRepository.findByEmail(user.getEmail()) != null;
     }
 
     private void saveUser() {
+        encryptPassword();
         userRepository.save(user);
         userDTO = new UserDTO(user);
+    }
+
+    private void encryptPassword() {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
     private void sendMail() {
