@@ -1,10 +1,14 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.authentication;
 
+import com.fredsonchaves07.moviecatchapi.api.services.token.JwtTokenService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,18 +17,22 @@ public class AuthenticateUserUseCase {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtTokenService jwtService;
+
     private User user;
 
-    public UserDTO execute(LoginDTO loginDTO) {
-        String email = loginDTO.email();
-        if (!emailAlreadyExist(email)) return null;
-        user = userRepository.findByEmail(loginDTO.email());
-        return new UserDTO(user);
+    public TokenDTO execute(LoginDTO loginDTO) {
+        return authenticateUser(loginDTO);
     }
 
-    private void validateLogin(LoginDTO loginDTO) {
-        if (!emailAlreadyExist(loginDTO.email())) ; //Throw Exception
-        if (!emailAndPasswordIsValid(loginDTO.email(), loginDTO.password())) ; //Throw Exception;
+    private TokenDTO authenticateUser(LoginDTO loginDTO) {
+        if (!emailAlreadyExist(loginDTO.email())) throw new EmailOrPasswordInvalidException();
+        if (!isEmailPasswordMatch(loginDTO.email(), loginDTO.password())) throw new EmailOrPasswordInvalidException();
+        return new TokenDTO(jwtService.encrypt(new UserDTO(loginDTO.email(), loginDTO.email())).token());
     }
 
     private boolean emailAlreadyExist(String email) {
@@ -33,6 +41,6 @@ public class AuthenticateUserUseCase {
 
     private boolean isEmailPasswordMatch(String email, String password) {
         user = userRepository.findByEmail(email);
-        return user.getPassword().
+        return passwordEncoder.matches(user.getPassword(), passwordEncoder.encode(password));
     }
 }

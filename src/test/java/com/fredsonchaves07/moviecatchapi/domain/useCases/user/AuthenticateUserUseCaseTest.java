@@ -1,7 +1,8 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
-import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.authentication.AuthenticateUserUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class AuthenticateUserUseCaseTest {
@@ -37,9 +38,29 @@ public class AuthenticateUserUseCaseTest {
         String email = "usertest@email.com";
         String password = "user@123";
         LoginDTO loginDTO = new LoginDTO(email, password);
-        UserDTO userDTO = authenticateUserUseCase.execute(loginDTO);
-        assertNotNull(userDTO);
-        assertEquals(userDTO.getName(), name);
-        assertEquals(userDTO.getEmail(), email);
+        TokenDTO tokenDTO = authenticateUserUseCase.execute(loginDTO);
+        assertNotNull(tokenDTO);
+    }
+
+    @Test
+    public void notShouldAuthenticateUserWithEmailDoesNotExists() {
+        String email = "usertest1@email.com";
+        String password = "user@123";
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        assertThrows(
+                EmailOrPasswordInvalidException.class,
+                () -> authenticateUserUseCase.execute(loginDTO)
+        );
+    }
+
+    @Test
+    public void notShouldAuthenticateUserIfPasswordDoesNotMatch() {
+        String email = "usertest@email.com";
+        String password = "user@1243";
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        assertThrows(
+                EmailOrPasswordInvalidException.class,
+                () -> authenticateUserUseCase.execute(loginDTO)
+        );
     }
 }
