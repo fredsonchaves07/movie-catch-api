@@ -1,10 +1,10 @@
-package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
+package com.fredsonchaves07.moviecatchapi.domain.useCases.authentication;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
-import com.fredsonchaves07.moviecatchapi.domain.useCases.authentication.AuthenticateUserUseCase;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.user.CreateUserUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,6 @@ public class AuthenticateUserUseCaseTest {
 
     @Test
     public void shouldAuthenticateUserWithEmailRegisteredValid() {
-        String name = "User Test";
         String email = "usertest@email.com";
         String password = "user@123";
         LoginDTO loginDTO = new LoginDTO(email, password);
