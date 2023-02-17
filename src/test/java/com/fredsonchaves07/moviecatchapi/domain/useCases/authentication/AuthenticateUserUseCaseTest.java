@@ -2,7 +2,7 @@ package com.fredsonchaves07.moviecatchapi.domain.useCases.authentication;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
-import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordInvalidException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordIncorrectException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.user.CreateUserUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +47,7 @@ public class AuthenticateUserUseCaseTest {
         String password = "user@123";
         LoginDTO loginDTO = new LoginDTO(email, password);
         assertThrows(
-                EmailOrPasswordInvalidException.class,
+                EmailOrPasswordIncorrectException.class,
                 () -> authenticateUserUseCase.execute(loginDTO)
         );
     }
@@ -58,7 +58,7 @@ public class AuthenticateUserUseCaseTest {
         String password = "user@1243";
         LoginDTO loginDTO = new LoginDTO(email, password);
         assertThrows(
-                EmailOrPasswordInvalidException.class,
+                EmailOrPasswordIncorrectException.class,
                 () -> authenticateUserUseCase.execute(loginDTO)
         );
     }
