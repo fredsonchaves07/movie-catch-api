@@ -8,6 +8,8 @@ import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordIncorr
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,9 @@ public class AuthenticateUserUseCase {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
     private TokenService jwtService;
 
     private User user;
@@ -31,6 +36,12 @@ public class AuthenticateUserUseCase {
 
     private TokenDTO authenticateUser(LoginDTO loginDTO) {
         validateLoginDTO(loginDTO);
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDTO.email(),
+                        loginDTO.password()
+                )
+        );
         return new TokenDTO(jwtService.encrypt(new UserDTO(loginDTO.email(), loginDTO.email())).token());
     }
 
