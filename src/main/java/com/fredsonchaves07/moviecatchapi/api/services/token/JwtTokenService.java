@@ -41,8 +41,6 @@ public class JwtTokenService implements TokenService {
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                     .compact();
             return new TokenDTO(token);
-        } catch (WeakKeyException exception) {
-            throw new ExpiredTokenException();
         } catch (MalformedJwtException | IllegalArgumentException exception) {
             throw new InvalidTokenException();
         }

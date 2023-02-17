@@ -30,9 +30,15 @@ public class AuthenticateUserUseCase {
     }
 
     private TokenDTO authenticateUser(LoginDTO loginDTO) {
+        validateLoginDTO(loginDTO);
+        return new TokenDTO(jwtService.encrypt(new UserDTO(loginDTO.email(), loginDTO.email())).token());
+    }
+
+    private void validateLoginDTO(LoginDTO loginDTO) {
+        if (loginDTO == null) throw new EmailOrPasswordIncorrectException();
+        if (loginDTO.email() == null || loginDTO.password() == null) throw new EmailOrPasswordIncorrectException();
         if (!emailAlreadyExist(loginDTO.email())) throw new EmailOrPasswordIncorrectException();
         if (!isEmailPasswordMatch(loginDTO.email(), loginDTO.password())) throw new EmailOrPasswordIncorrectException();
-        return new TokenDTO(jwtService.encrypt(new UserDTO(loginDTO.email(), loginDTO.email())).token());
     }
 
     private boolean emailAlreadyExist(String email) {

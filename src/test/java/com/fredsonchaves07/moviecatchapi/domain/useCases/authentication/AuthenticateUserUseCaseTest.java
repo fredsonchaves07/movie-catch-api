@@ -62,4 +62,32 @@ public class AuthenticateUserUseCaseTest {
                 () -> authenticateUserUseCase.execute(loginDTO)
         );
     }
+
+    @Test
+    public void notShouldAuthenticateUserIfEmailIsNull() {
+        String password = "user@1243";
+        LoginDTO loginDTO = new LoginDTO(null, password);
+        assertThrows(
+                EmailOrPasswordIncorrectException.class,
+                () -> authenticateUserUseCase.execute(loginDTO)
+        );
+    }
+
+    @Test
+    public void notShouldAuthenticateUserIfPasswordIsNull() {
+        String email = "usertest@email.com";
+        LoginDTO loginDTO = new LoginDTO(email, null);
+        assertThrows(
+                EmailOrPasswordIncorrectException.class,
+                () -> authenticateUserUseCase.execute(loginDTO)
+        );
+    }
+
+    @Test
+    public void notShouldAuthenticateIfLoginIsNull() {
+        assertThrows(
+                EmailOrPasswordIncorrectException.class,
+                () -> authenticateUserUseCase.execute(null)
+        );
+    }
 }

@@ -1,5 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services.authentication;
 
+import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
@@ -12,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class AuthenticateUserApiServiceTest {
@@ -42,7 +42,7 @@ public class AuthenticateUserApiServiceTest {
     }
 
     @Test
-    public void shouldAuthenticateUser() {
+    public void shouldAuthenticateUserWithEmailRegisteredValid() {
         String email = "usertest@email.com";
         String password = "user@123";
         LoginDTO loginDTO = new LoginDTO(email, password);
@@ -50,5 +50,55 @@ public class AuthenticateUserApiServiceTest {
         String token = tokenService.decrypt(tokenDTO);
         assertNotNull(tokenDTO);
         assertEquals(email, token);
+    }
+
+    @Test
+    public void notShouldAuthenticateUserWithEmailDoesNotExists() {
+        String email = "usertest1@email.com";
+        String password = "user@123";
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        assertThrows(
+                BadRequestException.class,
+                () -> authenticateUserApiService.execute(loginDTO)
+        );
+    }
+
+    @Test
+    public void notShouldAuthenticateUserIfPasswordDoesNotMatch() {
+        String email = "usertest@email.com";
+        String password = "user@1243";
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        assertThrows(
+                BadRequestException.class,
+                () -> authenticateUserApiService.execute(loginDTO)
+        );
+    }
+
+    @Test
+    public void notShouldAuthenticateUserIfEmailIsNull() {
+        String password = "user@1243";
+        LoginDTO loginDTO = new LoginDTO(null, password);
+        assertThrows(
+                BadRequestException.class,
+                () -> authenticateUserApiService.execute(loginDTO)
+        );
+    }
+
+    @Test
+    public void notShouldAuthenticateUserIfPasswordIsNull() {
+        String email = "usertest@email.com";
+        LoginDTO loginDTO = new LoginDTO(email, null);
+        assertThrows(
+                BadRequestException.class,
+                () -> authenticateUserApiService.execute(loginDTO)
+        );
+    }
+
+    @Test
+    public void notShouldAuthenticateIfLoginIsNull() {
+        assertThrows(
+                BadRequestException.class,
+                () -> authenticateUserApiService.execute(null)
+        );
     }
 }
