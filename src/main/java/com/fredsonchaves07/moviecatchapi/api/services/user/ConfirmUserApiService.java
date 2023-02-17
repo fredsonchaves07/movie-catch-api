@@ -24,13 +24,13 @@ public class ConfirmUserApiService {
         try {
             return confirmUserUseCase.execute(new TokenDTO(token));
         } catch (UserAlreadyConfirmedException exception) {
-            throw new BadRequestException(exception.getType(), exception.getTitle(), exception.getMessage());
+            throw new BadRequestException(exception);
         } catch (InvalidTokenException exception) {
-            throw new ApiInvalidTokenException(exception.getType(), exception.getTitle(), exception.getMessage());
+            throw new ApiInvalidTokenException(exception);
         } catch (ExpiredTokenException exception) {
-            throw new ApiExpiredTokenException(exception.getType(), exception.getTitle(), exception.getMessage());
+            throw new ApiExpiredTokenException(exception);
         } catch (UserNotFoundException exception) {
-            throw new ResourceNotFoundException(exception.getType(), exception.getTitle(), exception.getMessage());
+            throw new ResourceNotFoundException(exception);
         }
     }
 }
