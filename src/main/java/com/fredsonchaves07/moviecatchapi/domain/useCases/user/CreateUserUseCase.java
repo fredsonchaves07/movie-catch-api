@@ -11,7 +11,6 @@ import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +25,6 @@ public class CreateUserUseCase {
 
     @Autowired
     private TokenService tokenService;
-
-    @Value("${api.url.confirm.user}")
-    private String apiURL;
 
     private User user;
 
@@ -67,22 +63,11 @@ public class CreateUserUseCase {
 
     private void sendMail() {
         String token = getToken();
-        String urlConfirmation = getUrlTokenConfirmation(token);
-        String content = """
-                Olá! Tudo bem?
-                Para confirmar seu cadastro por favor clique no link abaixo
-                                
-                """ + urlConfirmation;
-        String subject = "Bem vindo ao moviecatch";
-        sendEmailService.send(new MessageEmailDTO(subject, user.getEmail(), content));
+        String subject = "Welcome to MovieCatch! \uD83D\uDE00";
+        sendEmailService.send(new MessageEmailDTO(subject, user.getEmail(), token), "welcome_mail");
     }
 
     private String getToken() {
         return tokenService.encrypt(userDTO).token();
-    }
-
-
-    private String getUrlTokenConfirmation(String token) {
-        return apiURL + "/" + token;
     }
 }

@@ -18,7 +18,7 @@ public class FakeSendMailService implements SendEmailService {
     final Logger logger = LoggerFactory.getLogger(FakeSendMailService.class);
 
     @Override
-    public void send(MessageEmailDTO messageEmailDTO) throws SendEmailException {
+    public void send(MessageEmailDTO messageEmailDTO, String template) throws SendEmailException {
         if (!isEmailValid(messageEmailDTO)) throw new SendEmailException();
         logger.info("Send fake mail");
         logger.info("From: " + supportMail);
