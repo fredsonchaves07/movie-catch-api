@@ -3,10 +3,12 @@ package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 import com.fredsonchaves07.moviecatchapi.domain.dto.email.MessageEmailDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.entities.Role;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailAlreadyExistException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordInvalidException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.NameInvalidException;
+import com.fredsonchaves07.moviecatchapi.domain.repositories.RoleRepository;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
@@ -20,6 +22,9 @@ public class CreateUserUseCase {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private SendEmailService sendEmailService;
@@ -47,7 +52,8 @@ public class CreateUserUseCase {
         String name = createUserDTO.getName();
         String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
-        user = new User(name, email, password);
+        Role role = roleRepository.findUserRole();
+        user = new User(name, email, password, role);
     }
 
     private void validateUser() {

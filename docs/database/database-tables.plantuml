@@ -5,7 +5,7 @@ top to bottom direction
 skinparam linetype ortho
 
 entity users {
-   id: bigint <<PK>>
+   id: varchar <<PK>>
    email: varchar(255)
    is_confirm: boolean() not null default false
    name: varchar(255) not null
@@ -13,5 +13,22 @@ entity users {
    created_at: timestamp() default now
    updated_at: timestamp() default now
 }
+
+entity roles {
+   id: varchar <<PK>>
+   name: varchar(255) not null
+   created_at: timestamp() default now
+   updated_at: timestamp() default now
+}
+
+entity users_roles {
+   user_id: varchar references users(id)
+   role_id: varchar references roles(id)
+   created_at: timestamp() default now
+   updated_at: timestamp() default now
+}
+
+users ||..|{users_roles
+roles ||..|{users_roles
 
 @enduml
