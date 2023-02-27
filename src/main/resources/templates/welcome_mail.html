@@ -257,21 +257,24 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <form>
+                                    <form method="post" action="#" th:action="${url}">
                                         <table style="font-family:arial,helvetica,sans-serif;" role="presentation"
                                                cellpadding="0" cellspacing="0" width="100%" border="0">
                                             <tbody>
                                             <form method="post">
-                                                <input type="hidden" name="_method" value="put"/>
                                                 <tr>
                                                     <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;"
                                                         align="left">
                                                         <div align="center">
-                                                            <a th:href="${url}" target="_blank"
-                                                               style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #3AAEE0; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;">
-                                                                <span style="display:block;padding:10px 20px;line-height:120%;"><strong>Confirm Account</strong><br/></span>
-                                                                <input type="text">
-                                                            </a>
+                                                            <button type="submit"
+                                                                    style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF;background-color: #3AAEE0;border-radius: 4px;-webkit-border-radius: 4px;-moz-border-radius: 4px;width: 150px;max-width: 100%;overflow-wrap: break-word;word-break: break-word;word-wrap:break-word;mso-border-alt: none;padding: 10px;">
+                                                                <strong>Confirm Account</strong>
+                                                            </button>
+                                                            <!--                                                            <a th:href="${url}" target="_blank"-->
+                                                            <!--                                                               style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #3AAEE0; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;">-->
+                                                            <!--                                                                <span style="display:block;padding:10px 20px;line-height:120%;"><strong>Confirm Account</strong><br/></span>-->
+                                                            <!--                                                                <input type="text">-->
+                                                            <!--                                                            </a>-->
                                                             <!--[if mso]></center></v:roundrect></td></tr></table>
                                                             <![endif]-->
                                                         </div>
