@@ -14,6 +14,7 @@
     - [Installation of Dependencies](#installation-of-dependencies)
     - [Running application tests](#running-application-tests)
 - [Running the Application](#%EF%B8%8F-running-the-application)
+- [Docs](#-docs)
 - [Issues](#-issues)
 - [Contribution](#-contribution)
 - [License](#%EF%B8%8F-license)
@@ -102,6 +103,16 @@ mvn spring-boot:run
 ```
 
 Access the api with the url [localhost:8080/api/v1](localhost:8080/api/v1)
+
+## 📝 Docs
+
+Application documents and files can be found in the `docs` directory.
+
+Some of the types of documents that can be found.
+
+- Entity and database tables in `database`
+- Application flow and use cases in `application`
+- Collections of postman requests in `collection`
 
 ## 🐛 Issues
 

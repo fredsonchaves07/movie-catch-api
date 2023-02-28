@@ -1,6 +1,8 @@
 package com.fredsonchaves07.moviecatchapi.domain.repository;
 
+import com.fredsonchaves07.moviecatchapi.domain.entities.Role;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
+import com.fredsonchaves07.moviecatchapi.domain.repositories.RoleRepository;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import static com.fredsonchaves07.moviecatchapi.factories.RoleFactory.createRole;
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUser;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,14 +20,24 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     private User existingUser;
 
     private User persitUser;
+
+    private Role existingRole;
+
+    private Role persitRole;
 
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
         existingUser = createUser();
+        existingRole = createRole();
+        persitRole = roleRepository.save(existingRole);
+        existingUser.addRole(persitRole);
         persitUser = userRepository.save(existingUser);
     }
 
@@ -33,16 +46,15 @@ public class UserRepositoryTest {
         String name = "User test";
         String email = "user1@email.com";
         String password = "user@123";
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        User newUser = new User(name, email, password, persitRole);
         userRepository.save(newUser);
         User user = userRepository.findByEmail(email);
         assertNotNull(user);
         assertEquals(user.getName(), newUser.getName());
         assertEquals(user.getEmail(), newUser.getEmail());
         assertEquals(user.getPassword(), newUser.getPassword());
+        assertNotNull(user.getRoles());
+        assertTrue(user.containRole(existingRole));
         assertNotNull(user.getCreatedAt());
         assertNotNull(user.getUpdatedAt());
         assertFalse(user.isConfirm());
@@ -79,10 +91,7 @@ public class UserRepositoryTest {
     public void notShouldCreateUserIfNameIsNull() {
         String email = "user@email.com";
         String password = "user@123";
-        User newUser = new User();
-        newUser.setName(null);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        User newUser = new User(null, email, password, existingRole);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.save(newUser)
@@ -93,10 +102,7 @@ public class UserRepositoryTest {
     public void notShouldCreateUserIfPasswordIsNull() {
         String name = "User test";
         String email = "user@email.com";
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setPassword(null);
+        User newUser = new User(name, email, null, existingRole);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.save(newUser)
@@ -107,10 +113,7 @@ public class UserRepositoryTest {
     public void notShouldCreateUserIfEmailIsNull() {
         String name = "User test";
         String password = "user@123";
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(null);
-        newUser.setPassword(password);
+        User newUser = new User(name, null, password, existingRole);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.save(newUser)
@@ -122,10 +125,7 @@ public class UserRepositoryTest {
         String name = "User test";
         String email = "user@email.com";
         String password = "user@123";
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        User newUser = new User(name, email, password, existingRole);
         assertThrows(
                 DataIntegrityViolationException.class,
                 () -> userRepository.saveAndFlush(newUser)
@@ -139,5 +139,13 @@ public class UserRepositoryTest {
         userRepository.save(user);
         user = userRepository.findByEmail(persitUser.getEmail());
         assertTrue(user.isConfirm());
+    }
+
+    @Test
+    public void shouldAddRoleUser() {
+        persitUser.addRole(existingRole);
+        User user = userRepository.save(persitUser);
+        assertNotNull(user.getRoles());
+        assertTrue(user.containRole(existingRole));
     }
 }
