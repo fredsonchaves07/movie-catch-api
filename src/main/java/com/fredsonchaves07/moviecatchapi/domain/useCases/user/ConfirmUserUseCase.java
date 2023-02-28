@@ -25,7 +25,6 @@ public class ConfirmUserUseCase {
     @Transactional
     public UserDTO execute(TokenDTO token) {
         decryptedUserByToken(token);
-        if (userIsNotFound()) throw new UserNotFoundException();
         if (isConfirmed()) throw new UserAlreadyConfirmedException();
         confirmUser();
         return new UserDTO(user);
@@ -33,11 +32,7 @@ public class ConfirmUserUseCase {
 
     private void decryptedUserByToken(TokenDTO token) {
         String email = tokenService.decrypt(token);
-        user = userRepository.findByEmail(email);
-    }
-
-    private boolean userIsNotFound() {
-        return user == null;
+        user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
     private boolean isConfirmed() {
