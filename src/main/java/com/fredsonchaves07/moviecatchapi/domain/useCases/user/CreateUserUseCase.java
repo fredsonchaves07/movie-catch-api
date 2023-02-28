@@ -42,6 +42,7 @@ public class CreateUserUseCase {
     public UserDTO execute(CreateUserDTO createUserDTO) {
         createUser(createUserDTO);
         validateUser();
+        encryptPassword();
         saveUser();
         sendMail();
         return userDTO;
@@ -66,7 +67,6 @@ public class CreateUserUseCase {
     }
 
     private void saveUser() {
-        encryptPassword();
         userRepository.save(user);
         userDTO = new UserDTO(user);
     }
