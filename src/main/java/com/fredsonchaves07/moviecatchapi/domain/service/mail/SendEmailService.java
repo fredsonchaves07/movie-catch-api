@@ -9,6 +9,7 @@ public interface SendEmailService {
 
     default boolean isEmailValid(MessageEmailDTO messageEmailDTO) {
         return messageEmailDTO != null &&
+                messageEmailDTO.content() != null &&
                 messageEmailDTO.subject() != null &&
                 messageEmailDTO.email() != null;
     }
