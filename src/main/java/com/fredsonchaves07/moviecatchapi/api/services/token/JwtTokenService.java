@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class JwtTokenService implements TokenService {
@@ -25,11 +26,11 @@ public class JwtTokenService implements TokenService {
     private String tokenSecret;
 
     @Override
-    public TokenDTO encrypt(UserDTO userDTO) {
+    public TokenDTO encrypt(Optional<UserDTO> userDTO) {
         try {
-            if (userDTO == null) throw new UserNotFoundException();
+            UserDTO user = userDTO.orElseThrow(UserNotFoundException::new);
             String token = JWT.create()
-                    .withSubject(userDTO.getEmail())
+                    .withSubject(user.getEmail())
                     .withIssuedAt(new Date())
                     .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(tokenExpiration)))
                     .sign(Algorithm.HMAC512(tokenSecret));
@@ -42,9 +43,9 @@ public class JwtTokenService implements TokenService {
     }
 
     @Override
-    public String decrypt(TokenDTO token) {
+    public String decrypt(Optional<TokenDTO> tokenDTO) {
         try {
-            if (token == null) throw new InvalidTokenException();
+            TokenDTO token = tokenDTO.orElseThrow(InvalidTokenException::new);
             return JWT
                     .require(Algorithm.HMAC512(tokenSecret))
                     .build()

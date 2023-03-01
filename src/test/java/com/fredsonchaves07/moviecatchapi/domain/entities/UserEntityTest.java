@@ -140,6 +140,6 @@ public class UserEntityTest {
     public void shouldGetRolesUser() {
         existingUser.addRole(existingRole);
         assertNotNull(existingUser.getRoles());
-        assertEquals(1, existingUser.getRoles().size());
+        assertEquals(1, existingUser.getRoles().orElseThrow().size());
     }
 }
