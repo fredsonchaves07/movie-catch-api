@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static com.fredsonchaves07.moviecatchapi.factories.RoleFactory.createRole;
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUser;
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,9 +58,15 @@ public class UserRepositoryTest {
         assertEquals(user.getPassword(), newUser.getPassword());
         assertNotNull(user.getRoles());
         assertTrue(user.containRole(existingRole));
-        assertNotNull(user.getCreatedAt());
-        assertNotNull(user.getUpdatedAt());
         assertFalse(user.isConfirm());
+        assertEquals(
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy:hh:mm")),
+                user.getCreatedAt().format(DateTimeFormatter.ofPattern("dd-MM-yyyy:hh:mm"))
+        );
+        assertEquals(
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy:hh:mm")),
+                user.getUpdatedAt().format(DateTimeFormatter.ofPattern("dd-MM-yyyy:hh:mm"))
+        );
     }
 
     @Test
