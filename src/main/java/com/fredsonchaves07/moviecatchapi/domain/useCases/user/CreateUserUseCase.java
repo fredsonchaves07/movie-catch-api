@@ -14,6 +14,7 @@ import com.fredsonchaves07.moviecatchapi.domain.service.mail.SendEmailService;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,9 @@ public class CreateUserUseCase {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Value("${api.url.confirm.user}")
     private String apiURL;
 
@@ -43,6 +47,7 @@ public class CreateUserUseCase {
     public UserDTO execute(CreateUserDTO createUserDTO) {
         createUser(createUserDTO);
         validateUser();
+        encryptPassword();
         saveUser();
         sendMail();
         return userDTO;
@@ -62,6 +67,7 @@ public class CreateUserUseCase {
         if (emailAlreadyExist()) throw new EmailAlreadyExistException();
     }
 
+
     private boolean emailAlreadyExist() {
         return userRepository.findByEmail(user.getEmail()) != null;
     }
@@ -69,6 +75,10 @@ public class CreateUserUseCase {
     private void saveUser() {
         userRepository.save(user);
         userDTO = new UserDTO(user);
+    }
+
+    private void encryptPassword() {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
     private void sendMail() {
