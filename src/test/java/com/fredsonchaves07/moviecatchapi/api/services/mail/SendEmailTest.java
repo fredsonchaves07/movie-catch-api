@@ -17,37 +17,26 @@ public class SendEmailTest {
     public void shouldSendEmail() {
         String email = "user@email.com";
         String subject = "Teste de envio de email";
-        String content = "Testando envio de email";
-        assertDoesNotThrow(() -> sendEmailService.send(new MessageEmailDTO(subject, email, content), null));
+        assertDoesNotThrow(() -> sendEmailService.send(
+                new MessageEmailDTO(subject, email), null, null)
+        );
     }
 
     @Test
     public void notShouldSendEmailIfEmailIsNull() {
         String subject = "Teste de envio de email";
-        String content = "Testando envio de email";
         assertThrows(
                 SendEmailException.class,
-                () -> sendEmailService.send(new MessageEmailDTO(subject, null, content), null)
+                () -> sendEmailService.send(new MessageEmailDTO(subject, null), null, null)
         );
     }
 
     @Test
     public void notShouldSendEmailIfSubjectIsNull() {
         String email = "user@email.com";
-        String content = "Testando envio de email";
         assertThrows(
                 SendEmailException.class,
-                () -> sendEmailService.send(new MessageEmailDTO(null, email, content), null)
-        );
-    }
-
-    @Test
-    public void notShouldSendEmailIfContentIsNull() {
-        String email = "user@email.com";
-        String subject = "Teste de envio de email";
-        assertThrows(
-                SendEmailException.class,
-                () -> sendEmailService.send(new MessageEmailDTO(subject, email, null), null)
+                () -> sendEmailService.send(new MessageEmailDTO(null, email), null, null)
         );
     }
 
@@ -55,7 +44,7 @@ public class SendEmailTest {
     public void notShouldSendEmailIfMessageIsNull() {
         assertThrows(
                 SendEmailException.class,
-                () -> sendEmailService.send(null, null)
+                () -> sendEmailService.send(null, null, null)
         );
     }
 }

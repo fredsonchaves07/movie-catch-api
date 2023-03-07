@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+
 @Component
 public class CreateUserUseCase {
 
@@ -83,11 +85,20 @@ public class CreateUserUseCase {
 
     private void sendMail() {
         String token = getToken();
-        String subject = "Welcome to MovieCatch! \uD83D\uDE00";
-        sendEmailService.send(new MessageEmailDTO(subject, user.getEmail(), token), "welcome_mail");
+        String subject = "Welcome to MovieCatch!";
+        MessageEmailDTO messageEmail = new MessageEmailDTO(subject, user.getEmail());
+        HashMap<String, Object> templateParams = createTemplateMail(token, messageEmail);
+        sendEmailService.send(messageEmail, "welcome_mail", templateParams);
     }
 
     private String getToken() {
         return tokenService.encrypt(userDTO).token();
+    }
+
+    private HashMap<String, Object> createTemplateMail(String token, MessageEmailDTO messageEmailDTO) {
+        HashMap<String, Object> templateParams = new HashMap<>();
+        templateParams.put("url", apiURL + "/" + token);
+        templateParams.put("mesmessageEmail", messageEmailDTO);
+        return templateParams;
     }
 }

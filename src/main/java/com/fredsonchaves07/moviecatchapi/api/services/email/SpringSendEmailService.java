@@ -32,11 +32,10 @@ public class SpringSendEmailService implements SendEmailService {
     @Value("${support.email}")
     private String supportMail;
 
-    @Value("${api.url.confirm.user}")
-    private String apiURL;
-
     @Override
-    public void send(MessageEmailDTO messageEmailDTO, String template) throws SendEmailException {
+    public void send(
+            MessageEmailDTO messageEmailDTO, String template, HashMap<String, Object> templateParams
+    ) throws SendEmailException {
         try {
             if (!isEmailValid(messageEmailDTO)) throw new SendEmailException();
             MimeMessage mail = mailSender.createMimeMessage();
@@ -45,8 +44,6 @@ public class SpringSendEmailService implements SendEmailService {
             );
             Map<String, Object> contextContent = new HashMap<>();
             Context context = new Context();
-            contextContent.put("messageEmail", messageEmailDTO);
-            contextContent.put("url", apiURL + "/" + messageEmailDTO.content());
             context.setVariables(contextContent);
             String html = templateEngine.process(template, context);
             message.setSubject(messageEmailDTO.subject());
