@@ -101,8 +101,7 @@ public class User {
     }
 
     public Optional<Set<Role>> getRoles() {
-        if (roles.size() >= 1) return Optional.of(roles);
-        return Optional.empty();
+        return Optional.of(roles);
     }
 
     public boolean containRole(Role role) {
