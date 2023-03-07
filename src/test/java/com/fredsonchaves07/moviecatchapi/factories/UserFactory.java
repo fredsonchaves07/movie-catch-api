@@ -23,18 +23,11 @@ public class UserFactory {
     }
 
     public static User createUser() {
-        User user = new User();
-        user.setName("User test");
-        user.setEmail("user@email.com");
-        user.setPassword("user@123");
-        return user;
+        return new User("User test", "user@email.com", "user@123");
     }
 
     public static User createUser(String name, String email, String password) {
-        User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(password);
+        User user = new User(name, email, password);
         return user;
     }
 }
