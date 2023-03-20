@@ -2,8 +2,12 @@ package com.fredsonchaves07.moviecatchapi.domain.useCases.authentication;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordIncorrectException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.UnconfirmedUserException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
+import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.user.ConfirmUserUseCase;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.user.CreateUserUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,12 +28,20 @@ public class AuthenticateUserUseCaseTest {
     private CreateUserUseCase createUserUseCase;
 
     @Autowired
+    private ConfirmUserUseCase confirmUserUseCase;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private AuthenticateUserUseCase authenticateUserUseCase;
 
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
-        createUserUseCase.execute(createUserDTO());
+        UserDTO userDTO = createUserUseCase.execute(createUserDTO());
+        TokenDTO tokenDTO = tokenService.encrypt(userDTO);
+        confirmUserUseCase.execute(tokenDTO);
     }
 
     @Test
@@ -88,6 +100,20 @@ public class AuthenticateUserUseCaseTest {
         assertThrows(
                 EmailOrPasswordIncorrectException.class,
                 () -> authenticateUserUseCase.execute(null)
+        );
+    }
+
+    @Test
+    public void notShouldAuthenticateUserIfUserIsNoConfirmed() {
+        createUserUseCase.execute(createUserDTO(
+                "User not confirmed", "usertnotconfirmed@email.com", "user@123")
+        );
+        String email = "usertnotconfirmed@email.com";
+        String password = "user@123";
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        assertThrows(
+                UnconfirmedUserException.class,
+                () -> authenticateUserUseCase.execute(loginDTO)
         );
     }
 }

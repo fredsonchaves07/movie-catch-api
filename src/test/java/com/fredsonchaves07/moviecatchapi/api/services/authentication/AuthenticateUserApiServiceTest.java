@@ -6,6 +6,7 @@ import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.user.ConfirmUserUseCase;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.user.CreateUserUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,17 +29,17 @@ public class AuthenticateUserApiServiceTest {
     private CreateUserUseCase createUserUseCase;
 
     @Autowired
+    private ConfirmUserUseCase confirmUserUseCase;
+
+    @Autowired
     private AuthenticateUserApiService authenticateUserApiService;
-
-    private String token;
-
-    private UserDTO userDTO;
 
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
-        userDTO = createUserUseCase.execute(createUserDTO());
-        token = tokenService.encrypt(userDTO).token();
+        UserDTO userDTO = createUserUseCase.execute(createUserDTO());
+        TokenDTO tokenDTO = tokenService.encrypt(userDTO);
+        confirmUserUseCase.execute(tokenDTO);
     }
 
     @Test

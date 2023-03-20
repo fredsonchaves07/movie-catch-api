@@ -5,6 +5,7 @@ import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordIncorrectException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.UnconfirmedUserException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,8 @@ public class AuthenticateUserUseCase {
                         loginDTO.password()
                 )
         );
-        return new TokenDTO(jwtService.encrypt(new UserDTO(loginDTO.email(), loginDTO.email())).token());
+        String tokenEncrypted = jwtService.encrypt(new UserDTO(loginDTO.email(), loginDTO.email())).token();
+        return new TokenDTO(tokenEncrypted);
     }
 
     private void validateLoginDTO(LoginDTO loginDTO) {
@@ -50,6 +52,7 @@ public class AuthenticateUserUseCase {
         if (loginDTO.email() == null || loginDTO.password() == null) throw new EmailOrPasswordIncorrectException();
         if (!emailAlreadyExist(loginDTO.email())) throw new EmailOrPasswordIncorrectException();
         if (!isEmailPasswordMatch(loginDTO.email(), loginDTO.password())) throw new EmailOrPasswordIncorrectException();
+        if (!userIsConfirmed()) throw new UnconfirmedUserException();
     }
 
     private boolean emailAlreadyExist(String email) {
@@ -58,6 +61,10 @@ public class AuthenticateUserUseCase {
 
     private boolean isEmailPasswordMatch(String email, String password) {
         user = userRepository.findByEmail(email);
-        return passwordEncoder.matches(user.getPassword(), passwordEncoder.encode(password));
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    private boolean userIsConfirmed() {
+        return user.isConfirm();
     }
 }
