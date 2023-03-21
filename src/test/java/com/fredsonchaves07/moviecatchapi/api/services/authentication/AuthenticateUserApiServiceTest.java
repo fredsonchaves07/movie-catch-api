@@ -102,4 +102,18 @@ public class AuthenticateUserApiServiceTest {
                 () -> authenticateUserApiService.execute(null)
         );
     }
+
+    @Test
+    public void notShouldAuthenticateUserIfUserIsNoConfirmed() {
+        createUserUseCase.execute(createUserDTO(
+                "User not confirmed", "usertnotconfirmed@email.com", "user@123")
+        );
+        String email = "usertnotconfirmed@email.com";
+        String password = "user@123";
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        assertThrows(
+                BadRequestException.class,
+                () -> authenticateUserApiService.execute(loginDTO)
+        );
+    }
 }
