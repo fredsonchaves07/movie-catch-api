@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services.authentication;
 
-import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
+import com.fredsonchaves07.moviecatchapi.api.exception.UnauthorizedException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
@@ -59,7 +59,7 @@ public class AuthenticateUserApiServiceTest {
         String password = "user@123";
         LoginDTO loginDTO = new LoginDTO(email, password);
         assertThrows(
-                BadRequestException.class,
+                UnauthorizedException.class,
                 () -> authenticateUserApiService.execute(loginDTO)
         );
     }
@@ -70,7 +70,7 @@ public class AuthenticateUserApiServiceTest {
         String password = "user@1243";
         LoginDTO loginDTO = new LoginDTO(email, password);
         assertThrows(
-                BadRequestException.class,
+                UnauthorizedException.class,
                 () -> authenticateUserApiService.execute(loginDTO)
         );
     }
@@ -80,7 +80,7 @@ public class AuthenticateUserApiServiceTest {
         String password = "user@1243";
         LoginDTO loginDTO = new LoginDTO(null, password);
         assertThrows(
-                BadRequestException.class,
+                UnauthorizedException.class,
                 () -> authenticateUserApiService.execute(loginDTO)
         );
     }
@@ -90,7 +90,7 @@ public class AuthenticateUserApiServiceTest {
         String email = "usertest@email.com";
         LoginDTO loginDTO = new LoginDTO(email, null);
         assertThrows(
-                BadRequestException.class,
+                UnauthorizedException.class,
                 () -> authenticateUserApiService.execute(loginDTO)
         );
     }
@@ -98,7 +98,7 @@ public class AuthenticateUserApiServiceTest {
     @Test
     public void notShouldAuthenticateIfLoginIsNull() {
         assertThrows(
-                BadRequestException.class,
+                UnauthorizedException.class,
                 () -> authenticateUserApiService.execute(null)
         );
     }
@@ -112,7 +112,7 @@ public class AuthenticateUserApiServiceTest {
         String password = "user@123";
         LoginDTO loginDTO = new LoginDTO(email, password);
         assertThrows(
-                BadRequestException.class,
+                UnauthorizedException.class,
                 () -> authenticateUserApiService.execute(loginDTO)
         );
     }

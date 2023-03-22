@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services.authentication;
 
-import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
+import com.fredsonchaves07.moviecatchapi.api.exception.UnauthorizedException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.DomainException;
@@ -18,7 +18,7 @@ public class AuthenticateUserApiService {
         try {
             return authenticateUserUseCase.execute(loginDTO);
         } catch (DomainException exception) {
-            throw new BadRequestException(exception);
+            throw new UnauthorizedException(exception);
         }
     }
 }
