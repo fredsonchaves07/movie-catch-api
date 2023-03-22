@@ -94,7 +94,7 @@ public class CreateUserUseCase {
     }
 
     private String getToken() {
-        return tokenService.encrypt(userDTO).token();
+        return tokenService.encrypt(userDTO).getToken();
     }
 
 

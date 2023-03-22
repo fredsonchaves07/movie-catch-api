@@ -54,7 +54,7 @@ public class JwtTokenService implements TokenService {
                     .parserBuilder()
                     .setSigningKey(getSignInKey())
                     .build()
-                    .parseClaimsJws(token.token())
+                    .parseClaimsJws(token.getToken())
                     .getBody()
                     .getSubject();
         } catch (WeakKeyException exception) {
