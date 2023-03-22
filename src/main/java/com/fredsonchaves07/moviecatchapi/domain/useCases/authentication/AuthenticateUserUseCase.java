@@ -43,7 +43,7 @@ public class AuthenticateUserUseCase {
                         loginDTO.getPassword()
                 )
         );
-        String tokenEncrypted = jwtService.encrypt(new UserDTO(loginDTO.getEmail(), loginDTO.getPassword())).getToken();
+        String tokenEncrypted = jwtService.encrypt(new UserDTO(null, loginDTO.getEmail())).getToken();
         return new TokenDTO(tokenEncrypted);
     }
 
