@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Component
 public class ConfirmUserUseCase {
 
@@ -25,19 +27,14 @@ public class ConfirmUserUseCase {
     @Transactional
     public UserDTO execute(TokenDTO token) {
         decryptedUserByToken(token);
-        if (userIsNotFound()) throw new UserNotFoundException();
         if (isConfirmed()) throw new UserAlreadyConfirmedException();
         confirmUser();
         return new UserDTO(user);
     }
 
     private void decryptedUserByToken(TokenDTO token) {
-        String email = tokenService.decrypt(token);
-        user = userRepository.findByEmail(email);
-    }
-
-    private boolean userIsNotFound() {
-        return user == null;
+        String email = tokenService.decrypt(Optional.ofNullable(token));
+        user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
     private boolean isConfirmed() {

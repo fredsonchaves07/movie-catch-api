@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.userDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,28 +33,28 @@ public class JwtTokenServiceTest {
 
     @Test
     public void shouldEncryptToken() {
-        assertNotNull(tokenService.encrypt(userDTO));
+        assertNotNull(tokenService.encrypt(Optional.of(userDTO)));
     }
 
     @Test
     public void shouldDecryptToken() {
-        tokenDTO = tokenService.encrypt(userDTO);
-        String userEmail = tokenService.decrypt(tokenDTO);
+        tokenDTO = tokenService.encrypt(Optional.of(userDTO));
+        String userEmail = tokenService.decrypt(Optional.of(tokenDTO));
         assertNotNull(userEmail);
         assertEquals(userEmail, userDTO.getEmail());
     }
 
     @Test
     public void shouldValidToken() {
-        tokenDTO = tokenService.encrypt(userDTO);
-        assertNotNull(tokenService.decrypt(tokenDTO));
+        tokenDTO = tokenService.encrypt(Optional.of(userDTO));
+        assertNotNull(tokenService.decrypt(Optional.of(tokenDTO)));
     }
 
     @Test
     public void notShouldValidTokenIfTokenIsNull() {
         assertThrows(
                 InvalidTokenException.class,
-                () -> tokenService.decrypt(null)
+                () -> tokenService.decrypt(Optional.empty())
         );
     }
 
@@ -63,7 +65,7 @@ public class JwtTokenServiceTest {
                 "Bb-HcCS0EYGvczEmZgxjnz-_jo9hVDfecmAMLBuSQzgHefBv-EZCKXkb8F8GEmcgvTw6By0fwiwPz8ooz5mwwg");
         assertThrows(
                 InvalidTokenException.class,
-                () -> tokenService.decrypt(invalidToken)
+                () -> tokenService.decrypt(Optional.of(invalidToken))
         );
     }
 
@@ -74,7 +76,7 @@ public class JwtTokenServiceTest {
                 "oC3X-neXhHqxbc1hN09ctA0P2cLG5eMVDdugg50xpjBZg6Fp2oQJdjKc08WYvDjCJzA-1k6XdlqNMx1Vq3rrVw");
         assertThrows(
                 ExpiredTokenException.class,
-                () -> tokenService.decrypt(expiredToken)
+                () -> tokenService.decrypt(Optional.of(expiredToken))
         );
     }
 
@@ -82,7 +84,7 @@ public class JwtTokenServiceTest {
     public void notShouldValidTokenIfUserIsNull() {
         assertThrows(
                 UserNotFoundException.class,
-                () -> tokenService.encrypt(null)
+                () -> tokenService.encrypt(Optional.empty())
         );
     }
 }

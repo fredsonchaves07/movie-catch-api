@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Component
 public class CreateUserUseCase {
 
@@ -69,7 +71,7 @@ public class CreateUserUseCase {
 
 
     private boolean emailAlreadyExist() {
-        return userRepository.findByEmail(user.getEmail()) != null;
+        return userRepository.findByEmail(user.getEmail()).isPresent();
     }
 
     private void saveUser() {
@@ -94,7 +96,7 @@ public class CreateUserUseCase {
     }
 
     private String getToken() {
-        return tokenService.encrypt(userDTO).token();
+        return tokenService.encrypt(Optional.of(userDTO)).token();
     }
 
 

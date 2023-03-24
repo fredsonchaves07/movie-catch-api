@@ -6,10 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Entity
@@ -103,9 +100,8 @@ public class User {
         return isConfirm;
     }
 
-    public Set<Role> getRoles() {
-        if (roles.size() >= 1) return roles;
-        return null;
+    public Optional<Set<Role>> getRoles() {
+        return Optional.of(roles);
     }
 
     public boolean containRole(Role role) {
@@ -141,7 +137,7 @@ public class User {
     }
 
     public boolean isNameValid() {
-        return name != null;
+        return Objects.nonNull(name);
     }
 
     public boolean isEmailAndPasswordValid() {
@@ -149,11 +145,11 @@ public class User {
     }
 
     private boolean isEmailValid() {
-        return email != null && PATTERN.matcher(email).matches();
+        return Objects.nonNull(email) && PATTERN.matcher(email).matches();
     }
 
     private boolean isPasswordValid() {
-        return password != null && password.length() >= 8 && (!password.contains(" "));
+        return Objects.nonNull(password) && password.length() >= 8 && (!password.contains(" "));
     }
 
     @Override
