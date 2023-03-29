@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-
 
 @Component
 @Profile({"dev, test", "docker"})
@@ -20,9 +18,7 @@ public class FakeSendMailService implements SendEmailService {
     final Logger logger = LoggerFactory.getLogger(FakeSendMailService.class);
 
     @Override
-    public void send(
-            MessageEmailDTO messageEmailDTO, String template, HashMap<String, Object> templateParams
-    ) throws SendEmailException {
+    public void send(MessageEmailDTO messageEmailDTO) throws SendEmailException {
         if (!isEmailValid(messageEmailDTO)) throw new SendEmailException();
         logger.info("Send fake mail");
         logger.info("From: " + supportMail);
