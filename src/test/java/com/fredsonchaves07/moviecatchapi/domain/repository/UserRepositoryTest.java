@@ -51,7 +51,7 @@ public class UserRepositoryTest {
         String password = "user@123";
         User newUser = new User(name, email, password, persitRole);
         userRepository.save(newUser);
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElseThrow();
         assertNotNull(user);
         assertEquals(user.getName(), newUser.getName());
         assertEquals(user.getEmail(), newUser.getEmail());
@@ -72,7 +72,7 @@ public class UserRepositoryTest {
     @Test
     public void shouldUpdateNameUser() {
         String name = "User update name";
-        User user = userRepository.findByEmail(persitUser.getEmail());
+        User user = userRepository.findByEmail(persitUser.getEmail()).orElseThrow();
         user.setName(name);
         userRepository.save(user);
         assertEquals(user.getName(), name);
@@ -81,7 +81,7 @@ public class UserRepositoryTest {
     @Test
     public void shouldUpdatePasswordUser() {
         String password = "newPassword@123";
-        User user = userRepository.findByEmail(persitUser.getEmail());
+        User user = userRepository.findByEmail(persitUser.getEmail()).orElseThrow();
         user.setPassword(password);
         userRepository.save(user);
         assertEquals(user.getPassword(), password);
@@ -90,7 +90,7 @@ public class UserRepositoryTest {
     @Test
     public void shouldUpdateEmailUser() {
         String email = "newEmail@email.com";
-        User user = userRepository.findByEmail(persitUser.getEmail());
+        User user = userRepository.findByEmail(persitUser.getEmail()).orElseThrow();
         user.setEmail(email);
         userRepository.save(user);
         assertEquals(user.getEmail(), email);
@@ -143,10 +143,10 @@ public class UserRepositoryTest {
 
     @Test
     public void shouldConfirmUser() {
-        User user = userRepository.findByEmail(persitUser.getEmail());
+        User user = userRepository.findByEmail(persitUser.getEmail()).orElseThrow();
         user.confirmUser();
         userRepository.save(user);
-        user = userRepository.findByEmail(persitUser.getEmail());
+        user = userRepository.findByEmail(persitUser.getEmail()).orElseThrow();
         assertTrue(user.isConfirm());
     }
 
