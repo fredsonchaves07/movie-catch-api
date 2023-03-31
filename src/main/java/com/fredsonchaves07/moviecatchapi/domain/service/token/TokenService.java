@@ -6,9 +6,11 @@ import com.fredsonchaves07.moviecatchapi.domain.exceptions.ExpiredTokenException
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.InvalidTokenException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 
+import java.util.Optional;
+
 public interface TokenService {
 
-    TokenDTO encrypt(UserDTO userDTO) throws UserNotFoundException;
+    TokenDTO encrypt(Optional<UserDTO> userDTO) throws UserNotFoundException;
 
-    String decrypt(TokenDTO token) throws ExpiredTokenException, InvalidTokenException;
+    String decrypt(Optional<TokenDTO> token) throws ExpiredTokenException, InvalidTokenException;
 }

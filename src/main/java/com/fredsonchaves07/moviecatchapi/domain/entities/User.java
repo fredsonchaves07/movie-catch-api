@@ -6,8 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Entity
@@ -40,6 +39,14 @@ public class User {
     @Column(nullable = false)
     private boolean isConfirm = false;
 
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime createdAt;
@@ -48,20 +55,33 @@ public class User {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime updatedAt;
 
+    @Deprecated
     public User() {
     }
 
-    public User(UUID id, String name, String email, String password) {
+    public User(UUID id, String name, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.roles.add(role);
+    }
+
+    public User(String name, String email, String password, Role role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles.add(role);
     }
 
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getName() {
@@ -78,6 +98,14 @@ public class User {
 
     public boolean isConfirm() {
         return isConfirm;
+    }
+
+    public Optional<Set<Role>> getRoles() {
+        return Optional.of(roles);
+    }
+
+    public boolean containRole(Role role) {
+        return this.roles.contains(role);
     }
 
     public OffsetDateTime getCreatedAt() {
@@ -104,8 +132,12 @@ public class User {
         this.isConfirm = true;
     }
 
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
     public boolean isNameValid() {
-        return name != null;
+        return Objects.nonNull(name);
     }
 
     public boolean isEmailAndPasswordValid() {
@@ -113,11 +145,11 @@ public class User {
     }
 
     private boolean isEmailValid() {
-        return email != null && PATTERN.matcher(email).matches();
+        return Objects.nonNull(email) && PATTERN.matcher(email).matches();
     }
 
     private boolean isPasswordValid() {
-        return password != null && password.length() >= 8 && (!password.contains(" "));
+        return Objects.nonNull(password) && password.length() >= 8 && (!password.contains(" "));
     }
 
     @Override

@@ -24,6 +24,6 @@ public class FakeSendMailService implements SendEmailService {
         logger.info("From: " + supportMail);
         logger.info("Subject: " + messageEmailDTO.subject());
         logger.info("To: " + messageEmailDTO.email());
-        logger.info("Content: " + messageEmailDTO.content());
+        logger.info("Content: Fake send mail successful!");
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.userDTO;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -35,8 +37,8 @@ public class ConfirmUserApiResourceTest {
     @Test
     public void shouldConfirmUser() throws Exception {
         UserDTO userDTO = userService.execute(createUserDTO());
-        TokenDTO tokenDTO = tokenService.encrypt(userDTO);
-        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.token())
+        TokenDTO tokenDTO = tokenService.encrypt(Optional.of(userDTO));
+        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("User Test"))
@@ -46,31 +48,31 @@ public class ConfirmUserApiResourceTest {
     @Test
     public void notShouldConfirmUserIfUserIsConfirmed() throws Exception {
         UserDTO userDTO = userService.execute(createUserDTO());
-        TokenDTO tokenDTO = tokenService.encrypt(userDTO);
-        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.token())
+        TokenDTO tokenDTO = tokenService.encrypt(Optional.of(userDTO));
+        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
                 .contentType(MediaType.APPLICATION_JSON));
 
-        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.token())
+        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.type").value("UserAlreadyConfirmedError"))
                 .andExpect(jsonPath("$.title").value("User has already been confirmed"))
-                .andExpect(jsonPath("$.instance").value("/api/v1/users/confirm/" + tokenDTO.token()))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users/confirm/" + tokenDTO.getToken()))
                 .andExpect(jsonPath("$.detail").value("User has already been confirmed. " +
                         "Login with your credentials"));
     }
 
     @Test
     public void notShoulConfirmUserIfUserIsNotFound() throws Exception {
-        TokenDTO tokenDTO = tokenService.encrypt(userDTO("usertest2", "usertest2@email.com"));
-        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.token())
+        TokenDTO tokenDTO = tokenService.encrypt(Optional.of(userDTO("usertest2", "usertest2@email.com")));
+        mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.type").value("UserNotFoundError"))
                 .andExpect(jsonPath("$.title").value("User not found"))
-                .andExpect(jsonPath("$.instance").value("/api/v1/users/confirm/" + tokenDTO.token()))
+                .andExpect(jsonPath("$.instance").value("/api/v1/users/confirm/" + tokenDTO.getToken()))
                 .andExpect(jsonPath("$.detail").value("User not found check registered email"));
     }
 

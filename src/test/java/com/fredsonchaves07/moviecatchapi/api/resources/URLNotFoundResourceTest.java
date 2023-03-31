@@ -38,4 +38,10 @@ public class URLNotFoundResourceTest {
                 .andExpect(jsonPath("$.status").value("OK"))
                 .andExpect(jsonPath("$.message").value("API running"));
     }
+
+    @Test
+    public void shouldGetError404Page() throws Exception {
+        mockMvc.perform(get("/swagger-ui"))
+                .andExpect(status().isNotFound());
+    }
 }

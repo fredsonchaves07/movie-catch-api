@@ -21,7 +21,7 @@ public class CreateUserAPIService {
         try {
             return createUserUseCase.execute(createUserDTO);
         } catch (NameInvalidException | EmailOrPasswordInvalidException | EmailAlreadyExistException exception) {
-            throw new BadRequestException(exception.getType(), exception.getTitle(), exception.getMessage());
+            throw new BadRequestException(exception);
         }
     }
 }

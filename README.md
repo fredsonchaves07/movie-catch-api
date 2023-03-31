@@ -14,6 +14,7 @@
     - [Installation of Dependencies](#installation-of-dependencies)
     - [Running application tests](#running-application-tests)
 - [Running the Application](#%EF%B8%8F-running-the-application)
+- [Docs](#-docs)
 - [Issues](#-issues)
 - [Contribution](#-contribution)
 - [License](#%EF%B8%8F-license)
@@ -30,6 +31,7 @@ consulted [here](https://github.com/fredsonchaves07/movie-catch-api/projects/1)
 - [Maven](https://maven.apache.org/)
 - [Spring Framework](https://spring.io/)
 - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
+- [Spring Security](https://spring.io/projects/spring-security)
 - [Hibernate](https://hibernate.org/)
 - [H2Database](https://www.h2database.com/html/main.html)
 - [Postgres](https://www.postgresql.org/)
@@ -101,6 +103,20 @@ mvn spring-boot:run
 ```
 
 Access the api with the url [localhost:8080/api/v1](localhost:8080/api/v1)
+
+To access API documentation [localhost:8080/api/v1/docs](localhost:8080/docs)
+
+## 📝 Docs
+
+Application documents and files can be found in the `docs` directory.
+
+Some of the types of documents that can be found.
+
+- Entity and database tables in `database`
+- Application flow and use cases in `application`
+- Collections of postman requests in `collection`
+
+To access the running API swagger documents. Access a url `/docs`
 
 ## 🐛 Issues
 

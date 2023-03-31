@@ -1,4 +1,4 @@
-package com.fredsonchaves07.moviecatchapi.api.config;
+package com.fredsonchaves07.moviecatchapi.api.config.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
