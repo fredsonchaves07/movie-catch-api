@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -49,7 +51,7 @@ public class AuthenticateUserResourceTest {
     public void setUp() {
         userRepository.deleteAll();
         UserDTO userDTO = createUserUseCase.execute(createUserDTO());
-        TokenDTO tokenDTO = tokenService.encrypt(userDTO);
+        TokenDTO tokenDTO = tokenService.encrypt(Optional.of(userDTO));
         confirmUserUseCase.execute(tokenDTO);
     }
 

@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.userDTO;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,7 +42,7 @@ public class ConfirmUserUseCaseTest {
     public void setUp() {
         userRepository.deleteAll();
         userDTO = createUserUseCase.execute(createUserDTO());
-        tokenDTO = tokenService.encrypt(userDTO);
+        tokenDTO = tokenService.encrypt(Optional.of(userDTO));
     }
 
     @Test
@@ -62,7 +64,7 @@ public class ConfirmUserUseCaseTest {
 
     @Test
     public void notShoulConfirmUserIfUserIsNotFound() {
-        tokenDTO = tokenService.encrypt(userDTO("usertest2", "usertest2@email.com"));
+        tokenDTO = tokenService.encrypt(Optional.of(userDTO("usertest2", "usertest2@email.com")));
         assertThrows(
                 UserNotFoundException.class,
                 () -> confirmUserUseCase.execute(tokenDTO)

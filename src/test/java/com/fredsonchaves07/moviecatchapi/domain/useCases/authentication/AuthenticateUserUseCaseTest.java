@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -40,7 +42,7 @@ public class AuthenticateUserUseCaseTest {
     public void setUp() {
         userRepository.deleteAll();
         UserDTO userDTO = createUserUseCase.execute(createUserDTO());
-        TokenDTO tokenDTO = tokenService.encrypt(userDTO);
+        TokenDTO tokenDTO = tokenService.encrypt(Optional.of(userDTO));
         confirmUserUseCase.execute(tokenDTO);
     }
 

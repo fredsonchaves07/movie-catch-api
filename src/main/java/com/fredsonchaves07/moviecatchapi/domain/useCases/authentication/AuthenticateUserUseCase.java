@@ -14,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class AuthenticateUserUseCase {
 
@@ -43,7 +45,7 @@ public class AuthenticateUserUseCase {
                         loginDTO.getPassword()
                 )
         );
-        String tokenEncrypted = jwtService.encrypt(new UserDTO(null, loginDTO.getEmail())).getToken();
+        String tokenEncrypted = jwtService.encrypt(Optional.of(new UserDTO(null, loginDTO.getEmail()))).getToken();
         return new TokenDTO(tokenEncrypted);
     }
 
@@ -61,11 +63,11 @@ public class AuthenticateUserUseCase {
     }
 
     private boolean emailAlreadyExist(String email) {
-        return userRepository.findByEmail(email) != null;
+        return userRepository.findByEmail(email).isPresent();
     }
 
     private boolean isEmailPasswordMatch(String email, String password) {
-        user = userRepository.findByEmail(email);
+        user = userRepository.findByEmail(email).orElseThrow();
         return passwordEncoder.matches(password, user.getPassword());
     }
 

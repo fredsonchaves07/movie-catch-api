@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Component
 public class JwtTokenService implements TokenService {
@@ -29,13 +30,13 @@ public class JwtTokenService implements TokenService {
     private String tokenSecret;
 
     @Override
-    public TokenDTO encrypt(UserDTO userDTO) {
+    public TokenDTO encrypt(Optional<UserDTO> userDTO) {
         try {
-            if (userDTO == null) throw new UserNotFoundException();
+            UserDTO user = userDTO.orElseThrow(UserNotFoundException::new);
             String token = Jwts
                     .builder()
                     .setClaims(new HashMap<>())
-                    .setSubject(userDTO.getEmail())
+                    .setSubject(user.getEmail())
                     .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(tokenExpiration)))
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -47,9 +48,9 @@ public class JwtTokenService implements TokenService {
     }
 
     @Override
-    public String decrypt(TokenDTO token) {
+    public String decrypt(Optional<TokenDTO> tokenDTO) {
         try {
-            if (token == null) throw new InvalidTokenException();
+            TokenDTO token = tokenDTO.orElseThrow(InvalidTokenException::new);
             return Jwts
                     .parserBuilder()
                     .setSigningKey(getSignInKey())

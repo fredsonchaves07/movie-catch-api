@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
 import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.userDTO;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -35,7 +37,7 @@ public class ConfirmUserApiResourceTest {
     @Test
     public void shouldConfirmUser() throws Exception {
         UserDTO userDTO = userService.execute(createUserDTO());
-        TokenDTO tokenDTO = tokenService.encrypt(userDTO);
+        TokenDTO tokenDTO = tokenService.encrypt(Optional.of(userDTO));
         mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -46,7 +48,7 @@ public class ConfirmUserApiResourceTest {
     @Test
     public void notShouldConfirmUserIfUserIsConfirmed() throws Exception {
         UserDTO userDTO = userService.execute(createUserDTO());
-        TokenDTO tokenDTO = tokenService.encrypt(userDTO);
+        TokenDTO tokenDTO = tokenService.encrypt(Optional.of(userDTO));
         mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -63,7 +65,7 @@ public class ConfirmUserApiResourceTest {
 
     @Test
     public void notShoulConfirmUserIfUserIsNotFound() throws Exception {
-        TokenDTO tokenDTO = tokenService.encrypt(userDTO("usertest2", "usertest2@email.com"));
+        TokenDTO tokenDTO = tokenService.encrypt(Optional.of(userDTO("usertest2", "usertest2@email.com")));
         mockMvc.perform(put("/api/v1/users/confirm/{token}", tokenDTO.getToken())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())

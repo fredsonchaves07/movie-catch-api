@@ -18,6 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Optional;
+
 @Component
 public class CreateUserUseCase {
 
@@ -69,7 +73,7 @@ public class CreateUserUseCase {
 
 
     private boolean emailAlreadyExist() {
-        return userRepository.findByEmail(user.getEmail()) != null;
+        return userRepository.findByEmail(user.getEmail()).isPresent();
     }
 
     private void saveUser() {
@@ -83,22 +87,20 @@ public class CreateUserUseCase {
 
     private void sendMail() {
         String token = getToken();
-        String urlConfirmation = getUrlTokenConfirmation(token);
-        String content = """
-                Olá! Tudo bem?
-                Para confirmar seu cadastro por favor clique no link abaixo
-                                
-                """ + urlConfirmation;
-        String subject = "Bem vindo ao moviecatch";
-        sendEmailService.send(new MessageEmailDTO(subject, user.getEmail(), content));
+        String subject = "Welcome to MovieCatch!";
+        HashMap<String, Object> mailParams = createMailParams(token);
+        MessageEmailDTO messageEmail = new MessageEmailDTO(subject, user.getEmail(), mailParams);
+        sendEmailService.send(messageEmail);
     }
 
     private String getToken() {
-        return tokenService.encrypt(userDTO).getToken();
+        return tokenService.encrypt(Optional.of(userDTO)).getToken();
     }
 
-
-    private String getUrlTokenConfirmation(String token) {
-        return apiURL + "/" + token;
+    private HashMap<String, Object> createMailParams(String... token) {
+        HashMap<String, Object> templateParams = new HashMap<>();
+        templateParams.put("template", "welcome_mail");
+        templateParams.put("url", apiURL + "/" + Arrays.toString(token));
+        return templateParams;
     }
 }
