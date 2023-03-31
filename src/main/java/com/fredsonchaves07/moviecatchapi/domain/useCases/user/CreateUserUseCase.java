@@ -94,7 +94,7 @@ public class CreateUserUseCase {
     }
 
     private String getToken() {
-        return tokenService.encrypt(Optional.of(userDTO)).token();
+        return tokenService.encrypt(Optional.of(userDTO)).getToken();
     }
 
     private HashMap<String, Object> createMailParams(String... token) {
