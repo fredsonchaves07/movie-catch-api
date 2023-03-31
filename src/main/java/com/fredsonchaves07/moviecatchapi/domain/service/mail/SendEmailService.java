@@ -10,9 +10,8 @@ public interface SendEmailService {
     void send(MessageEmailDTO message) throws SendEmailException;
 
     default boolean isEmailValid(MessageEmailDTO messageEmailDTO) {
-        return Objects.nonNull(messageEmailDTO)
-                && Objects.nonNull(messageEmailDTO.subject())
-                && Objects.nonNull(messageEmailDTO.email())
-                && Objects.nonNull(messageEmailDTO.content());
+        return Objects.nonNull(messageEmailDTO) &&
+                Objects.nonNull(messageEmailDTO.subject()) &&
+                Objects.nonNull(messageEmailDTO.email());
     }
 }
