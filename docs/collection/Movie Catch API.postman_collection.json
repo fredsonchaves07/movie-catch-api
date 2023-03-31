@@ -52,16 +52,16 @@
               }
             },
             "url": {
-              "raw": "{{localURL}}/api/v1/user/confirm/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VydGVzdDNAZW1haWwuY29tIiwiZXhwIjoxNjcxMDM2MDM4LCJpYXQiOjE2NzEwMjg4Mzh9.K5RcZLDcfKQAHIg4tk40-WjxoLMidAiZ93VXnUXSs8ubHbj-TImGuEAN4oEDDzcKIIwzzf3_7Bcp0jbbPVTRfA",
+              "raw": "{{localURL}}/api/v1/users/confirm/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Nzc4NjA5MzIsImlhdCI6MTY3Nzg1MzczMn0.N8-zCYMBK4pAI47c9a3bjispMT14jS0y0_6oI9X9TuFseer_w9SYdumn8NNr65-OSfNt07sUdzNtxzRZr8JCBQ",
               "host": [
                 "{{localURL}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "user",
+                "users",
                 "confirm",
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VydGVzdDNAZW1haWwuY29tIiwiZXhwIjoxNjcxMDM2MDM4LCJpYXQiOjE2NzEwMjg4Mzh9.K5RcZLDcfKQAHIg4tk40-WjxoLMidAiZ93VXnUXSs8ubHbj-TImGuEAN4oEDDzcKIIwzzf3_7Bcp0jbbPVTRfA"
+                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Nzc4NjA5MzIsImlhdCI6MTY3Nzg1MzczMn0.N8-zCYMBK4pAI47c9a3bjispMT14jS0y0_6oI9X9TuFseer_w9SYdumn8NNr65-OSfNt07sUdzNtxzRZr8JCBQ"
               ]
             }
           },
@@ -81,7 +81,7 @@
                 "exec": [
                   "var jsonData = pm.response.json()",
                   "",
-                  "pm.environment.set(\"accessToken\", jsonData.access_token);"
+                  "pm.environment.set(\"token\", jsonData.token);"
                 ],
                 "type": "text/javascript"
               }
@@ -95,7 +95,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"usertest@gmail.com\",\n    \"password\": \"usertest@email.com\"\n}",
+              "raw": "{\n    \"email\": \"usertest@email.com\",\n    \"password\": \"user@123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -103,12 +103,14 @@
               }
             },
             "url": {
-              "raw": "{{localURL}}/auth",
+              "raw": "{{localURL}}/api/v1/login",
               "host": [
                 "{{localURL}}"
               ],
               "path": [
-                "auth"
+                "api",
+                "v1",
+                "login"
               ]
             }
           },
