@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -97,10 +96,10 @@ public class CreateUserUseCase {
         return tokenService.encrypt(Optional.of(userDTO)).getToken();
     }
 
-    private HashMap<String, Object> createMailParams(String... token) {
+    private HashMap<String, Object> createMailParams(String token) {
         HashMap<String, Object> templateParams = new HashMap<>();
         templateParams.put("template", "welcome_mail");
-        templateParams.put("url", apiURL + "/" + Arrays.toString(token));
+        templateParams.put("url", apiURL + "/" + token);
         return templateParams;
     }
 }
