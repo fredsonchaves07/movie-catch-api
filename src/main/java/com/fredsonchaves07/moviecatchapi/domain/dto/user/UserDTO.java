@@ -4,10 +4,11 @@ import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import io.swagger.annotations.ApiModel;
 
 @ApiModel(value = "User response body")
-public class UserDTO {
+public final class UserDTO {
 
-    private String name;
-    private String email;
+    private final String name;
+
+    private final String email;
 
     public UserDTO(User user) {
         this.name = user.getName();
@@ -23,15 +24,7 @@ public class UserDTO {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
