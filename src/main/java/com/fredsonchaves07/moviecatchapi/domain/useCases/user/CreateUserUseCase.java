@@ -87,7 +87,7 @@ public class CreateUserUseCase {
     private void sendMail() {
         String token = getToken();
         String subject = "Welcome to MovieCatch!";
-        HashMap<String, Object> mailParams = createMailParams(token);
+        HashMap<String, Object> mailParams = createConfirmUserTemplateMail(token);
         MessageEmailDTO messageEmail = new MessageEmailDTO(subject, user.getEmail(), mailParams);
         sendEmailService.send(messageEmail);
     }
@@ -96,7 +96,7 @@ public class CreateUserUseCase {
         return tokenService.encrypt(Optional.of(userDTO)).getToken();
     }
 
-    private HashMap<String, Object> createMailParams(String token) {
+    private HashMap<String, Object> createConfirmUserTemplateMail(String token) {
         HashMap<String, Object> templateParams = new HashMap<>();
         templateParams.put("template", "welcome_mail");
         templateParams.put("url", apiURL + "/" + token);
