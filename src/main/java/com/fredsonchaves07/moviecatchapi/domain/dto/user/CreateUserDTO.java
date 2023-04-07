@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "User request body")
-public class CreateUserDTO {
+public final class CreateUserDTO {
 
     @ApiModelProperty(required = true)
     private final String name;
