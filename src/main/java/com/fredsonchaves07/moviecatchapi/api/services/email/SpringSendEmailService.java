@@ -15,8 +15,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Component
@@ -40,9 +38,8 @@ public class SpringSendEmailService implements SendEmailService {
             MimeMessageHelper message = new MimeMessageHelper(
                     mail, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name()
             );
-            Map<String, Object> contextContent = new HashMap<>();
             Context context = new Context();
-            context.setVariables(contextContent);
+            context.setVariables(messageEmailDTO.params());
             String html = templateEngine.process(messageEmailDTO.params().get("template").toString(), context);
             message.setSubject(messageEmailDTO.subject());
             message.setText(html, true);

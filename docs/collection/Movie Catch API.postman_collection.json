@@ -40,7 +40,7 @@
         {
           "name": "Confirm User",
           "request": {
-            "method": "PUT",
+            "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
@@ -52,7 +52,7 @@
               }
             },
             "url": {
-              "raw": "{{localURL}}/api/v1/users/confirm/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Nzc4NjA5MzIsImlhdCI6MTY3Nzg1MzczMn0.N8-zCYMBK4pAI47c9a3bjispMT14jS0y0_6oI9X9TuFseer_w9SYdumn8NNr65-OSfNt07sUdzNtxzRZr8JCBQ",
+              "raw": "{{localURL}}/api/v1/users/confirm/[eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODA1NjIyMjMsImV4cCI6MTY4MDU2OTQyM30.aS237okb3lWTagfteZRSVAYKJiE6-unnj9PS8y7PHLk]",
               "host": [
                 "{{localURL}}"
               ],
@@ -61,7 +61,7 @@
                 "v1",
                 "users",
                 "confirm",
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Nzc4NjA5MzIsImlhdCI6MTY3Nzg1MzczMn0.N8-zCYMBK4pAI47c9a3bjispMT14jS0y0_6oI9X9TuFseer_w9SYdumn8NNr65-OSfNt07sUdzNtxzRZr8JCBQ"
+                "[eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODA1NjIyMjMsImV4cCI6MTY4MDU2OTQyM30.aS237okb3lWTagfteZRSVAYKJiE6-unnj9PS8y7PHLk]"
               ]
             }
           },
