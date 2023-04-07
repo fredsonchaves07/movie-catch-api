@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 public class UserDTO {
 
     private String name;
+
     private String email;
 
     public UserDTO(User user) {
