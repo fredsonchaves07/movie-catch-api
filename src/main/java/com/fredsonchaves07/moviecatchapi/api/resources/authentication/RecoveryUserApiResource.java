@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/recovery")
-@Api(tags = {"Recovery Password"})
-@Tag(name = "Recovery Password", description = "Recovery Password User Resource")
+@Api(tags = {"Authentication"})
+@Tag(name = "Authentication", description = "Recovery Password User Resource")
 public class RecoveryUserApiResource {
 
     @Autowired
     private RecoveryPasswordApiService service;
 
     @PostMapping
-    @ApiOperation(value = "Authenticate a user")
+    @ApiOperation(value = "Recovery password user")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "Unauthorized")
