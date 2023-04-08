@@ -40,7 +40,7 @@
         {
           "name": "Confirm User",
           "request": {
-            "method": "PUT",
+            "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
@@ -52,7 +52,7 @@
               }
             },
             "url": {
-              "raw": "{{localURL}}/api/v1/users/confirm/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Nzc4NjA5MzIsImlhdCI6MTY3Nzg1MzczMn0.N8-zCYMBK4pAI47c9a3bjispMT14jS0y0_6oI9X9TuFseer_w9SYdumn8NNr65-OSfNt07sUdzNtxzRZr8JCBQ",
+              "raw": "{{localURL}}/api/v1/users/confirm/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODA4Njc1NTMsImV4cCI6MTY4MDg3NDc1M30.w8kHxABsWvwwofyEm-ursxLSj8mANyP1Bupsg09wXHI",
               "host": [
                 "{{localURL}}"
               ],
@@ -61,7 +61,7 @@
                 "v1",
                 "users",
                 "confirm",
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Nzc4NjA5MzIsImlhdCI6MTY3Nzg1MzczMn0.N8-zCYMBK4pAI47c9a3bjispMT14jS0y0_6oI9X9TuFseer_w9SYdumn8NNr65-OSfNt07sUdzNtxzRZr8JCBQ"
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODA4Njc1NTMsImV4cCI6MTY4MDg3NDc1M30.w8kHxABsWvwwofyEm-ursxLSj8mANyP1Bupsg09wXHI"
               ]
             }
           },
@@ -111,6 +111,50 @@
                 "api",
                 "v1",
                 "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Recovery Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json()",
+                  "",
+                  "pm.environment.set(\"token\", jsonData.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"usertest@email.com\",\n    \"password\": \"user@12345\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localURL}}/api/v1/recovery",
+              "host": [
+                "{{localURL}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "recovery"
               ]
             }
           },
