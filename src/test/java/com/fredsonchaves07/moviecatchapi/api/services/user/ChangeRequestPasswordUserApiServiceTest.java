@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services.user;
 
-import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
+import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
@@ -65,7 +65,7 @@ public class ChangeRequestPasswordUserApiServiceTest {
     public void notShouldRequestChangeUserIfUseDoesNotExist() {
         String email = "usertnotexist@email.com";
         assertThrows(
-                BadRequestException.class,
+                ResourceNotFoundException.class,
                 () -> changeRequestPasswordUserApiService.execute(email)
         );
     }
@@ -73,7 +73,7 @@ public class ChangeRequestPasswordUserApiServiceTest {
     @Test
     public void notShouldRequestChangeUserIfEmailIsNull() {
         assertThrows(
-                BadRequestException.class,
+                ResourceNotFoundException.class,
                 () -> changeRequestPasswordUserApiService.execute(null)
         );
     }

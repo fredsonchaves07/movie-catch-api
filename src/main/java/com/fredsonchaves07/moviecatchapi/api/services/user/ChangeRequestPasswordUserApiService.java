@@ -1,7 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.api.services.user;
 
-import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
-import com.fredsonchaves07.moviecatchapi.domain.exceptions.DomainException;
+import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.useCases.user.ChangeRequestPasswordUserUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 public class ChangeRequestPasswordUserApiService {
 
     @Autowired
-    private ChangeRequestPasswordUserUseCase changeRequestPasswordUserUseCase;
+    private ChangeRequestPasswordUserUseCase useCase;
 
     public void execute(String email) {
         try {
-            changeRequestPasswordUserUseCase.execute(email);
-        } catch (DomainException domainException) {
-            throw new BadRequestException(domainException);
+            useCase.execute(email);
+        } catch (UserNotFoundException domainException) {
+            throw new ResourceNotFoundException(domainException);
         }
     }
 }
