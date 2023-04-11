@@ -1,10 +1,12 @@
-package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
+package com.fredsonchaves07.moviecatchapi.api.services.user;
 
+import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
-import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.user.ConfirmUserUseCase;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.user.CreateUserUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class ChangeRequestPasswordUserUseCaseTest {
+public class ChangeRequestPasswordUserApiServiceTest {
+
+    @Autowired
+    private ChangeRequestPasswordUserApiService changeRequestPasswordUserApiService;
 
     @Autowired
     private UserRepository userRepository;
@@ -27,9 +32,6 @@ public class ChangeRequestPasswordUserUseCaseTest {
 
     @Autowired
     private ConfirmUserUseCase confirmUserUseCase;
-
-    @Autowired
-    private ChangeRequestPasswordUserUseCase changeRequestPasswordUserUseCase;
 
     @Autowired
     private TokenService tokenService;
@@ -45,7 +47,7 @@ public class ChangeRequestPasswordUserUseCaseTest {
     @Test
     public void shouldRequestChangeUser() {
         String email = "usertest@email.com";
-        changeRequestPasswordUserUseCase.execute(email);
+        changeRequestPasswordUserApiService.execute(email);
         assertTrue(true);
     }
 
@@ -55,7 +57,7 @@ public class ChangeRequestPasswordUserUseCaseTest {
                 "User not confirmed", "usertnotconfirmed@email.com", "user@123")
         );
         String email = "usertnotconfirmed@email.com";
-        changeRequestPasswordUserUseCase.execute(email);
+        changeRequestPasswordUserApiService.execute(email);
         assertTrue(true);
     }
 
@@ -63,16 +65,16 @@ public class ChangeRequestPasswordUserUseCaseTest {
     public void notShouldRequestChangeUserIfUseDoesNotExist() {
         String email = "usertnotexist@email.com";
         assertThrows(
-                UserNotFoundException.class,
-                () -> changeRequestPasswordUserUseCase.execute(email)
+                BadRequestException.class,
+                () -> changeRequestPasswordUserApiService.execute(email)
         );
     }
 
     @Test
     public void notShouldRequestChangeUserIfEmailIsNull() {
         assertThrows(
-                UserNotFoundException.class,
-                () -> changeRequestPasswordUserUseCase.execute(null)
+                BadRequestException.class,
+                () -> changeRequestPasswordUserApiService.execute(null)
         );
     }
 }
