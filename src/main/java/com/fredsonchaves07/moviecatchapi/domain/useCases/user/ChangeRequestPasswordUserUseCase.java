@@ -1,6 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.email.MessageEmailDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.EmailDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
@@ -32,8 +33,8 @@ public class ChangeRequestPasswordUserUseCase {
     @Value("${api.url.confirm.user}")
     private String confirmUserUrl;
 
-    public void execute(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+    public void execute(EmailDTO email) {
+        User user = userRepository.findByEmail(email.email()).orElseThrow(UserNotFoundException::new);
         if (user.isConfirm())
             sendMailRequestPassword(user);
         sendMailConfirmUser(user);

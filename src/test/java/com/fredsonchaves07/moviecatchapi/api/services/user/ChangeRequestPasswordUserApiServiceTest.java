@@ -2,6 +2,7 @@ package com.fredsonchaves07.moviecatchapi.api.services.user;
 
 import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.EmailDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
@@ -47,7 +48,7 @@ public class ChangeRequestPasswordUserApiServiceTest {
     @Test
     public void shouldRequestChangeUser() {
         String email = "usertest@email.com";
-        changeRequestPasswordUserApiService.execute(email);
+        changeRequestPasswordUserApiService.execute(new EmailDTO(email));
         assertTrue(true);
     }
 
@@ -57,7 +58,7 @@ public class ChangeRequestPasswordUserApiServiceTest {
                 "User not confirmed", "usertnotconfirmed@email.com", "user@123")
         );
         String email = "usertnotconfirmed@email.com";
-        changeRequestPasswordUserApiService.execute(email);
+        changeRequestPasswordUserApiService.execute(new EmailDTO(email));
         assertTrue(true);
     }
 
@@ -66,7 +67,7 @@ public class ChangeRequestPasswordUserApiServiceTest {
         String email = "usertnotexist@email.com";
         assertThrows(
                 ResourceNotFoundException.class,
-                () -> changeRequestPasswordUserApiService.execute(email)
+                () -> changeRequestPasswordUserApiService.execute(new EmailDTO(email))
         );
     }
 

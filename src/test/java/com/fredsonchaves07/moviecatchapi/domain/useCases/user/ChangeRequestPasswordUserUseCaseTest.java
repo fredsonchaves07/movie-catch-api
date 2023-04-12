@@ -1,6 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.EmailDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
@@ -45,7 +46,7 @@ public class ChangeRequestPasswordUserUseCaseTest {
     @Test
     public void shouldRequestChangeUser() {
         String email = "usertest@email.com";
-        changeRequestPasswordUserUseCase.execute(email);
+        changeRequestPasswordUserUseCase.execute(new EmailDTO(email));
         assertTrue(true);
     }
 
@@ -55,7 +56,7 @@ public class ChangeRequestPasswordUserUseCaseTest {
                 "User not confirmed", "usertnotconfirmed@email.com", "user@123")
         );
         String email = "usertnotconfirmed@email.com";
-        changeRequestPasswordUserUseCase.execute(email);
+        changeRequestPasswordUserUseCase.execute(new EmailDTO(email));
         assertTrue(true);
     }
 
@@ -64,7 +65,7 @@ public class ChangeRequestPasswordUserUseCaseTest {
         String email = "usertnotexist@email.com";
         assertThrows(
                 UserNotFoundException.class,
-                () -> changeRequestPasswordUserUseCase.execute(email)
+                () -> changeRequestPasswordUserUseCase.execute(new EmailDTO(email))
         );
     }
 
