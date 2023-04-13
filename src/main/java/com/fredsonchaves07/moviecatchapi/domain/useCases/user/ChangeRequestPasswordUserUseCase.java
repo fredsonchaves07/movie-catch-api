@@ -34,6 +34,8 @@ public class ChangeRequestPasswordUserUseCase {
     private String confirmUserUrl;
 
     public void execute(EmailDTO email) {
+        if (email == null)
+            throw new UserNotFoundException();
         User user = userRepository.findByEmail(email.email()).orElseThrow(UserNotFoundException::new);
         if (user.isConfirm())
             sendMailRequestPassword(user);

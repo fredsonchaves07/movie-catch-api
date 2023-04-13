@@ -1,6 +1,8 @@
 package com.fredsonchaves07.moviecatchapi.api.resources.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.EmailDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
@@ -40,6 +42,9 @@ public class ChangeRequestPasswordUserApiResourceTest {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
@@ -50,10 +55,12 @@ public class ChangeRequestPasswordUserApiResourceTest {
 
     @Test
     public void shouldRequestChangeUser() throws Exception {
+        EmailDTO emailDTO = new EmailDTO("usertest@email.com");
+        String userBodyJson = objectMapper.writeValueAsString(emailDTO);
         mockMvc.perform(get("/api/v1/users/change")
-                        .content("usertest@email.com")
+                        .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -61,16 +68,20 @@ public class ChangeRequestPasswordUserApiResourceTest {
         createUserUseCase.execute(createUserDTO(
                 "User not confirmed", "usertnotconfirmed@email.com", "user@123")
         );
+        EmailDTO emailDTO = new EmailDTO("usertnotconfirmed@email.com");
+        String userBodyJson = objectMapper.writeValueAsString(emailDTO);
         mockMvc.perform(get("/api/v1/users/change")
-                        .content("usertnotconfirmed@email.com")
+                        .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
     public void notShouldRequestChangeUserIfUseDoesNotExist() throws Exception {
+        EmailDTO emailDTO = new EmailDTO("usertnotexist@email.com");
+        String userBodyJson = objectMapper.writeValueAsString(emailDTO);
         mockMvc.perform(get("/api/v1/users/change")
-                        .content("usertnotexist@email.com")
+                        .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))

@@ -14,7 +14,7 @@ public class ChangeRequestPasswordUserApiResource {
     @Autowired
     private ChangeRequestPasswordUserApiService service;
 
-    @PutMapping()
+    @GetMapping()
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> execute(@RequestBody EmailDTO email) {
         service.execute(email);
