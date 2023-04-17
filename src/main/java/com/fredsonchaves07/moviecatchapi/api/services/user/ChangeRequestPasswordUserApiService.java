@@ -16,8 +16,8 @@ public class ChangeRequestPasswordUserApiService {
     public void execute(EmailDTO email) {
         try {
             useCase.execute(email);
-        } catch (UserNotFoundException domainException) {
-            throw new ResourceNotFoundException(domainException);
+        } catch (UserNotFoundException userNotFoundException) {
+            throw new ResourceNotFoundException(userNotFoundException);
         }
     }
 }

@@ -36,10 +36,11 @@ public class ChangeRequestPasswordUserUseCase {
     public void execute(EmailDTO email) {
         if (email == null)
             throw new UserNotFoundException();
-        User user = userRepository.findByEmail(email.email()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmail(email.toString()).orElseThrow(UserNotFoundException::new);
         if (user.isConfirm())
             sendMailRequestPassword(user);
-        sendMailConfirmUser(user);
+        else
+            sendMailConfirmUser(user);
     }
 
     private void sendMailRequestPassword(User user) {
