@@ -38,6 +38,38 @@
           "response": []
         },
         {
+          "name": "Change User",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\" : \"usertest@email.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localURL}}/api/v1/users/change",
+              "host": [
+                "{{localURL}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "change"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Confirm User",
           "request": {
             "method": "POST",
@@ -52,7 +84,7 @@
               }
             },
             "url": {
-              "raw": "{{localURL}}/api/v1/users/confirm/[eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODA1NjIyMjMsImV4cCI6MTY4MDU2OTQyM30.aS237okb3lWTagfteZRSVAYKJiE6-unnj9PS8y7PHLk]",
+              "raw": "{{localURL}}/api/v1/users/confirm/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE0NzY4MjEsImV4cCI6MTY4MTQ4NDAyMX0.7I4448DCymNVsiNy5ZVpsrjFAflIH5iIp2e-X2ExL1s",
               "host": [
                 "{{localURL}}"
               ],
@@ -61,7 +93,7 @@
                 "v1",
                 "users",
                 "confirm",
-                "[eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODA1NjIyMjMsImV4cCI6MTY4MDU2OTQyM30.aS237okb3lWTagfteZRSVAYKJiE6-unnj9PS8y7PHLk]"
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE0NzY4MjEsImV4cCI6MTY4MTQ4NDAyMX0.7I4448DCymNVsiNy5ZVpsrjFAflIH5iIp2e-X2ExL1s"
               ]
             }
           },
@@ -95,7 +127,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"usertest@email.com\",\n    \"password\": \"user@123\"\n}",
+              "raw": "{\n    \"email\": \"usertest@email.com\",\n    \"password\": \"user@12345\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -111,6 +143,50 @@
                 "api",
                 "v1",
                 "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Recovery Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json()",
+                  "",
+                  "pm.environment.set(\"token\", jsonData.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"usertest@email.com\",\n    \"password\": \"user@12345\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localURL}}/api/v1/recovery",
+              "host": [
+                "{{localURL}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "recovery"
               ]
             }
           },
