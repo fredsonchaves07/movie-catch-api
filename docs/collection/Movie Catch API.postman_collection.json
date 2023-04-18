@@ -38,6 +38,38 @@
           "response": []
         },
         {
+          "name": "Change User",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\" : \"usertest@email.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localURL}}/api/v1/users/change",
+              "host": [
+                "{{localURL}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "change"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Confirm User",
           "request": {
             "method": "POST",
@@ -61,7 +93,11 @@
                 "v1",
                 "users",
                 "confirm",
+<<<<<<< HEAD
                 "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODA4Njc1NTMsImV4cCI6MTY4MDg3NDc1M30.w8kHxABsWvwwofyEm-ursxLSj8mANyP1Bupsg09wXHI"
+=======
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE0NzY4MjEsImV4cCI6MTY4MTQ4NDAyMX0.7I4448DCymNVsiNy5ZVpsrjFAflIH5iIp2e-X2ExL1s"
+>>>>>>> develop
               ]
             }
           },
@@ -95,7 +131,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"usertest@email.com\",\n    \"password\": \"user@123\"\n}",
+              "raw": "{\n    \"email\": \"usertest@email.com\",\n    \"password\": \"user@12345\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
