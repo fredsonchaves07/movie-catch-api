@@ -2,6 +2,8 @@ package com.fredsonchaves07.moviecatchapi.api.resources.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,6 +27,14 @@ public class CreateUserApiResourceTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @BeforeEach
+    public void setUp() {
+        userRepository.deleteAll();
+    }
 
     @Test
     public void shouldCreateUser() throws Exception {
