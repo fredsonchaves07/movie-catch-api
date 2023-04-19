@@ -3,6 +3,7 @@ package com.fredsonchaves07.moviecatchapi.domain.useCases.authentication;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.InvalidTokenException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UnconfirmedUserException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
@@ -65,13 +66,24 @@ public class RecoveryPasswordByTokenUseCaseTest {
     }
 
     @Test
-    public void notShouldRecoveryPasswordBytTokenIfUserNotConfirmed() {
+    public void notShouldRecoveryPasswordByTokenIfUserNotConfirmed() {
         UserDTO userDTO = createUserUseCase.execute(
                 new CreateUserDTO("User not confirmed", "notconfirmed@email.com", "user@123")
         );
         tokenDTO = tokenService.encrypt(Optional.of(userDTO));
         assertThrows(
                 UnconfirmedUserException.class,
+                () -> recoveryPasswordByTokenUseCase.execute(tokenDTO)
+        );
+    }
+
+    @Test
+    public void notShouldRecoveryPassowordIfTokenIsInvalid() {
+        tokenDTO = new TokenDTO("eyJhbGciOiJIUzI1iJ9." +
+                "eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE5MDk3MzcsImV4cCI6MTY4MTkxNjkzN30." +
+                "slb-J8bRZsV_3nu09DkobH0MBTBdF08EWjCYMPK-6jQ");
+        assertThrows(
+                InvalidTokenException.class,
                 () -> recoveryPasswordByTokenUseCase.execute(tokenDTO)
         );
     }

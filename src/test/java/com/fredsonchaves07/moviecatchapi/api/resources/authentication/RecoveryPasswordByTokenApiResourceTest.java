@@ -94,4 +94,19 @@ public class RecoveryPasswordByTokenApiResourceTest {
                         "Check your confirmation email and try again")
                 );
     }
+
+    @Test
+    public void notShouldRecoveryPassowordIfTokenIsInvalid() throws Exception {
+        tokenDTO = new TokenDTO("eyJhbGciOiJIUzI1iJ9." +
+                "eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE5MDk3MzcsImV4cCI6MTY4MTkxNjkzN30." +
+                "slb-J8bRZsV_3nu09DkobH0MBTBdF08EWjCYMPK-6jQ");
+        mockMvc.perform(get("/api/v1/recovery/{token}", tokenDTO.getToken())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.status").value(498))
+                .andExpect(jsonPath("$.type").value("InvalidTokenError"))
+                .andExpect(jsonPath("$.title").value("Token invalid"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/recovery/" + tokenDTO.getToken()))
+                .andExpect(jsonPath("$.detail").value("Check token credentials and try again"));
+    }
 }

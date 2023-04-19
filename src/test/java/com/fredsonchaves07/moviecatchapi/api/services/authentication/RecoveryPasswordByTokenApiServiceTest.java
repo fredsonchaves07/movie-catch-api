@@ -1,5 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services.authentication;
 
+import com.fredsonchaves07.moviecatchapi.api.exception.ApiInvalidTokenException;
 import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
@@ -72,6 +73,17 @@ public class RecoveryPasswordByTokenApiServiceTest {
         tokenDTO = tokenService.encrypt(Optional.of(userDTO));
         assertThrows(
                 BadRequestException.class,
+                () -> recoveryPasswordByTokenApiService.execute(tokenDTO)
+        );
+    }
+
+    @Test
+    public void notShouldRecoveryPassowordIfTokenIsInvalid() {
+        tokenDTO = new TokenDTO("eyJhbGciOiJIUzI1iJ9." +
+                "eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE5MDk3MzcsImV4cCI6MTY4MTkxNjkzN30." +
+                "slb-J8bRZsV_3nu09DkobH0MBTBdF08EWjCYMPK-6jQ");
+        assertThrows(
+                ApiInvalidTokenException.class,
                 () -> recoveryPasswordByTokenApiService.execute(tokenDTO)
         );
     }
