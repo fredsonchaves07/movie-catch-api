@@ -1,7 +1,9 @@
 package com.fredsonchaves07.moviecatchapi.api.resources.authentication;
 
 import com.fredsonchaves07.moviecatchapi.api.services.authentication.RecoveryPasswordApiService;
+import com.fredsonchaves07.moviecatchapi.api.services.authentication.RecoveryPasswordByTokenApiService;
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.RecoveryPasswordDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.*;
 public class RecoveryUserApiResource {
 
     @Autowired
-    private RecoveryPasswordApiService service;
+    private RecoveryPasswordApiService recoveryPasswordApiService;
+
+    @Autowired
+    private RecoveryPasswordByTokenApiService recoveryPasswordByTokenApiService;
 
     @PostMapping
     @ApiOperation(value = "Recovery password user")
@@ -30,6 +35,17 @@ public class RecoveryUserApiResource {
             @ApiParam(name = "Recovery Password", value = "New user credentials login body")
             @RequestBody RecoveryPasswordDTO recoveryPasswordDTO
     ) {
-        return ResponseEntity.ok(service.execute(recoveryPasswordDTO));
+        return ResponseEntity.ok(recoveryPasswordApiService.execute(recoveryPasswordDTO));
+    }
+
+    @GetMapping("/{token}")
+    @ApiOperation(value = "Recovery user by token")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 401, message = "Unauthorized")
+    })
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<UserDTO> recoveryByToken(@PathVariable TokenDTO token) {
+        return ResponseEntity.ok(recoveryPasswordByTokenApiService.execute(token));
     }
 }

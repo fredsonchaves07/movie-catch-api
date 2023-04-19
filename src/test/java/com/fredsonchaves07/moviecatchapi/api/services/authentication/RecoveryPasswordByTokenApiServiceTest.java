@@ -65,7 +65,7 @@ public class RecoveryPasswordByTokenApiServiceTest {
     }
 
     @Test
-    public void notShouldRecoveryPasswordBytTokenIfUserNotConfirmed() {
+    public void notShouldRecoveryPasswordByTokenIfUserNotConfirmed() {
         UserDTO userDTO = createUserUseCase.execute(
                 new CreateUserDTO("User not confirmed", "notconfirmed@email.com", "user@123")
         );
