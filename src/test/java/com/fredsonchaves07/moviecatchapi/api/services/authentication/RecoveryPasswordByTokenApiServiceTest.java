@@ -1,0 +1,78 @@
+package com.fredsonchaves07.moviecatchapi.api.services.authentication;
+
+import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
+import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
+import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
+import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.user.ConfirmUserUseCase;
+import com.fredsonchaves07.moviecatchapi.domain.useCases.user.CreateUserUseCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
+
+import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.createUserDTO;
+import static com.fredsonchaves07.moviecatchapi.factories.UserFactory.userDTO;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@SpringBootTest
+public class RecoveryPasswordByTokenApiServiceTest {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private CreateUserUseCase createUserUseCase;
+
+    @Autowired
+    private ConfirmUserUseCase confirmUserUseCase;
+
+    @Autowired
+    private RecoveryPasswordByTokenApiService recoveryPasswordByTokenApiService;
+
+    private TokenDTO tokenDTO;
+
+    @BeforeEach
+    public void setUp() {
+        userRepository.deleteAll();
+        UserDTO userDTO = createUserUseCase.execute(createUserDTO());
+        tokenDTO = tokenService.encrypt(Optional.of(userDTO));
+        confirmUserUseCase.execute(tokenDTO);
+    }
+
+    @Test
+    public void shouldRecoveryPasswordByToken() {
+        UserDTO userDTO = recoveryPasswordByTokenApiService.execute(tokenDTO);
+        assertNotNull(userDTO);
+    }
+
+    @Test
+    public void notShouldRecoveryPasswordByTokenIfUserIsNotExist() {
+        tokenDTO = tokenService.encrypt(Optional.of(userDTO()));
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> recoveryPasswordByTokenApiService.execute(tokenDTO)
+        );
+    }
+
+    @Test
+    public void notShouldRecoveryPasswordBytTokenIfUserNotConfirmed() {
+        UserDTO userDTO = createUserUseCase.execute(
+                new CreateUserDTO("User not confirmed", "notconfirmed@email.com", "user@123")
+        );
+        tokenDTO = tokenService.encrypt(Optional.of(userDTO));
+        assertThrows(
+                BadRequestException.class,
+                () -> recoveryPasswordByTokenApiService.execute(tokenDTO)
+        );
+    }
+}
