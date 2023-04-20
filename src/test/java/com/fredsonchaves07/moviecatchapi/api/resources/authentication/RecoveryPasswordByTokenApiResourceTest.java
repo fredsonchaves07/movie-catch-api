@@ -102,11 +102,26 @@ public class RecoveryPasswordByTokenApiResourceTest {
                 "slb-J8bRZsV_3nu09DkobH0MBTBdF08EWjCYMPK-6jQ");
         mockMvc.perform(get("/api/v1/recovery/{token}", tokenDTO.getToken())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().is(498))
                 .andExpect(jsonPath("$.status").value(498))
                 .andExpect(jsonPath("$.type").value("InvalidTokenError"))
                 .andExpect(jsonPath("$.title").value("Token invalid"))
                 .andExpect(jsonPath("$.instance").value("/api/v1/recovery/" + tokenDTO.getToken()))
+                .andExpect(jsonPath("$.detail").value("Check token credentials and try again"));
+    }
+
+    @Test
+    public void notShoulRecoveryPasswordWithExpiredToken() throws Exception {
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9." +
+                "eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Njk5NDM3MTgsImlhdCI6MTY2OTk0MzcxOH0." +
+                "1-FfzP6NjRA05V5YSBVAc90nji3de9VVk9H8bAQpta64H2BQgHL2NmBJu1pFeh_2EmuDtKhLL4JKldH79Pt8_w";
+        mockMvc.perform(get("/api/v1/recovery/{token}", token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.status").value(401))
+                .andExpect(jsonPath("$.type").value("ExpiredTokenError"))
+                .andExpect(jsonPath("$.title").value("Token expired"))
+                .andExpect(jsonPath("$.instance").value("/api/v1/recovery/" + token))
                 .andExpect(jsonPath("$.detail").value("Check token credentials and try again"));
     }
 }

@@ -3,6 +3,7 @@ package com.fredsonchaves07.moviecatchapi.domain.useCases.authentication;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.CreateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.ExpiredTokenException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.InvalidTokenException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UnconfirmedUserException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
@@ -85,6 +86,25 @@ public class RecoveryPasswordByTokenUseCaseTest {
         assertThrows(
                 InvalidTokenException.class,
                 () -> recoveryPasswordByTokenUseCase.execute(tokenDTO)
+        );
+    }
+
+    @Test
+    public void notShouldRecoveryPassowordIfTokenIsExpired() {
+        tokenDTO = new TokenDTO("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9." +
+                "eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Njk5NDM3MTgsImlhdCI6MTY2OTk0MzcxOH0." +
+                "1-FfzP6NjRA05V5YSBVAc90nji3de9VVk9H8bAQpta64H2BQgHL2NmBJu1pFeh_2EmuDtKhLL4JKldH79Pt8_w");
+        assertThrows(
+                ExpiredTokenException.class,
+                () -> recoveryPasswordByTokenUseCase.execute(tokenDTO)
+        );
+    }
+
+    @Test
+    public void notShouldRecoveryPasswordIfTokenIsNull() {
+        assertThrows(
+                InvalidTokenException.class,
+                () -> recoveryPasswordByTokenUseCase.execute(null)
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.api.services.authentication;
 
+import com.fredsonchaves07.moviecatchapi.api.exception.ApiExpiredTokenException;
 import com.fredsonchaves07.moviecatchapi.api.exception.ApiInvalidTokenException;
 import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
@@ -85,6 +86,25 @@ public class RecoveryPasswordByTokenApiServiceTest {
         assertThrows(
                 ApiInvalidTokenException.class,
                 () -> recoveryPasswordByTokenApiService.execute(tokenDTO)
+        );
+    }
+
+    @Test
+    public void notShouldRecoveryPassowordIfTokenIsExpired() {
+        tokenDTO = new TokenDTO("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9." +
+                "eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJleHAiOjE2Njk5NDM3MTgsImlhdCI6MTY2OTk0MzcxOH0." +
+                "1-FfzP6NjRA05V5YSBVAc90nji3de9VVk9H8bAQpta64H2BQgHL2NmBJu1pFeh_2EmuDtKhLL4JKldH79Pt8_w");
+        assertThrows(
+                ApiExpiredTokenException.class,
+                () -> recoveryPasswordByTokenApiService.execute(tokenDTO)
+        );
+    }
+
+    @Test
+    public void notShouldRecoveryPasswordIfTokenIsNull() {
+        assertThrows(
+                ApiInvalidTokenException.class,
+                () -> recoveryPasswordByTokenApiService.execute(null)
         );
     }
 }

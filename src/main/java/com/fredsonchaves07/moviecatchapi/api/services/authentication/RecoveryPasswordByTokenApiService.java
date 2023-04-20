@@ -1,10 +1,12 @@
 package com.fredsonchaves07.moviecatchapi.api.services.authentication;
 
+import com.fredsonchaves07.moviecatchapi.api.exception.ApiExpiredTokenException;
 import com.fredsonchaves07.moviecatchapi.api.exception.ApiInvalidTokenException;
 import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.api.exception.ResourceNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.ExpiredTokenException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.InvalidTokenException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UnconfirmedUserException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
@@ -27,6 +29,8 @@ public class RecoveryPasswordByTokenApiService {
             throw new BadRequestException(unconfirmedUserException);
         } catch (InvalidTokenException invalidTokenException) {
             throw new ApiInvalidTokenException(invalidTokenException);
+        } catch (ExpiredTokenException exception) {
+            throw new ApiExpiredTokenException(exception);
         }
     }
 }
