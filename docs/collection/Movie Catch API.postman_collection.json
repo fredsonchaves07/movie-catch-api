@@ -84,7 +84,7 @@
               }
             },
             "url": {
-              "raw": "{{localURL}}/api/v1/users/confirm/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE0NzY4MjEsImV4cCI6MTY4MTQ4NDAyMX0.7I4448DCymNVsiNy5ZVpsrjFAflIH5iIp2e-X2ExL1s",
+              "raw": "{{localURL}}/api/v1/users/confirm/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE4MTY3NzIsImV4cCI6MTY4MTgyMzk3Mn0.sdsT5DeX_lfLdTsjNRYaNax6Y0Orj4Z69_RnDM1w3sc",
               "host": [
                 "{{localURL}}"
               ],
@@ -93,7 +93,7 @@
                 "v1",
                 "users",
                 "confirm",
-                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE0NzY4MjEsImV4cCI6MTY4MTQ4NDAyMX0.7I4448DCymNVsiNy5ZVpsrjFAflIH5iIp2e-X2ExL1s"
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODE4MTY3NzIsImV4cCI6MTY4MTgyMzk3Mn0.sdsT5DeX_lfLdTsjNRYaNax6Y0Orj4Z69_RnDM1w3sc"
               ]
             }
           },
@@ -187,6 +187,54 @@
                 "api",
                 "v1",
                 "recovery"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Recovery Password By Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json()",
+                  "",
+                  "pm.environment.set(\"token\", jsonData.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localURL}}/api/v1/recovery/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODIwMjMwMjksImV4cCI6MTY4MjAzMDIyOX0._PywjWPyutgCZa1vzBku5ZAfyjxDEcQc8pAdxX1qsws",
+              "host": [
+                "{{localURL}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "recovery",
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VydGVzdEBlbWFpbC5jb20iLCJpYXQiOjE2ODIwMjMwMjksImV4cCI6MTY4MjAzMDIyOX0._PywjWPyutgCZa1vzBku5ZAfyjxDEcQc8pAdxX1qsws"
               ]
             }
           },

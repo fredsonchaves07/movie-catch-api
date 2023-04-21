@@ -41,22 +41,22 @@ public class AuthenticateUserUseCase {
         validateLoginDTO(loginDTO);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginDTO.getEmail(),
-                        loginDTO.getPassword()
+                        loginDTO.email(),
+                        loginDTO.password()
                 )
         );
-        String tokenEncrypted = jwtService.encrypt(Optional.of(new UserDTO(null, loginDTO.getEmail()))).getToken();
+        String tokenEncrypted = jwtService.encrypt(Optional.of(new UserDTO(null, loginDTO.email()))).getToken();
         return new TokenDTO(tokenEncrypted);
     }
 
     private void validateLoginDTO(LoginDTO loginDTO) {
         if (loginDTO == null)
             throw new EmailOrPasswordIncorrectException();
-        if (loginDTO.getEmail() == null || loginDTO.getPassword() == null)
+        if (loginDTO.email() == null || loginDTO.password() == null)
             throw new EmailOrPasswordIncorrectException();
-        if (!emailAlreadyExist(loginDTO.getEmail()))
+        if (!emailAlreadyExist(loginDTO.email()))
             throw new EmailOrPasswordIncorrectException();
-        if (!isEmailPasswordMatch(loginDTO.getEmail(), loginDTO.getPassword()))
+        if (!isEmailPasswordMatch(loginDTO.email(), loginDTO.password()))
             throw new EmailOrPasswordIncorrectException();
         if (!userIsConfirmed())
             throw new UnconfirmedUserException();
