@@ -14,4 +14,9 @@ public final class TokenDTO {
     public String getToken() {
         return token;
     }
+
+    @Override
+    public String toString() {
+        return getToken();
+    }
 }

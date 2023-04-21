@@ -113,7 +113,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("Movie Catch Api")
                 .description("Movice catch api documentation")
-                .version("1.2.2")
+                .version("4.2.0")
                 .license("MIT")
                 .licenseUrl("https://github.com/fredsonchaves07/movie-catch-api/blob/main/LICENSE")
                 .contact(new Contact("Dev Team", "", "fredsonchaves07@gmail.com"))

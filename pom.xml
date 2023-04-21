@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>movie-catch-api</artifactId>
-    <version>1.1.1</version>
+    <version>4.2.0</version>
     <name>movie-catch-api</name>
     <description>movie-catch-api</description>
     <properties>
