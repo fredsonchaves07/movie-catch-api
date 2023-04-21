@@ -2,7 +2,6 @@ package com.fredsonchaves07.moviecatchapi.api.resources.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
-import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.RecoveryPasswordDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
@@ -60,8 +59,8 @@ public class RecoveryUserResourceTest {
     public void shouldRecoveryPasswordWithUserValid() throws Exception {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        String userBodyJson = objectMapper.writeValueAsString(recoveryPasswordDTO);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
+        String userBodyJson = objectMapper.writeValueAsString(loginDTO);
         mockMvc.perform(post("/api/v1/recovery")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -75,8 +74,8 @@ public class RecoveryUserResourceTest {
         createUserUseCase.execute(createUserDTO("User test1", "usertest1@email.com", "user@12345"));
         String email = "usertest1@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        String userBodyJson = objectMapper.writeValueAsString(recoveryPasswordDTO);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
+        String userBodyJson = objectMapper.writeValueAsString(loginDTO);
         mockMvc.perform(post("/api/v1/recovery")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -94,13 +93,13 @@ public class RecoveryUserResourceTest {
     public void shouldAuthenticateUserWithNewPassword() throws Exception {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        String userBodyJson = objectMapper.writeValueAsString(recoveryPasswordDTO);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
+        String userBodyJson = objectMapper.writeValueAsString(loginDTO);
         mockMvc.perform(post("/api/v1/recovery")
                 .content(userBodyJson)
                 .contentType(MediaType.APPLICATION_JSON));
-        LoginDTO loginDTO = new LoginDTO(email, newPassword);
-        userBodyJson = objectMapper.writeValueAsString(loginDTO);
+        LoginDTO login = new LoginDTO(email, newPassword);
+        userBodyJson = objectMapper.writeValueAsString(login);
         mockMvc.perform(post("/api/v1/login")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -112,13 +111,13 @@ public class RecoveryUserResourceTest {
     public void notShouldAuthenticateUserWithOldPassword() throws Exception {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        String userBodyJson = objectMapper.writeValueAsString(recoveryPasswordDTO);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
+        String userBodyJson = objectMapper.writeValueAsString(loginDTO);
         mockMvc.perform(post("/api/v1/recovery")
                 .content(userBodyJson)
                 .contentType(MediaType.APPLICATION_JSON));
-        LoginDTO loginDTO = new LoginDTO(email, "user@123");
-        userBodyJson = objectMapper.writeValueAsString(loginDTO);
+        LoginDTO login = new LoginDTO(email, "user@123");
+        userBodyJson = objectMapper.writeValueAsString(login);
         mockMvc.perform(post("/api/v1/login")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -135,8 +134,8 @@ public class RecoveryUserResourceTest {
     @Test
     public void notShouldRecoveryPasswordWithEmailIsNull() throws Exception {
         String newPassword = "new";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(null, newPassword);
-        String userBodyJson = objectMapper.writeValueAsString(recoveryPasswordDTO);
+        LoginDTO loginDTO = new LoginDTO(null, newPassword);
+        String userBodyJson = objectMapper.writeValueAsString(loginDTO);
         mockMvc.perform(post("/api/v1/recovery")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -151,8 +150,8 @@ public class RecoveryUserResourceTest {
     @Test
     public void notShouldRecoveryPasswordWithPasswordIsNull() throws Exception {
         String email = "usertest@email.com";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, null);
-        String userBodyJson = objectMapper.writeValueAsString(recoveryPasswordDTO);
+        LoginDTO loginDTO = new LoginDTO(email, null);
+        String userBodyJson = objectMapper.writeValueAsString(loginDTO);
         mockMvc.perform(post("/api/v1/recovery")
                         .content(userBodyJson)
                         .contentType(MediaType.APPLICATION_JSON))

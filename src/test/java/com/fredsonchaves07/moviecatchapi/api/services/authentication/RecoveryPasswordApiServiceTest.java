@@ -3,7 +3,6 @@ package com.fredsonchaves07.moviecatchapi.api.services.authentication;
 import com.fredsonchaves07.moviecatchapi.api.exception.BadRequestException;
 import com.fredsonchaves07.moviecatchapi.api.exception.UnauthorizedException;
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
-import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.RecoveryPasswordDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
@@ -54,8 +53,8 @@ public class RecoveryPasswordApiServiceTest {
     public void shouldRecoveryPasswordWithUserValid() {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        UserDTO userDTO = recoveryPasswordApiService.execute(recoveryPasswordDTO);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
+        UserDTO userDTO = recoveryPasswordApiService.execute(loginDTO);
         assertNotNull(userDTO);
     }
 
@@ -63,10 +62,10 @@ public class RecoveryPasswordApiServiceTest {
     public void notShouldRecoveryPasswordWithUserNotExists() {
         String email = "usertes@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
         assertThrows(
                 BadRequestException.class,
-                () -> recoveryPasswordApiService.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordApiService.execute(loginDTO)
         );
     }
 
@@ -75,10 +74,10 @@ public class RecoveryPasswordApiServiceTest {
         createUserUseCase.execute(createUserDTO("User test1", "usertest1@email.com", "user@12345"));
         String email = "usertest1@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
         assertThrows(
                 BadRequestException.class,
-                () -> recoveryPasswordApiService.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordApiService.execute(loginDTO)
         );
     }
 
@@ -86,10 +85,10 @@ public class RecoveryPasswordApiServiceTest {
     public void shouldAuthenticateUserWithNewPassword() {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        recoveryPasswordApiService.execute(recoveryPasswordDTO);
         LoginDTO loginDTO = new LoginDTO(email, newPassword);
-        TokenDTO tokenDTO = authenticateUserApiService.execute(loginDTO);
+        recoveryPasswordApiService.execute(loginDTO);
+        LoginDTO login = new LoginDTO(email, newPassword);
+        TokenDTO tokenDTO = authenticateUserApiService.execute(login);
         assertNotNull(tokenDTO);
     }
 
@@ -97,41 +96,41 @@ public class RecoveryPasswordApiServiceTest {
     public void notShouldAuthenticateUserWithOldPassword() {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        recoveryPasswordApiService.execute(recoveryPasswordDTO);
-        LoginDTO loginDTO = new LoginDTO(email, "user@123");
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
+        recoveryPasswordApiService.execute(loginDTO);
+        LoginDTO login = new LoginDTO(email, "user@123");
         assertThrows(
                 UnauthorizedException.class,
-                () -> authenticateUserApiService.execute(loginDTO)
+                () -> authenticateUserApiService.execute(login)
         );
     }
 
     @Test
     public void notShouldRecoveryPasswordWithEmailIsNull() {
         String newPassword = "new";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(null, newPassword);
+        LoginDTO loginDTO = new LoginDTO(null, newPassword);
         assertThrows(
                 BadRequestException.class,
-                () -> recoveryPasswordApiService.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordApiService.execute(loginDTO)
         );
     }
 
     @Test
     public void notShouldRecoveryPasswordWithPasswordIsNull() {
         String email = "usertest@email.com";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, null);
+        LoginDTO loginDTO = new LoginDTO(email, null);
         assertThrows(
                 BadRequestException.class,
-                () -> recoveryPasswordApiService.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordApiService.execute(loginDTO)
         );
     }
 
     @Test
     public void notShouldRecoveryPasswordWithRecoveryPasswordDTOIsNull() {
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(null, null);
+        LoginDTO loginDTO = new LoginDTO(null, null);
         assertThrows(
                 BadRequestException.class,
-                () -> recoveryPasswordApiService.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordApiService.execute(loginDTO)
         );
     }
 }

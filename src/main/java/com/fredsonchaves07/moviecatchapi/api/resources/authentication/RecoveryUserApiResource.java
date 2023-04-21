@@ -2,7 +2,7 @@ package com.fredsonchaves07.moviecatchapi.api.resources.authentication;
 
 import com.fredsonchaves07.moviecatchapi.api.services.authentication.RecoveryPasswordApiService;
 import com.fredsonchaves07.moviecatchapi.api.services.authentication.RecoveryPasswordByTokenApiService;
-import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.RecoveryPasswordDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import io.swagger.annotations.*;
@@ -32,10 +32,10 @@ public class RecoveryUserApiResource {
     })
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<UserDTO> recovery(
-            @ApiParam(name = "Recovery Password", value = "New user credentials login body")
-            @RequestBody RecoveryPasswordDTO recoveryPasswordDTO
+            @ApiParam(name = "Login user", value = "Login user credentials body")
+            @RequestBody LoginDTO loginDTO
     ) {
-        return ResponseEntity.ok(recoveryPasswordApiService.execute(recoveryPasswordDTO));
+        return ResponseEntity.ok(recoveryPasswordApiService.execute(loginDTO));
     }
 
     @GetMapping("/{token}")

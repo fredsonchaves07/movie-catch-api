@@ -1,7 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.authentication;
 
 import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
-import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.RecoveryPasswordDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordIncorrectException;
@@ -56,8 +55,8 @@ public class RecoveryPasswordUseCaseTest {
     public void shouldRecoveryPasswordWithUserValid() {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        UserDTO userDTO = recoveryPasswordUseCase.execute(recoveryPasswordDTO);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
+        UserDTO userDTO = recoveryPasswordUseCase.execute(loginDTO);
         assertNotNull(userDTO);
     }
 
@@ -65,10 +64,10 @@ public class RecoveryPasswordUseCaseTest {
     public void notShouldRecoveryPasswordWithUserNotExists() {
         String email = "usertes@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
         assertThrows(
                 UserNotFoundException.class,
-                () -> recoveryPasswordUseCase.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordUseCase.execute(loginDTO)
         );
     }
 
@@ -77,10 +76,10 @@ public class RecoveryPasswordUseCaseTest {
         createUserUseCase.execute(createUserDTO("User test1", "usertest1@email.com", "user@12345"));
         String email = "usertest1@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
         assertThrows(
                 UnconfirmedUserException.class,
-                () -> recoveryPasswordUseCase.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordUseCase.execute(loginDTO)
         );
     }
 
@@ -88,10 +87,10 @@ public class RecoveryPasswordUseCaseTest {
     public void shouldAuthenticateUserWithNewPassword() {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        recoveryPasswordUseCase.execute(recoveryPasswordDTO);
         LoginDTO loginDTO = new LoginDTO(email, newPassword);
-        TokenDTO tokenDTO = authenticateUserUseCase.execute(loginDTO);
+        recoveryPasswordUseCase.execute(loginDTO);
+        LoginDTO login = new LoginDTO(email, newPassword);
+        TokenDTO tokenDTO = authenticateUserUseCase.execute(login);
         assertNotNull(tokenDTO);
     }
 
@@ -99,12 +98,12 @@ public class RecoveryPasswordUseCaseTest {
     public void notShouldAuthenticateUserWithOldPassword() {
         String email = "usertest@email.com";
         String newPassword = "newPassword@123";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
-        recoveryPasswordUseCase.execute(recoveryPasswordDTO);
-        LoginDTO loginDTO = new LoginDTO(email, "user@123");
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
+        recoveryPasswordUseCase.execute(loginDTO);
+        LoginDTO login = new LoginDTO(email, "user@123");
         assertThrows(
                 EmailOrPasswordIncorrectException.class,
-                () -> authenticateUserUseCase.execute(loginDTO)
+                () -> authenticateUserUseCase.execute(login)
         );
     }
 
@@ -112,39 +111,39 @@ public class RecoveryPasswordUseCaseTest {
     public void notShouldRecoveryPasswordWithInvalidPassword() {
         String email = "usertest@email.com";
         String newPassword = "new";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, newPassword);
+        LoginDTO loginDTO = new LoginDTO(email, newPassword);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> recoveryPasswordUseCase.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordUseCase.execute(loginDTO)
         );
     }
 
     @Test
     public void notShouldRecoveryPasswordWithEmailIsNull() {
         String newPassword = "new";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(null, newPassword);
+        LoginDTO loginDTO = new LoginDTO(null, newPassword);
         assertThrows(
                 UserNotFoundException.class,
-                () -> recoveryPasswordUseCase.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordUseCase.execute(loginDTO)
         );
     }
 
     @Test
     public void notShouldRecoveryPasswordWithPasswordIsNull() {
         String email = "usertest@email.com";
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(email, null);
+        LoginDTO loginDTO = new LoginDTO(email, null);
         assertThrows(
                 EmailOrPasswordInvalidException.class,
-                () -> recoveryPasswordUseCase.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordUseCase.execute(loginDTO)
         );
     }
 
     @Test
     public void notShouldRecoveryPasswordWithRecoveryPasswordDTOIsNull() {
-        RecoveryPasswordDTO recoveryPasswordDTO = new RecoveryPasswordDTO(null, null);
+        LoginDTO loginDTO = new LoginDTO(null, null);
         assertThrows(
                 UserNotFoundException.class,
-                () -> recoveryPasswordUseCase.execute(recoveryPasswordDTO)
+                () -> recoveryPasswordUseCase.execute(loginDTO)
         );
     }
 }

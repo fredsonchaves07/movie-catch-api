@@ -1,6 +1,6 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.authentication;
 
-import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.RecoveryPasswordDTO;
+import com.fredsonchaves07.moviecatchapi.domain.dto.authentication.LoginDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.email.MessageEmailDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
@@ -33,18 +33,18 @@ public class RecoveryPasswordUseCase {
     private String apiURL;
 
     @Transactional
-    public UserDTO execute(RecoveryPasswordDTO recoveryPasswordDTO) {
-        User user = getUserByRecoverPasswordDTO(recoveryPasswordDTO);
-        user.setPassword(recoveryPasswordDTO.getPassword());
+    public UserDTO execute(LoginDTO loginDTO) {
+        User user = getUserByLoginDTO(loginDTO);
+        user.setPassword(loginDTO.password());
         if (!user.isEmailAndPasswordValid())
             throw new EmailOrPasswordInvalidException();
-        user.setPassword(passwordEncoder.encode(recoveryPasswordDTO.getPassword()));
+        user.setPassword(passwordEncoder.encode(loginDTO.password()));
         sendMail(user);
         return new UserDTO(user);
     }
 
-    private User getUserByRecoverPasswordDTO(RecoveryPasswordDTO recoveryPasswordDTO) {
-        User user = userRepository.findByEmail(recoveryPasswordDTO.getEmail()).orElseThrow(UserNotFoundException::new);
+    private User getUserByLoginDTO(LoginDTO loginDTO) {
+        User user = userRepository.findByEmail(loginDTO.email()).orElseThrow(UserNotFoundException::new);
         if (!user.isConfirm())
             throw new UnconfirmedUserException();
         return user;
