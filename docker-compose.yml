@@ -5,11 +5,15 @@ services:
     container_name: movie-catch-api
     restart: always
     ports:
-      - "8081:8080"
+      - "8081:8081"
     environment:
-      - PROFILE_ACTIVE=docker
+      - PROFILE_ACTIVE=dev
       - JWT_TOKEN_EXPIRATION=7200000
       - JWT_TOKEN_SECRET=753778214125442A472D4B6150645367566B59703373367638792F423F452848
+      - APP_PORT=8081
+      - DB_PASSWORD=movie-catch
+      - DB_USERNAME=docker
+      - DB_URL=jdbc:postgresql://movie-catch-database:5432/moviecatchdb
     links:
       - movie-catch-database
     depends_on:
