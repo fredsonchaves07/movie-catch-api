@@ -42,7 +42,7 @@ public class ConfirmUserApiServiceTest {
     public void setUp() {
         userRepository.deleteAll();
         userDTO = createUserUseCase.execute(createUserDTO());
-        token = tokenService.encrypt(Optional.of(userDTO)).token();
+        token = tokenService.encrypt(Optional.of(userDTO)).getToken();
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ConfirmUserApiServiceTest {
 
     @Test
     public void notShoulConfirmUserIfUserIsNotFound() {
-        token = tokenService.encrypt(Optional.of(userDTO("usertest2", "usertest2@email.com"))).token();
+        token = tokenService.encrypt(Optional.of(userDTO("usertest2", "usertest2@email.com"))).getToken();
         assertThrows(
                 ResourceNotFoundException.class,
                 () -> confirmUserApiService.execute(token)

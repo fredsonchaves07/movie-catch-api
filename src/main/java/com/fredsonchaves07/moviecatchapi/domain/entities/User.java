@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "users")
-public class User {
+public final class User {
 
     private static final String EMAIL_PATTERN = "" +
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)" +
