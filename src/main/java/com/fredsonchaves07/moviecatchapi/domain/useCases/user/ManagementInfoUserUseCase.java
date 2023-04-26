@@ -4,6 +4,7 @@ import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UpdateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.UnconfirmedUserException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
 import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
@@ -28,8 +29,10 @@ public class ManagementInfoUserUseCase {
 
     @Transactional
     public UserDTO execute(TokenDTO token, UpdateUserDTO updateUserDTO) {
-        String email = tokenService.decrypt(Optional.of(token));
+        String email = tokenService.decrypt(Optional.ofNullable(token));
         User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        if (!user.isConfirm())
+            throw new UnconfirmedUserException();
         if (updateUserDTO.name() != null)
             user.setName(updateUserDTO.name());
         if (updateUserDTO.password() != null)
