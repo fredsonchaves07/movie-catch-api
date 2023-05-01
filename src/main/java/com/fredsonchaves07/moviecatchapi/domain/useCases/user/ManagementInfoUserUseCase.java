@@ -1,19 +1,18 @@
 package com.fredsonchaves07.moviecatchapi.domain.useCases.user;
 
-import com.fredsonchaves07.moviecatchapi.domain.dto.token.TokenDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UpdateUserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.dto.user.UserDTO;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
+import com.fredsonchaves07.moviecatchapi.domain.exceptions.EmailOrPasswordIncorrectException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UnconfirmedUserException;
 import com.fredsonchaves07.moviecatchapi.domain.exceptions.UserNotFoundException;
 import com.fredsonchaves07.moviecatchapi.domain.repositories.UserRepository;
-import com.fredsonchaves07.moviecatchapi.domain.service.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Component
 public class ManagementInfoUserUseCase {
@@ -24,13 +23,15 @@ public class ManagementInfoUserUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private TokenService tokenService;
-
     @Transactional
-    public UserDTO execute(TokenDTO token, UpdateUserDTO updateUserDTO) {
-        String email = tokenService.decrypt(Optional.ofNullable(token));
-        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+    public UserDTO execute(UserDTO userDTO, UpdateUserDTO updateUserDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null)
+            throw new EmailOrPasswordIncorrectException();
+        String userEmail = (String) authentication.getPrincipal();
+        if (!userDTO.getEmail().equals(userEmail))
+            throw new EmailOrPasswordIncorrectException();
+        User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
         if (!user.isConfirm())
             throw new UnconfirmedUserException();
         if (updateUserDTO.name() != null)
