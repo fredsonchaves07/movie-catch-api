@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({"dev", "docker"})
+@Profile({"dev"})
 public class DevConfiguration {
 
     @Bean
