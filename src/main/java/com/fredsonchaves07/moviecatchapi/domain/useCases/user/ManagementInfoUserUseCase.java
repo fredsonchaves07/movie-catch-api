@@ -29,7 +29,7 @@ public class ManagementInfoUserUseCase {
         if (authentication == null)
             throw new EmailOrPasswordIncorrectException();
         String userEmail = (String) authentication.getPrincipal();
-        if (!userDTO.getEmail().equals(userEmail))
+        if (!userDTO.getEmail().equals(userEmail) || userEmail.equals("anonymousUser"))
             throw new EmailOrPasswordIncorrectException();
         User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
         if (!user.isConfirm())
