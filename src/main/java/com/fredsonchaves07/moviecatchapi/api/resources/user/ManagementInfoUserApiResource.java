@@ -31,9 +31,6 @@ public class ManagementInfoUserApiResource {
             @RequestBody UpdateUserDTO updateUserDTO
     ) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.execute(new UserDTO(null, email), updateUserDTO)
-                );
+        return ResponseEntity.status(HttpStatus.OK).body(service.execute(new UserDTO(null, email), updateUserDTO));
     }
 }
