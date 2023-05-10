@@ -160,12 +160,10 @@ public class AuthenticateUserResourceTest {
     }
 
     @Test
-    public void notShouldAuthenticateUserIfUserIsNoConfirmed() throws Exception {
-        createUserUseCase.execute(createUserDTO(
-                "User not confirmed", "usertnotconfirmed@email.com", "user@123")
-        );
+    public void notShouldAuthenticateUserIfUserIsNotConfirmed() throws Exception {
         String email = "usertnotconfirmed@email.com";
         String password = "user@123";
+        createUserUseCase.execute(createUserDTO("User not confirmed", email, password));
         LoginDTO loginDTO = new LoginDTO(email, password);
         String userBodyJson = objectMapper.writeValueAsString(loginDTO);
         mockMvc.perform(post("/api/v1/login")
