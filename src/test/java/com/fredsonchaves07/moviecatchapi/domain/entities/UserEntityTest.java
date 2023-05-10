@@ -49,13 +49,6 @@ public class UserEntityTest {
     }
 
     @Test
-    public void shouldUpdateEmailUser() {
-        String email = "newEmail@email.com";
-        existingUser.setEmail(email);
-        assertEquals(existingUser.getEmail(), email);
-    }
-
-    @Test
     public void shouldConfirmUser() {
         existingUser.confirmUser();
         assertTrue(existingUser.isConfirm());

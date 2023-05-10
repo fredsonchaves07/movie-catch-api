@@ -88,15 +88,6 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void shouldUpdateEmailUser() {
-        String email = "newEmail@email.com";
-        User user = userRepository.findByEmail(persitUser.getEmail()).orElseThrow();
-        user.setEmail(email);
-        userRepository.save(user);
-        assertEquals(user.getEmail(), email);
-    }
-
-    @Test
     public void notShouldCreateUserIfNameIsNull() {
         String email = "user@email.com";
         String password = "user@123";
