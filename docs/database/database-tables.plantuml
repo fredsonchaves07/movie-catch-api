@@ -35,6 +35,8 @@ entity list_movie_user {
     is_private: boolean default false
     movies_series: jsonb
     user_id: varchar references users(id)
+    created_at: timestamp() default now
+    updated_at: timestamp() default now
 }
 
 users ||..|{users_roles
