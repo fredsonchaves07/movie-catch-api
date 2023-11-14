@@ -32,8 +32,8 @@ entity list_movie_user {
     id: varchar <<PK>>
     name: varchar(255) not null
     description: varchar(255)
-    is_private: boolean default false
-    movies_series: jsonb
+    is_private: boolean() default false
+    movies_series: jsonb()
     user_id: varchar references users(id)
     created_at: timestamp() default now
     updated_at: timestamp() default now
