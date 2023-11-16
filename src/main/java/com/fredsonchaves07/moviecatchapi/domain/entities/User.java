@@ -47,6 +47,10 @@ public final class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<ListMovieUser> listMovieUsers = new ArrayList<>();
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime createdAt;
@@ -146,6 +150,10 @@ public final class User {
 
     private boolean isPasswordValid() {
         return Objects.nonNull(password) && password.length() >= 8 && (!password.contains(" "));
+    }
+
+    public List<ListMovieUser> getListMovieUsers() {
+        return listMovieUsers;
     }
 
     @Override
