@@ -59,7 +59,7 @@ public class ListMovieUser implements Serializable {
         this.description = description;
         this.user = user;
         this.moviesList = new ArrayList<>(moviesList);
-        this.user.getListMovieUsers().add(this);
+        this.user.getListMovieUser().add(this);
     }
 
     public ListMovieUser(String name, String description, User user, List<MovieSeries> moviesList, boolean isPrivate) {
@@ -68,7 +68,7 @@ public class ListMovieUser implements Serializable {
         this.user = user;
         this.moviesList = new ArrayList<>(moviesList);
         this.isPrivate = isPrivate;
-        this.user.getListMovieUsers().add(this);
+        this.user.getListMovieUser().add(this);
     }
 
     public String getName() {

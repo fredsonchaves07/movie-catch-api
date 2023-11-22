@@ -152,7 +152,7 @@ public final class User {
         return Objects.nonNull(password) && password.length() >= 8 && (!password.contains(" "));
     }
 
-    public List<ListMovieUser> getListMovieUsers() {
+    public List<ListMovieUser> getListMovieUser() {
         return listMovieUsers;
     }
 
