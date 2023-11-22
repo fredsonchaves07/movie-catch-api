@@ -62,6 +62,15 @@ public class ListMovieUser implements Serializable {
         this.user.getListMovieUsers().add(this);
     }
 
+    public ListMovieUser(String name, String description, User user, List<MovieSeries> moviesList, boolean isPrivate) {
+        this.name = name;
+        this.description = description;
+        this.user = user;
+        this.moviesList = new ArrayList<>(moviesList);
+        this.isPrivate = isPrivate;
+        this.user.getListMovieUsers().add(this);
+    }
+
     public String getName() {
         return name;
     }
@@ -90,6 +99,14 @@ public class ListMovieUser implements Serializable {
 
     public Optional<MovieSeries> searchMovieSerieByName(String name) {
         return moviesList.stream().filter(movieSeries -> movieSeries.name().equals(name)).findFirst();
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate() {
+        isPrivate = true;
     }
 
     @Override

@@ -28,6 +28,7 @@ public class ListMovieUserTest {
         );
         ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList);
         assertNotNull(listMovieUser);
+        assertFalse(listMovieUser.isPrivate());
         assertEquals(name, listMovieUser.getName());
         assertEquals(description, listMovieUser.getDescription());
         assertEquals(existingUser, listMovieUser.getUser());
@@ -56,6 +57,12 @@ public class ListMovieUserTest {
         assertNotNull(existingUser.getListMovieUsers());
         assertFalse(existingUser.getListMovieUsers().isEmpty());
         assertEquals(3, existingUser.getListMovieUsers().size());
+        assertFalse(listMovieUser1.isPrivate());
+        assertFalse(listMovieUser2.isPrivate());
+        assertFalse(listMovieUser3.isPrivate());
+        assertEquals(listMovieUser1, existingUser.getListMovieUsers().get(0));
+        assertEquals(listMovieUser2, existingUser.getListMovieUsers().get(1));
+        assertEquals(listMovieUser3, existingUser.getListMovieUsers().get(2));
     }
 
     @Test
@@ -69,6 +76,7 @@ public class ListMovieUserTest {
         ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList);
         listMovieUser.addMovieSerie(new MovieSeries("3", "Movie 2", "urlImageMovie2"));
         assertNotNull(listMovieUser);
+        assertFalse(listMovieUser.isPrivate());
         assertEquals(name, listMovieUser.getName());
         assertEquals(description, listMovieUser.getDescription());
         assertEquals(existingUser, listMovieUser.getUser());
@@ -89,6 +97,7 @@ public class ListMovieUserTest {
         );
         ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList);
         listMovieUser.addMovieSerie(null);
+        assertFalse(listMovieUser.isPrivate());
         assertNotNull(listMovieUser);
         assertEquals(name, listMovieUser.getName());
         assertEquals(description, listMovieUser.getDescription());
@@ -107,6 +116,7 @@ public class ListMovieUserTest {
         );
         ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList);
         listMovieUser.removeMovieSerie(new MovieSeries("1", "Movie 1", "urlImageMovie1"));
+        assertFalse(listMovieUser.isPrivate());
         assertNotNull(listMovieUser);
         assertEquals(name, listMovieUser.getName());
         assertEquals(description, listMovieUser.getDescription());
@@ -126,6 +136,7 @@ public class ListMovieUserTest {
         ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList);
         listMovieUser.removeMovieSerie(new MovieSeries("6", "Movie 100", "urlImageMovie100"));
         assertNotNull(listMovieUser);
+        assertFalse(listMovieUser.isPrivate());
         assertEquals(name, listMovieUser.getName());
         assertEquals(description, listMovieUser.getDescription());
         assertEquals(existingUser, listMovieUser.getUser());
@@ -160,5 +171,44 @@ public class ListMovieUserTest {
         ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList);
         listMovieUser.addMovieSerie(new MovieSeries("3", "Movie 2", "urlImageMovie2"));
         assertFalse(listMovieUser.searchMovieSerieByName("Serie 4").isPresent());
+    }
+
+    @Test
+    public void shouldCreateListMovieSeriePrivate() {
+        String name = "List movie user 1";
+        String description = "List movie user 1 description";
+        List<MovieSeries> moviesList = List.of(
+                new MovieSeries("1", "Movie 1", "urlImageMovie1"),
+                new MovieSeries("2", "Serie 1", "urlImageMSerie1")
+        );
+        ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList, true);
+        assertNotNull(listMovieUser);
+        assertTrue(listMovieUser.isPrivate());
+        assertEquals(name, listMovieUser.getName());
+        assertEquals(description, listMovieUser.getDescription());
+        assertEquals(existingUser, listMovieUser.getUser());
+        assertEquals(moviesList, listMovieUser.getMoviesList());
+        assertFalse(listMovieUser.getMoviesList().isEmpty());
+        assertEquals(2, listMovieUser.getMoviesList().size());
+    }
+
+    @Test
+    public void shouldPrivateListSerieMovie() {
+        String name = "List movie user 1";
+        String description = "List movie user 1 description";
+        List<MovieSeries> moviesList = List.of(
+                new MovieSeries("1", "Movie 1", "urlImageMovie1"),
+                new MovieSeries("2", "Serie 1", "urlImageMSerie1")
+        );
+        ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList);
+        listMovieUser.setPrivate();
+        assertNotNull(listMovieUser);
+        assertTrue(listMovieUser.isPrivate());
+        assertEquals(name, listMovieUser.getName());
+        assertEquals(description, listMovieUser.getDescription());
+        assertEquals(existingUser, listMovieUser.getUser());
+        assertEquals(moviesList, listMovieUser.getMoviesList());
+        assertFalse(listMovieUser.getMoviesList().isEmpty());
+        assertEquals(2, listMovieUser.getMoviesList().size());
     }
 }
