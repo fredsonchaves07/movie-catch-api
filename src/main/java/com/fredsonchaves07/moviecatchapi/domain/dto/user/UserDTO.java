@@ -3,6 +3,8 @@ package com.fredsonchaves07.moviecatchapi.domain.dto.user;
 import com.fredsonchaves07.moviecatchapi.domain.entities.User;
 import io.swagger.annotations.ApiModel;
 
+import java.util.Objects;
+
 @ApiModel(value = "User response body")
 public final class UserDTO {
 
@@ -26,5 +28,18 @@ public final class UserDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return name.equals(userDTO.name) && email.equals(userDTO.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, email);
     }
 }

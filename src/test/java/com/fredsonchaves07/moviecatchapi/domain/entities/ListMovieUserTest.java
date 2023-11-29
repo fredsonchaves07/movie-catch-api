@@ -54,15 +54,15 @@ public class ListMovieUserTest {
                 new MovieSeries("2", "Serie 1", "urlImageSerie1"),
                 new MovieSeries("1", "Movie 1", "urlImageMovie1")
         ));
-        assertNotNull(existingUser.getListMovieUser());
-        assertFalse(existingUser.getListMovieUser().isEmpty());
-        assertEquals(3, existingUser.getListMovieUser().size());
+        assertNotNull(listMovieUser1.getUser());
+        assertNotNull(listMovieUser2.getUser());
+        assertNotNull(listMovieUser3.getUser());
+        assertEquals(existingUser, listMovieUser1.getUser());
+        assertEquals(existingUser, listMovieUser2.getUser());
+        assertEquals(existingUser, listMovieUser3.getUser());
         assertFalse(listMovieUser1.isPrivate());
         assertFalse(listMovieUser2.isPrivate());
         assertFalse(listMovieUser3.isPrivate());
-        assertEquals(listMovieUser1, existingUser.getListMovieUser().get(0));
-        assertEquals(listMovieUser2, existingUser.getListMovieUser().get(1));
-        assertEquals(listMovieUser3, existingUser.getListMovieUser().get(2));
     }
 
     @Test

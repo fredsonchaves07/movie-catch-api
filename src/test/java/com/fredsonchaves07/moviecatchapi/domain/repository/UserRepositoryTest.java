@@ -161,16 +161,8 @@ public class UserRepositoryTest {
                 new MovieSeries("2", "Serie 1", "urlImageMSerie1")
         );
         ListMovieUser listMovieUser = new ListMovieUser(name, description, existingUser, moviesList);
-        assertFalse(persitUser.getListMovieUser().isEmpty());
-        assertNotNull(persitUser.getListMovieUser());
-        assertEquals(listMovieUser.getName(), persitUser.getListMovieUser().get(0).getName());
-        assertEquals(listMovieUser.getDescription(), persitUser.getListMovieUser().get(0).getDescription());
-        assertEquals("1", persitUser.getListMovieUser().get(0).getMoviesList().get(0).id());
-        assertEquals("Movie 1", persitUser.getListMovieUser().get(0).getMoviesList().get(0).name());
-        assertEquals("urlImageMovie1", persitUser.getListMovieUser().get(0).getMoviesList().get(0).urlImage());
-        assertEquals("2", persitUser.getListMovieUser().get(0).getMoviesList().get(1).id());
-        assertEquals("Serie 1", persitUser.getListMovieUser().get(0).getMoviesList().get(1).name());
-        assertEquals("urlImageMSerie1", persitUser.getListMovieUser().get(0).getMoviesList().get(1).urlImage());
+        assertNotNull(listMovieUser.getUser());
+        assertEquals(persitUser, listMovieUser.getUser());
     }
 
     @Test
@@ -190,11 +182,11 @@ public class UserRepositoryTest {
                 new MovieSeries("2", "Serie 1", "urlImageSerie1"),
                 new MovieSeries("1", "Movie 1", "urlImageMovie1")
         ));
-        assertNotNull(persitUser.getListMovieUser());
-        assertFalse(persitUser.getListMovieUser().isEmpty());
-        assertEquals(3, persitUser.getListMovieUser().size());
-        assertEquals(listMovieUser1, persitUser.getListMovieUser().get(0));
-        assertEquals(listMovieUser2, persitUser.getListMovieUser().get(1));
-        assertEquals(listMovieUser3, persitUser.getListMovieUser().get(2));
+        assertNotNull(listMovieUser1.getUser());
+        assertNotNull(listMovieUser2.getUser());
+        assertNotNull(listMovieUser3.getUser());
+        assertEquals(persitUser, listMovieUser1.getUser());
+        assertEquals(persitUser, listMovieUser2.getUser());
+        assertEquals(persitUser, listMovieUser3.getUser());
     }
 }

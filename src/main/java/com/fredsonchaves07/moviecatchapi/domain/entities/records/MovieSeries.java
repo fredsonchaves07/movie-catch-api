@@ -1,5 +1,7 @@
 package com.fredsonchaves07.moviecatchapi.domain.entities.records;
 
+import com.fredsonchaves07.moviecatchapi.domain.dto.listUser.MovieUserDTO;
+
 import java.util.Objects;
 
 public record MovieSeries(
@@ -7,6 +9,10 @@ public record MovieSeries(
         String name,
         String urlImage
 ) {
+
+    public static MovieSeries from(MovieUserDTO movieUserDTO) {
+        return new MovieSeries(movieUserDTO.id(), movieUserDTO.name(), movieUserDTO.imageUrl());
+    }
 
     @Override
     public boolean equals(Object o) {
